@@ -1,0 +1,55 @@
+
+<div class="main-page" [ngStyle]="{'color': companySetting.theme}">
+    
+    <div class="main-page-head">
+        <img src="{{companySetting.header.img}}" alt="logo" class="logo" />
+        <div class="main-page-head-text">
+                <h2>{{companySetting.header.description}}</h2>
+    </div>
+    
+    
+    <div class="product-page-first-head">
+        Personalized Jewelry
+    </div>
+    <p class="products-page-first-para">
+        Create your personalized name necklace with our Bespoke Name Pendant
+        Builder. Each pendant is individually master crafted to order,
+        <br />
+        especially for you. Select your diamond quality, metal color and karat
+        along with pendant size to be set in one of our signature font <br />
+        styles, and tailor your personalized name pendant to suit your
+        personal preferences.
+    </p>
+    <div class="hr-container">
+        <img
+          src="https://therunawaycrew.com/wp-content/uploads/2024/07/Line-65.png"
+          alt="line"
+          class="hr-line"
+          [ngStyle]="{'border': '1px solid ' + companySetting.theme}"
+        />
+    </div>
+
+    <div class="products-container">
+        <div class="row">
+            <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 0 }"></ng-container>
+            <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 1 }"></ng-container>
+        </div>
+        <div class="row">
+            <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 2 }"></ng-container>
+            <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 3 }"></ng-container>
+        </div>
+    </div>
+</div>
+
+<ng-template #builderTemplate let-index="index">
+        <div class="builder-details">
+            <h1>{{ buildersData[index].Description }}</h1>
+            <img [src]="buildersData[index].Img" />
+            <a [routerLink]="buildersData[index].Url" [queryParams]="buildersData[index].queryParams">
+                <div class="shop-now-button">
+                    <h3>SHOP NOW</h3>
+                </div>
+            </a>
+        </div>
+
+</ng-template>

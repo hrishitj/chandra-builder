@@ -1,0 +1,5 @@
+
+export const companySettings: Record<string, { theme: string; multiplier: number; header: {img: string, description: string} }> = {
+    diamondWish: { theme: "#235171", multiplier: 1.5, header: {img: 'assets/home/diamondWish.jpg', description: 'Diamond Wish'}},
+    default: { theme: "#000000", multiplier: 1, header: {img: 'https://s3-alpha-sig.figma.com/img/4690/b699/858182cc07d5fad5d70592a52ab84e93?Expires=1743379200&Key-Pair-Id=APKAQ4GOSFWCW27IBOMQ&Signature=uFFLdqIkXjS-TVniaPOMwUJCbkjdJPTvRu1Vi8Xc66uIaKY6~be52XRbRHZ8EwfLxIhpuG0YVlDzITlKOslvKAIilUoxreufk0bkKIovQ9kuO9JgHJhYymmUPpSeZUL0zU68bBn~klNz8UU5gN5z-tiAyIVX4PfjxjiAX-IKv1m4L7A7GDALwcSnXD2U72zL6UlYYrBpI4iyC6OtLWvUOinmpDaxI6FPCXWfyhtkLHvdUWld~GbQtO7zd8m02b2DAwLq3-26EjgKhfzbN54-3rtDiNNXP~7yHE~p39you15nj0CQpyRimH8zsOsmhV6X1rcAF2vvSZOhcBRGO5av7g__', description: 'Default'} }
+};

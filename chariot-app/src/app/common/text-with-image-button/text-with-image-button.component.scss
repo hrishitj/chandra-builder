@@ -1,0 +1,28 @@
+div {
+    display: flex;
+    flex-direction: row;
+    width: 125px;
+    height: 40px;
+    align-items: center;
+    gap: 10px;
+    padding: 0.5rem 1rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    margin: 5px;
+    margin-left: 0px;
+    background-color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Avenir';
+    font-weight: light;
+    font-size: 17px;
+
+}
+
+.selected {
+    color: #fff;
+    transition: all 0.3s ease;
+    font-family: 'Avenir';
+    font-weight: light;
+    font-size: 17px;
+}

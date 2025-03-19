@@ -1,0 +1,146 @@
+<div class="parent-container">
+    @if(!imageLoaded) {
+        <app-image-slider [mediaItems]="mediaItems"></app-image-slider>
+    } @else {
+
+        <div class="img-bracelet-container">
+            <!-- Bracelet Image -->
+            <img 
+              [src]="braceletImages[0]" 
+              alt="left" 
+              class="bracelet-img"
+            />
+
+            <!-- List of Images -->
+            <ul class="list-of-img">
+                @for(image of characterImages; track $index) {
+                <li> <img [src]="image" [alt]="image"
+                        [ngClass]="formGroup.value.letterHeight === 'Medium' ? 'final-img-bracelet' : 'final-img-bracelet-large'" />
+                </li>
+                }
+            </ul>
+        </div>
+    }
+    
+    <div [formGroup]="formGroup" class="form-container">
+        
+        <div>Price : ${{itemPrice}}</div>
+
+        <!-- Custom Date -->
+        <div class="form-group">
+            <mat-form-field class="example-form-field">
+                <mat-label>Choose a date</mat-label>
+                <input matInput [matDatepicker]="datepicker" formControlName="date" />
+                <mat-hint>MM/DD/YYYY</mat-hint>
+                <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
+                <mat-datepicker #datepicker>
+                  <mat-datepicker-actions>
+                    <button mat-button matDatepickerCancel>Cancel</button>
+                    <button mat-raised-button matDatepickerApply>Apply</button>
+                  </mat-datepicker-actions>
+                </mat-datepicker>
+              </mat-form-field>
+          </div>
+
+        <!-- Quantity -->
+        <div class="form-group">
+            <label for="quantity">Quantity:</label>
+            <input
+            type="number"
+            id="quantity"
+            formControlName="quantity"
+            class="input-field"
+            placeholder="Enter quantity"
+            />
+            <div class="error-message" *ngIf="formGroup.get('quantity')?.errors?.['min']">
+            * Please enter a valid quantity greater than 0.
+            </div>
+        </div>
+        
+        <!-- Metal Color -->
+        <div class="form-group">
+            <label>Metal Color:</label>
+            <div class="options-group">
+            @for(color of metalColors; track $index) {
+                <app-text-with-image-button
+                    [imageSource]="color.Icon"
+                    [buttonText]="color.Name"
+                    [isSelected]="formGroup.get('metalColor')?.value === color.Name"
+                    (clicked)="selectOption('metalColor', color.Name)"
+                ></app-text-with-image-button>
+            }
+            </div>
+        </div>
+        
+        <!-- Metal Carat -->
+        <div class="form-group">
+            <label>Metal Carat:</label>
+            <div class="options-group">
+            <button
+                type="button"
+                *ngFor="let carat of metalCarats"
+                (click)="selectOption('metalCarat', carat)"
+                [class.active]="formGroup.get('metalCarat')?.value === carat"
+                class="option"
+            >
+                {{ carat }}
+            </button>
+            </div>
+        </div>
+        
+        <!-- Diamond Quality -->
+        <div class="form-group">
+            <label>Diamond Quality:</label>
+            <div class="options-group">
+            <button
+                type="button"
+                *ngFor="let quality of diamondQualities"
+                (click)="selectOption('diamondQuality', quality)"
+                [class.active]="formGroup.get('diamondQuality')?.value === quality"
+                class="option"
+            >
+                {{ quality }}
+            </button>
+            </div>
+        </div>
+        
+        <!-- Font Style -->
+        <div class="form-group">
+            <label>Font Style:</label>
+            <div class="options-group">
+            <button
+                type="button"
+                *ngFor="let font of fontStyles"
+                (click)="selectOption('fontStyle', font)"
+                [class.active]="formGroup.get('fontStyle')?.value === font"
+                class="option"
+            >
+                {{ font }}
+            </button>
+            </div>
+        </div>
+        
+        <!-- Letter Height -->
+        <div class="form-group">
+            <label>Letter Height:</label>
+            <div class="options-group">
+            <button
+                type="button"
+                *ngFor="let height of letterHeights"
+                (click)="selectOption('letterHeight', height)"
+                [class.active]="formGroup.get('letterHeight')?.value === height"
+                class="option"
+            >
+                {{ height }}
+            </button>
+            </div>
+        </div>
+        
+        <!-- Submit Button -->
+        <div class="form-group">
+            <button (click)="addToCart()" [disabled]="formGroup.invalid" class="submit-button">
+            Add to cart
+            </button>
+        </div>
+    </div>
+</div>

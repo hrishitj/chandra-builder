@@ -1,0 +1,163 @@
+<div class="container">
+
+    <div class="necklace-image-builder">
+        <div class="necklace-image">
+            <img src="assets/necklace-gold-template.png" />
+        </div>
+        <div class="charm-placements">
+            @for(charm of getCharmsArray(); track $index) {
+            <div [ngClass]="getCharmsArray().length % 2 ? 'pos-odd' : 'pos-even'" [id]="createId($index)">
+                <!-- @if(!charmAssignments[$index + 1]) { -->
+                    <span>{{$index + 1}}</span>
+                <!-- } @else {
+                    <img src="{{ charmAssignments[$index + 1] }}" alt="">
+                } -->
+                
+            </div>
+            }
+        </div>
+    </div>
+
+    <div class="details">
+        <div [formGroup]="formGroup" class="form-container">
+            <!-- Metal Color -->
+            <div class="form-group">
+                <label>Metal Color:</label>
+                <div class="options-group">
+                    @for(color of metalColors; track $index) {
+                    <app-text-with-image-button [imageSource]="color.Icon" [buttonText]="color.Name"
+                        [isSelected]="formGroup.get('metalColor')?.value === color.Name"
+                        (clicked)="selectOption('metalColor', color.Name)"></app-text-with-image-button>
+                    }
+                </div>
+            </div>
+
+            <!-- Metal Carat -->
+            <div class="form-group">
+                <label>Metal Carat:</label>
+                <div class="options-group">
+                    <button type="button" *ngFor="let carat of metalCarats" (click)="selectOption('metalCarat', carat)"
+                        [class.active]="formGroup.get('metalCarat')?.value === carat" class="option">
+                        {{ carat }}
+                    </button>
+                </div>
+            </div>
+
+            <div class="row">
+                <!-- Size of Chain Dropdown -->
+                <div>
+                    <label for="chainSize">Size of Chain</label>
+                    <select id="chainSize" formControlName="chainSize">
+                        <option *ngFor="let size of chainSizes" [value]="size">{{ size }}"</option>
+                    </select>
+                    <div *ngIf="formGroup.get('chainSize')?.invalid && formGroup.get('chainSize')?.touched"
+                        style="color: red;">
+                        Size of Chain is required.
+                    </div>
+                </div>
+
+                <!-- Number of Charms Dropdown -->
+                <div>
+                    <label for="numberOfCharms">Number of Charms</label>
+                    <select id="numberOfCharms" formControlName="numberOfCharms"
+                        (change)="charms = formGroup.get('numberOfCharms')?.value ?? 0">
+                        <option *ngFor="let charm of getNumberArray(8); let i = index" [value]="i + 1">
+                            {{ i + 1 }}
+                        </option>
+                    </select>
+                    <div *ngIf="formGroup.get('numberOfCharms')?.errors?.['required'] && formGroup.get('numberOfCharms')?.touched"
+                        style="color: red;">
+                        Number of Charms is required.
+                    </div>
+                    <div *ngIf="formGroup.get('numberOfCharms')?.errors?.['max'] && formGroup.get('numberOfCharms')?.touched"
+                        style="color: red;">
+                        Maximum {{ maxCharms }} charms are allowed.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="charms-container">
+            <label for="selectedCharm">Select Your Charms</label>
+            <div class="charms-grid">
+              <div 
+                *ngFor="let charm of getNumberArray(charms); let i = index"
+                [ngClass]="{'charm-item': true, 'selected': selectedCharm === i + 1}" 
+                (click)="selectCharm(i + 1)">
+                {{ i + 1 }}
+              </div>
+            </div>
+          
+            <div *ngIf="selectedCharm" class="selected-info">
+              Selected Charm: {{ selectedCharm }}
+            </div>
+        </div>
+
+
+        @if(selectedCharm) {
+        <h2>Charm Selection</h2>
+        <mat-accordion>
+            <!-- Natural Stone Characters -->
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <span>Natural Stone Characters</span>
+                </mat-expansion-panel-header>
+                <p>Content for Natural Stone Characters...</p>
+            </mat-expansion-panel>
+
+            <!-- Zirconia (Sim) Stone Characters -->
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <span>Zirconia (Sim) Stone Characters</span>
+                </mat-expansion-panel-header>
+                <p>Content for Zirconia (Sim) Stone Characters...</p>
+            </mat-expansion-panel>
+
+            <!-- Plain Metal Characters -->
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <span>Plain Metal Characters</span>
+                </mat-expansion-panel-header>
+                <div class="grid">
+                    <!-- <div *ngFor="let letter of alphabet" class="grid-item">
+                    {{ letter }}
+                    </div> -->
+                </div>
+            </mat-expansion-panel>
+
+            <!-- Natural Stone Symbols -->
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <span>Natural Stone Symbols</span>
+                </mat-expansion-panel-header>
+                <p>Content for Natural Stone Symbols...</p>
+            </mat-expansion-panel>
+
+            <!-- Zirconia (Sim) Stone Symbols -->
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <span>Zirconia (Sim) Stone Symbols</span>
+                </mat-expansion-panel-header>
+                <p>Content for Zirconia (Sim) Stone Symbols...</p>
+            </mat-expansion-panel>
+
+            <!-- Single Set Birthstones -->
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <span>Single Set Birthstones - Natural Stone</span>
+                </mat-expansion-panel-header>
+                <p>Content for Single Set Birthstones - Natural Stone...</p>
+            </mat-expansion-panel>
+
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <span>Single Set Birthstones - Zirconia (Sim) Stone</span>
+                </mat-expansion-panel-header>
+                <p>Content for Single Set Birthstones - Zirconia (Sim) Stone...</p>
+            </mat-expansion-panel>
+        </mat-accordion>
+        }
+
+    </div>
+
+</div>

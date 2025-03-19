@@ -1,0 +1,179 @@
+<div class="main-product-page" [ngStyle]="{'color': themeColor()}">
+    <div class="product-page-first-head">
+        BESPOKE NAME PENDANT BUILDER
+    </div>
+    <p class="products-page-first-para">
+        Create your personalized name necklace with our Bespoke Name Pendant
+        Builder. Each pendant is individually master crafted to order,
+        <br />
+        especially for you. Select your diamond quality, metal color and karat
+        along with pendant size to be set in one of our signature font <br />
+        styles, and tailor your personalized name pendant to suit your
+        personal preferences.
+    </p>
+    <div class="hr-container">
+        <img
+          src="https://therunawaycrew.com/wp-content/uploads/2024/07/Line-65.png"
+          alt="line"
+          class="hr-line"
+          [ngStyle]="{'border': '1px solid ' + themeColor()}"
+        />
+    </div>
+
+    <div class="parent-container">
+        <div class="img-container">
+            @if(!imageLoaded()) {
+                <app-image-slider [mediaItems]="mediaItems" [themeColor]="themeColor()"></app-image-slider>
+            } @else {
+                
+                <!-- Left Image -->
+                <img [src]="chainImages()[0]" alt="left" [ngClass]="isCurvedLetter(true) ? 'left-img-a' : 'left-img'" />
+            
+                <!-- List of Images -->
+                <ul class="list-of-img">
+                    @for(image of characterImages(); track $index) {
+                    <li> <img [src]="image" [alt]="image"
+                            [ngClass]="formGroup.value.letterHeight === 'Medium' ? 'final-img' : 'final-img-large'" />
+                    </li>
+                    }
+                </ul>
+            
+                <!-- Right Image -->
+                <img [src]="chainImages()[1]" alt="right" [ngClass]="isCurvedLetter(false) ? 'right-img-a' : 'right-img'" />
+            
+            }
+        </div>
+        
+        <div [formGroup]="formGroup" class="form-container">
+    
+            <div>Price : <span style="font-weight: 600;">${{itemPrice()}}</span></div>
+    
+            <!-- Custom Name -->
+            <div class="form-group">
+                <label for="customName">Custom Name:</label>
+                <input
+                    type="text"
+                    id="customName"
+                    formControlName="customName"
+                    class="input-field"
+                    placeholder="Please enter the name here"
+                    maxlength="10"
+                />
+                <small>{{ 10 - (formGroup.get('customName')?.value?.length || 0) }} characters remaining</small>
+            </div>
+    
+            <!-- Quantity -->
+            <div class="form-group" style="display: flex; flex-direction: column;">
+                <label for="quantity">Quantity:</label>
+                <input
+                type="number"
+                id="quantity"
+                formControlName="quantity"
+                class="input-field"
+                placeholder="Enter quantity"
+                />
+                <div class="error-message" *ngIf="formGroup.get('quantity')?.errors?.['min']">
+                * Please enter a valid quantity greater than 0.
+                </div>
+            </div>
+            
+            <!-- Metal Color -->
+            <div class="form-group">
+                <label>Metal Color:</label>
+                <div class="options-group">
+                @for(color of metalColors; track $index) {
+                    <app-text-with-image-button
+                    [themeColor]="themeColor()"
+                    [imageSource]="color.Icon"
+                    [buttonText]="color.Name"
+                    [isSelected]="formGroup.get('metalColor')?.value === color.Name"
+                    (clicked)="selectOption('metalColor', color.Name)"
+                    ></app-text-with-image-button>
+                }
+                </div>
+            </div>
+            
+            <!-- Metal Carat -->
+            <div class="form-group">
+                <label>Metal Carat:</label>
+                <div class="options-group">
+                    <button
+                    type="button"
+                    *ngFor="let carat of metalCarats"
+                    (click)="selectOption('metalCarat', carat)"
+                    [class.active]="formGroup.get('metalCarat')?.value === carat"
+                    [ngStyle]="formGroup.get('metalCarat')?.value === carat ? {'background-color': themeColor(), 'color': '#fff'} : {}"
+                    class="option"
+                >
+                    {{ carat }}
+                </button>
+                </div>
+            </div>
+            
+            <!-- Diamond Quality -->
+            <div class="form-group">
+                <label>Diamond Quality:</label>
+                <div class="options-group">
+                <button
+                    type="button"
+                    *ngFor="let quality of diamondQualities"
+                    (click)="selectOption('diamondQuality', quality)"
+                    [ngStyle]="formGroup.get('diamondQuality')?.value === quality ? {'background-color': themeColor(), 'color': '#fff'} : {}"
+                    [class.active]="formGroup.get('diamondQuality')?.value === quality"
+                    class="option"
+                >
+                    {{ quality }}
+                </button>
+                </div>
+            </div>
+            
+            <!-- Font Style -->
+            <div class="form-group">
+                <label>Font Style:</label>
+                <div class="options-group">
+                <button
+                    type="button"
+                    *ngFor="let font of fontStyles"
+                    (click)="selectOption('fontStyle', font)"
+                    [ngStyle]="formGroup.get('fontStyle')?.value === font ? {'background-color': themeColor(), 'color': '#fff'} : {}"
+                    [class.active]="formGroup.get('fontStyle')?.value === font"
+                    class="option"
+                >
+                    {{ font }}
+                </button>
+                </div>
+            </div>
+            
+            <!-- Letter Height -->
+            <div class="form-group">
+                <label>Letter Height:</label>
+                <div class="options-group">
+                <button
+                    type="button"
+                    *ngFor="let height of letterHeights"
+                    (click)="selectOption('letterHeight', height)"
+                    [ngStyle]="formGroup.get('letterHeight')?.value === height ? {'background-color': themeColor(), 'color': '#fff'} : {}"
+                    [class.active]="formGroup.get('letterHeight')?.value === height"
+                    class="option"
+                >
+                    {{ height }}
+                </button>
+                </div>
+            </div>
+            
+            <!-- Submit Button -->
+            <div class="form-group">
+                <button [ngStyle]="formGroup.invalid ? {} : {'background-color': themeColor(), 'color': '#fff'}"
+                    type="submit" [disabled]="formGroup.invalid" class="submit-button" (click)="addToCart()">
+                    Add to cart
+                </button>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+
+
+
