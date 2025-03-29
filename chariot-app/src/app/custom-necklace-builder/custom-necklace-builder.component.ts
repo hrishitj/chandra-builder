@@ -28,9 +28,9 @@ export class CustomNecklaceBuilderComponent {
   ];
 
   public metalColors = [
-    { Name: 'Rose Gold', Icon: 'assets/rose-gold-color.png' },
-    { Name: 'Gold', Icon: 'assets/gold-color.png' },
-    { Name: 'Platinum', Icon: 'assets/platinum-color.png' },
+    { Name: 'Gold', Icon: 'assets/metals/Gold.jpg' },
+    { Name: 'Rose Gold', Icon: 'assets/metals/RoseGold.jpg' },
+    { Name: 'Platinum', Icon: 'assets/metals/Platinum.jpg' },
   ];
   public metalCarats = ['10KT', '14KT', '18KT'];
   public chainSizes = [14, 16, 18, 20];
