@@ -1,0 +1,5 @@
+# Ignore Angular build output
+.angular/
+
+# Ignore Node modules
+node_modules/
