@@ -2,28 +2,35 @@
     display: flex;
     flex-direction: row;
     align-items: start;
+    justify-content: center;
     gap: 40px;
+  }
+
+  .main-media {
+    width: 65%;
+    height: 65%;
   }
   
   .main-media img, .main-media video{
-    width: 450px;
+    width: 100%;
   }
   
   .thumbnail-selector {
     display: flex;
     flex-direction: column;
-    gap: 10px;
   }
   
   .thumbnail-selector img, .thumbnail-selector video{
-    width: 100px;
-    height: 100px;
+    width: 138px;
+    height: 138px;
     cursor: pointer;
-    border: 1px solid rgb(51, 51, 51);
+    border: 2px solid rgb(51, 51, 51);
+    border-radius: 10px;
     transition: border-color 0.3s;
+    margin-bottom: 10px;
   }
   
   .thumbnail-selector img.active, .thumbnail-selector video.active{
-    border: 2px solid black;
+    border: 3px solid black;
   }
   

@@ -18,9 +18,12 @@ import { companySettings } from '../common/companyCustomization';
 })
 export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit{
 
+  public isDescriptionVisible: boolean = true;
+  public isDetailsVisible: boolean = true;
+
   public formGroup = new FormGroup({
     quantity: new FormControl(1, [Validators.required, Validators.min(1)]),
-    metalColor: new FormControl('Rose Gold', Validators.required),
+    metalColor: new FormControl('Gold', Validators.required),
     metalCarat: new FormControl('10KT', Validators.required),
     diamondQuality: new FormControl('VS', Validators.required),
     fontStyle: new FormControl('Regular', Validators.required),
@@ -37,9 +40,9 @@ export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit{
   ];
   
   public metalColors = [
-    { Name: 'Rose Gold', Icon: 'assets/metals/rose-gold-color.png' },
-    { Name: 'Gold', Icon: 'assets/metals/gold-color.png' },
-    { Name: 'Platinum', Icon: 'assets/metals/platinum-color.png' },
+    { Name: 'Gold', Icon: 'assets/metals/Gold.jpg' },
+    { Name: 'Rose Gold', Icon: 'assets/metals/RoseGold.jpg' },
+    { Name: 'Platinum', Icon: 'assets/metals/Platinum.jpg' },
   ];
   public metalCarats = ['10KT', '14KT', '18KT'];
   public diamondQualities = ['VS', 'SI', 'LAB'];
@@ -143,5 +146,28 @@ export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit{
     let Letter = firstLetter ? customName.charAt(0) : customName.charAt(customName.length - 1);
     return firstLetter ? this.curvedLettersLeft.includes(Letter.toUpperCase()) : this.curvedLettersRight.includes(Letter.toUpperCase());
   }
-}
 
+  faqs = [
+    { question: "Do you offer resizing for necklaces or bracelets?", answer: "Sample Answer", open: false },
+    { question: "Can I cancel or modify my order after it’s been placed?", answer: "Sample Answer", open: false },
+    { question: "What is your return/exchange policy?", answer: "Sample Answer", open: false }
+  ];
+
+  toggleFaq(index: number) {
+    this.faqs[index].open = !this.faqs[index].open;
+  }
+
+  toggleAll() {
+    const allOpen = this.faqs.every(faq => faq.open);
+    this.faqs.forEach(faq => faq.open = !allOpen);
+  }
+
+  toggleDescription() {
+    this.isDescriptionVisible = !this.isDescriptionVisible;
+  }
+
+  toggleDetails() {
+    this.isDetailsVisible = !this.isDetailsVisible;
+  }
+
+}

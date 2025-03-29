@@ -1,24 +1,4 @@
 <div class="main-product-page" [ngStyle]="{'color': themeColor()}">
-    <div class="product-page-first-head">
-        BESPOKE NAME BRACELET BUILDER
-    </div>
-    <p class="products-page-first-para">
-        Create your personalized name bracelet with our Bespoke Name Bracelet
-        Builder. Each bracelet is individually master crafted to order,
-        <br />
-        especially for you. Select your diamond quality, metal color and karat
-        along with pendant size to be set in one of our signature font <br />
-        styles, and tailor your personalized name pendant to suit your
-        personal preferences.
-    </p>
-    <div class="hr-container">
-        <img
-          src="https://therunawaycrew.com/wp-content/uploads/2024/07/Line-65.png"
-          alt="line"
-          class="hr-line"
-          [ngStyle]="{'border': '1px solid ' + themeColor()}"
-        />
-    </div>
 
     <div class="parent-container">
         <div class="img-container">
@@ -27,54 +7,39 @@
             } @else {
                 
                 <img [src]="braceletImages()[0]" alt="left" class="bracelet-img"/>
-            
+
                 <!-- List of Images -->
                 <ul class="list-of-img">
                     @for(image of characterImages(); track $index) {
-                        <li> <img [src]="image" [alt]="image"
-                                [ngClass]="formGroup.value.letterHeight === 'Medium' ? 'final-img-bracelet' : 'final-img-bracelet-large'" />
-                        </li>
+                    <li> <img [src]="image" [alt]="image"
+                            [ngClass]="formGroup.value.letterHeight === 'Medium' ? 'final-img-bracelet' : 'final-img-bracelet-large'" />
+                    </li>
                     }
                 </ul>
             }
         </div>
         
         <div [formGroup]="formGroup" class="form-container">
-    
-            <div>Price : <span style="font-weight: 600;">${{itemPrice()}}</span></div>
+            <h2>{{formGroup.controls.metalColor.value}} Customized Diamond Bracelet</h2>
+            <div class="price-section"><span>${{itemPrice()}}</span></div>
     
             <!-- Custom Name -->
             <div class="form-group">
-                <label for="customName">Custom Name:</label>
+                <label for="customName">Enter your text</label>
                 <input
                     type="text"
                     id="customName"
                     formControlName="customName"
                     class="input-field"
-                    placeholder="Please enter the name here"
+                    [attr.placeholder]="(10 - (formGroup.get('customName')?.value?.length || 0)) + ' characters remaining'"
                     maxlength="10"
                 />
-                <small>{{ 10 - (formGroup.get('customName')?.value?.length || 0) }} characters remaining</small>
             </div>
     
-            <!-- Quantity -->
-            <div class="form-group" style="display: flex; flex-direction: column;">
-                <label for="quantity">Quantity:</label>
-                <input
-                type="number"
-                id="quantity"
-                formControlName="quantity"
-                class="input-field"
-                placeholder="Enter quantity"
-                />
-                <div class="error-message" *ngIf="formGroup.get('quantity')?.errors?.['min']">
-                * Please enter a valid quantity greater than 0.
-                </div>
-            </div>
             
             <!-- Metal Color -->
             <div class="form-group">
-                <label>Metal Color:</label>
+                <label>Choose your color</label>
                 <div class="options-group">
                 @for(color of metalColors; track $index) {
                     <app-text-with-image-button
@@ -90,7 +55,7 @@
             
             <!-- Metal Carat -->
             <div class="form-group">
-                <label>Metal Carat:</label>
+                <label>Select carat</label>
                 <div class="options-group">
                     <button
                     type="button"
@@ -104,66 +69,160 @@
                 </button>
                 </div>
             </div>
-            
-            <!-- Diamond Quality -->
-            <div class="form-group">
-                <label>Diamond Quality:</label>
-                <div class="options-group">
-                <button
-                    type="button"
-                    *ngFor="let quality of diamondQualities"
-                    (click)="selectOption('diamondQuality', quality)"
-                    [ngStyle]="formGroup.get('diamondQuality')?.value === quality ? {'background-color': themeColor(), 'color': '#fff'} : {}"
-                    [class.active]="formGroup.get('diamondQuality')?.value === quality"
-                    class="option"
-                >
-                    {{ quality }}
-                </button>
+
+            <div class="form-group-sub-container">
+                <div class="form-group-row">
+                    <!-- Quantity -->
+                    <div class="form-group" style="display: flex; flex-direction: column;">
+                        <label for="quantity">Quantity</label>
+                        <input
+                        type="number"
+                        id="quantity"
+                        formControlName="quantity"
+                        class="quantity-input"
+                        placeholder="Enter quantity"
+                        />
+                        <div class="error-message" *ngIf="formGroup.get('quantity')?.errors?.['min']">
+                        * Please enter a valid quantity greater than 0.
+                        </div>
+                    </div>
+
+                    <!-- Font Style -->
+                    <div class="form-group">
+                        <label>Font Style</label>
+                        <div class="options-group">
+                        <button
+                            type="button"
+                            *ngFor="let font of fontStyles"
+                            (click)="selectOption('fontStyle', font)"
+                            [ngStyle]="formGroup.get('fontStyle')?.value === font ? {'background-color': themeColor(), 'color': '#fff'} : {}"
+                            [class.active]="formGroup.get('fontStyle')?.value === font"
+                            class="option"
+                        >
+                            {{ font }}
+                        </button>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            
-            <!-- Font Style -->
-            <div class="form-group">
-                <label>Font Style:</label>
-                <div class="options-group">
-                <button
-                    type="button"
-                    *ngFor="let font of fontStyles"
-                    (click)="selectOption('fontStyle', font)"
-                    [ngStyle]="formGroup.get('fontStyle')?.value === font ? {'background-color': themeColor(), 'color': '#fff'} : {}"
-                    [class.active]="formGroup.get('fontStyle')?.value === font"
-                    class="option"
-                >
-                    {{ font }}
-                </button>
-                </div>
-            </div>
-            
-            <!-- Letter Height -->
-            <div class="form-group">
-                <label>Letter Height:</label>
-                <div class="options-group">
-                <button
-                    type="button"
-                    *ngFor="let height of letterHeights"
-                    (click)="selectOption('letterHeight', height)"
-                    [ngStyle]="formGroup.get('letterHeight')?.value === height ? {'background-color': themeColor(), 'color': '#fff'} : {}"
-                    [class.active]="formGroup.get('letterHeight')?.value === height"
-                    class="option"
-                >
-                    {{ height }}
-                </button>
+                    
+                
+                <div class="form-group-row">
+                    <!-- Diamond Quality -->
+                    <div class="form-group">
+                        <label>Diamond Quality</label>
+                        <div class="options-group">
+                        <button
+                            type="button"
+                            *ngFor="let quality of diamondQualities"
+                            (click)="selectOption('diamondQuality', quality)"
+                            [ngStyle]="formGroup.get('diamondQuality')?.value === quality ? {'background-color': themeColor(), 'color': '#fff'} : {}"
+                            [class.active]="formGroup.get('diamondQuality')?.value === quality"
+                            class="option"
+                        >
+                            {{ quality }}
+                        </button>
+                        </div>
+                    </div>
+                    
+                    <!-- Letter Height -->
+                    <div class="form-group">
+                        <label>Letter Height</label>
+                        <div class="options-group">
+                        <button
+                            type="button"
+                            *ngFor="let height of letterHeights"
+                            (click)="selectOption('letterHeight', height)"
+                            [ngStyle]="formGroup.get('letterHeight')?.value === height ? {'background-color': themeColor(), 'color': '#fff'} : {}"
+                            [class.active]="formGroup.get('letterHeight')?.value === height"
+                            class="option"
+                        >
+                            {{ height }}
+                        </button>
+                        </div>
+                    </div>
                 </div>
             </div>
             
             <!-- Submit Button -->
             <div class="form-group">
-                <button [ngStyle]="formGroup.invalid ? {} : {'background-color': themeColor(), 'color': '#fff'}"
-                    type="submit" [disabled]="formGroup.invalid" class="submit-button" (click)="addToCart()">
-                    Add to cart
-                </button>
+                <div class="horizontal-buttons">
+                    <button [ngStyle]="formGroup.invalid ? {} : {'background-color': themeColor(), 'color': '#fff'}"
+                        type="submit" [disabled]="formGroup.invalid" class="submit-button" (click)="addToCart()">
+                        Buy Now
+                    </button>
+                    <button [ngStyle]="formGroup.invalid ? {} : {'background-color': '#fff', 'color': themeColor(), border: '1px solid ' + themeColor()}"
+                        type="submit" [disabled]="formGroup.invalid" class="submit-button" (click)="addToCart()">
+                        Add to cart
+                    </button>
+                </div>
             </div>
         </div>
     </div>
-
+    <div class="product-section">
+        <div class="product-header" (click)="toggleDescription()">
+            <span>Product Description</span>
+            <span class="toggle-icon">{{ isDescriptionVisible ? '-' : '+' }}</span>
+        </div>
+        <div class="product-description" *ngIf="isDescriptionVisible">
+            <p>
+                The Diamond Block Name Bracelet is a beautifully crafted piece that celebrates the essence of individuality.
+                Whether you're treating yourself or gifting it to someone special, this personalized bracelet is a stunning
+                way to showcase names, initials, or significant dates in a design that's as unique as the wearer.
+            </p>
+            <p>
+                Crafted with meticulous attention to detail, this necklace is available in 10 KT or 14 KT gold in your choice
+                of Yellow, White, or Rose Gold. Choose from three exquisite diamond qualities to match your budget and create
+                a piece that perfectly reflects your style.
+            </p>
+            <ul>
+                <li><strong>Small Letter Height:</strong> approx. 0.30 mm</li>
+                <li><strong>Large Letter Height:</strong> approx. 0.35 mm</li>
+            </ul>
+            <p>
+                This custom bracelet also offers the opportunity to add up to 10 personalized charms—perfect for commemorating special moments or adding a touch of personal flair.
+                <br>
+                Explore our full Personalized Jewelry Collection and discover the perfect piece to reflect your unique story.
+                <br>
+                Please note: All custom jewelry sales are final.
+            </p>
+        </div>
+    
+        <div class="product-header" (click)="toggleDetails()">
+            <span>Product Details</span>
+            <span class="toggle-icon">{{ isDetailsVisible ? '-' : '+' }}</span>
+        </div>
+        <div class="product-details" *ngIf="isDetailsVisible">
+            <h4>Metal Information:</h4>
+            <ul>
+                <li>Karat: 10 KT or 14 KT</li>
+                <li>Color: Yellow Gold, White Gold, Rose Gold</li>
+            </ul>
+            <h4>Diamond Information:</h4>
+            <ul>
+                <li>Number of Diamonds: [Insert Number]</li>
+                <li>Shape: [Insert Shape]</li>
+                <li>Carat Weight: [Insert Carat Weight]</li>
+                <li>Diamond Color: [Insert Diamond Color Grade]</li>
+                <li>Diamond Clarity: [Insert Diamond Clarity Grade]</li>
+            </ul>
+            <h4>Additional Information:</h4>
+            <ul>
+                <li>Total Diamond Weight (Approx.):[Insert Total Carat Weight]</li>
+                <li>Chain Type / Length:[Insert Chain Type] / [Insert Length]</li>
+                <li>Design Width (Approx.):[Insert Width]</li>
+            </ul>
+        </div>
+    </div>
+    <div class="faq-section">
+        <h2>FAQ's <span class="toggle-icon" (click)="toggleAll()">&#9662;</span></h2>
+        <div class="faq-item" *ngFor="let faq of faqs; let i = index">
+          <div class="faq-question" (click)="toggleFaq(i)">
+            <span>{{ faq.question }}</span>
+            <span class="faq-toggle">{{ faq.open ? '-' : '+' }}</span>
+          </div>
+          <div class="faq-answer" *ngIf="faq.open">
+            {{ faq.answer }}
+          </div>
+        </div>
+    </div>
 </div>

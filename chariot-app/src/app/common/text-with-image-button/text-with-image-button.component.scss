@@ -1,28 +1,43 @@
-div {
+.parent-container {
     display: flex;
-    flex-direction: row;
-    width: 125px;
-    height: 40px;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 120px;
+    height: 150px;
     align-items: center;
     gap: 10px;
     padding: 0.5rem 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    border: 1px solid;
+    border-radius: 10px;
     margin: 5px;
     margin-left: 0px;
     background-color: #fff;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-family: 'Avenir';
-    font-weight: light;
-    font-size: 17px;
+    font-family: 'Outfit';
+    font-weight: 300;
+    font-size: 1.25rem;
+
+    .image-box {
+        overflow: hidden;
+        border-radius: 10px;
+        img {
+            height: 100%;
+            width: 100%;
+        }
+    }
+
+    span {
+        color: #252525;
+    }
 
 }
 
 .selected {
-    color: #fff;
+    border: solid 2px;
     transition: all 0.3s ease;
-    font-family: 'Avenir';
+    font-family: 'Outfit';
     font-weight: light;
-    font-size: 17px;
+    font-size: 1.25rem;
+    font-weight: 400;
 }

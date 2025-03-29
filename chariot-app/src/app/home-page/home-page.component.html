@@ -2,54 +2,83 @@
 <div class="main-page" [ngStyle]="{'color': companySetting.theme}">
     
     <div class="main-page-head">
-        <img src="{{companySetting.header.img}}" alt="logo" class="logo" />
+        <img [src]="selectedTab === 'necklace' ? necklaceImageTop : braceletImageTop" alt="logo" class="logo" />
         <div class="main-page-head-text">
-                <h2>{{companySetting.header.description}}</h2>
-    </div>
-    
-    
-    <div class="product-page-first-head">
-        Personalized Jewelry
-    </div>
-    <p class="products-page-first-para">
-        Create your personalized name necklace with our Bespoke Name Pendant
-        Builder. Each pendant is individually master crafted to order,
-        <br />
-        especially for you. Select your diamond quality, metal color and karat
-        along with pendant size to be set in one of our signature font <br />
-        styles, and tailor your personalized name pendant to suit your
-        personal preferences.
-    </p>
-    <div class="hr-container">
-        <img
-          src="https://therunawaycrew.com/wp-content/uploads/2024/07/Line-65.png"
-          alt="line"
-          class="hr-line"
-          [ngStyle]="{'border': '1px solid ' + companySetting.theme}"
-        />
+            <h2 *ngFor="let i of companySetting.header.description"
+                [ngStyle]="{'color': selectedTab === 'necklace' ? 'white' : 'black'}">
+                {{ i }}
+            </h2>
+        </div>
     </div>
 
+    <div class="tabs">
+        <span 
+          [class.active]="selectedTab === 'necklace'" 
+          (click)="selectTab('necklace')">
+          Necklace
+        </span>
+        <span 
+          [class.active]="selectedTab === 'bracelet'" 
+          (click)="selectTab('bracelet')">
+          Bracelet
+        </span>
+    </div>
+    <mat-divider></mat-divider>
+
     <div class="products-container">
-        <div class="row">
+        <div class="row" *ngIf="selectedTab === 'necklace'">
             <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 0 }"></ng-container>
             <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 1 }"></ng-container>
         </div>
-        <div class="row">
+        <div class="row" *ngIf="selectedTab === 'bracelet'">
             <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 2 }"></ng-container>
             <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 3 }"></ng-container>
         </div>
     </div>
+
+    <div class="image-container">
+        <img [src]="selectedTab === 'necklace' ? necklaceImageBottom : braceletImageBottom" alt="logo" class="logo" />
+    </div>
+
+    <div class="personalization-section">
+        <h2>Discover the Sparkle of Personalization</h2>
+        <p>
+            Jewelry is more than just an accessory—it reflects who you are. Our collection of personalized diamond necklaces
+            and bracelets is designed to celebrate life's special moments. Whether it's your name, a meaningful date, or a
+            cherished memory, each piece is custom-crafted to shine with elegance and meaning.
+        </p>
+        <p>
+            Whether you are treating yourself or searching for the perfect gift, our exquisite jewelry offers timeless design
+            with a personal touch. Celebrate your story or create a truly unforgettable gift for someone special. With
+            diamonds that sparkle like your memories, every piece is a lasting treasure.
+            <br>
+            <strong>Make it personal. Make it memorable.</strong>
+        </p>
+        
+    </div>
+    
+    <div class="faq-section">
+        <h2>FAQ's <span class="toggle-icon" (click)="toggleAll()">&#9662;</span></h2>
+        <div class="faq-item" *ngFor="let faq of faqs; let i = index">
+          <div class="faq-question" (click)="toggleFaq(i)">
+            <span>{{ faq.question }}</span>
+            <span class="faq-toggle">{{ faq.open ? '-' : '+' }}</span>
+          </div>
+          <div class="faq-answer" *ngIf="faq.open">
+            {{ faq.answer }}
+          </div>
+        </div>
+    </div>
+    
 </div>
 
 <ng-template #builderTemplate let-index="index">
-        <div class="builder-details">
-            <h1>{{ buildersData[index].Description }}</h1>
-            <img [src]="buildersData[index].Img" />
-            <a [routerLink]="buildersData[index].Url" [queryParams]="buildersData[index].queryParams">
-                <div class="shop-now-button">
-                    <h3>SHOP NOW</h3>
-                </div>
-            </a>
-        </div>
-
+    <div>
+        <a [routerLink]="buildersData[index].Url" [queryParams]="buildersData[index].queryParams">
+            <div class="builder-details">
+                <img [src]="buildersData[index].Img" />
+            </div>
+        </a>
+        <div class="card-desc">{{ buildersData[index].Description }}</div>
+    </div>
 </ng-template>
