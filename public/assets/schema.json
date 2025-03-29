@@ -1,0 +1,154 @@
+
+// JEWELERY 
+{
+    "Id": "number",
+    "jewelryTypeId" : "number",  // Enum - engagement ring, wedding bands, ring, earring, necklace, bracelet
+    "cadCode" : "number",
+    "averageWidth" : "number",
+    "occasionIds": "number[]", // referenced from JEWELERY STYLES
+    "relationshipIds": "number[]", // referenced from JEWELERY STYLES
+    "collectionIds": "number[]", // referenced from COLLECTIONS
+    "title": "string",
+    "subTypeId": "number", // referenced from JEWELERY STYLES
+    "subTitle": "string",
+    "slug": "string",
+    "description": "string",
+    "metaDetails": {
+        "metaTitle": "string",
+        "metaDescription": "string",
+        "metaKeywords": "string"
+    },
+    "gender": "string", // Enum - him, her, both
+    "deliveryTime": "number",
+    "settingType": "string[]", // Enum - prong, pave, channel, bezel, invisible, tension, halo
+    "prongType": "string[]", // Enum - three, four, six
+    "chainLength": "number[]",
+    "metals":{
+        "Details": [{
+            "Id": "number", // referenced from other table
+            "Karats": "string[]" //Enum - 10K, 14K, 18K, 925
+        }],
+        "metalWeights": {
+            "10K": "number",
+            "14K": "number",
+            "18K": "number",
+            "Silver925": "number"
+        }
+    },
+    "diamond": {
+        "centreStone":{
+            "stoneShapeIds": "number[]", // referenced from DIAMOND SHAPE
+            "centreStoneVariationIds": "number[]", // referenced from DIAMOND VARIATION
+            "quality": "string[]", //Enum - I1, SI1, VS1, VVS1, etc,
+            "carats": "number[]", //Enum and Decimal
+            "origin": "string" // Enum - Lab grown, Natural
+        },
+        "accentStones": [{
+            "stoneShapeIds": "number[]", // referenced from DIAMOND SHAPE
+            "centreStoneVariationIds": "number[]", // referenced from DIAMOND VARIATION
+            "quality": "string[]", //Enum - I1, SI1, VS1, VVS1, etc,
+            "carats": "number[]", //Enum and Decimal
+            "origin": "string", // Enum - Lab grown, Natural
+            "quantity": "number"
+        }],
+        "otherDiamonds": [{
+            "stoneShapeIds": "number[]", // referenced from DIAMOND SHAPE
+            "centreStoneVariationIds": "number[]", // referenced from DIAMOND VARIATION
+            "quality": "string[]", //Enum - I1, SI1, VS1, VVS1, etc,
+            "carats": "number[]", //Enum and Decimal
+            "origin": "string", // Enum - Lab grown, Natural
+            "quantity": "number"
+        }]
+    },
+    "isActive": "boolean",
+    "stock": "number",
+    "media": {
+        "images": [{
+            // key value pair of name and url
+        }],
+        "videos": [{
+            // key value pair of name and url
+        }],
+        "360View": [{
+            // key value pair of name and url
+        }]
+    }
+}
+
+
+// DIAMONDS PRICE
+{
+    "Id": "number",
+    "diamondShapeId": "number",
+    "diamondVariationId": "number",
+    "carat": "number",
+    "quality": "string", // Enum - VS1, VVS1
+    "origin": "string", // Enum - Lab grown, Natural
+    "price": "number"
+}
+
+// DIAMOND SHAPE
+{
+    "Id": "number",
+    "name": "string",
+    "code": "string",
+    "subCode": "string",
+    "Image": "string",
+    "IsActive": "boolean"
+}
+
+// DIAMOND VARIATION
+{
+    "Id": "number",
+    "name": "string",
+    "code": "string",
+    "subCode": "string",
+    "type": "string", // Enum - diamond, gemstone, birthstone
+    "Image": "string",
+    "IsActive": "boolean"
+}
+
+
+// METALS
+{
+    "Id": "number",
+    "name": "string",
+    "code": "string",
+    "type": "string", // Enum - gold, silver, platinum
+    "color": "string",
+    "image": "string",
+    "IsActive": "boolean"
+}
+
+
+// JEWELERY STYLES
+{
+    "Id": "number",
+    "Name": "string",
+    "image": "string",
+    "type": "string", // Enum - engagement rings, wedding bands, earring, necklace, bracelet, relation, occasion
+    "IsActive": "boolean",
+}
+
+// CARAT SIZE
+{
+    "Id": "number",
+    "stoneSize": "number",
+    "IsActive": "boolean",
+}
+
+// COLLECTIONS
+{
+    "Id": "number",
+    "Name": "string",
+    "Description": "string",
+    "ImageDesktop": "string",
+    "ImageMobile": "string",
+    "IsActive": "boolean",
+}
+
+// ORDERS
+
+// USERS
+
+// COUPONS, PROMOTIONS, BLOGS, etc

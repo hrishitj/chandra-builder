@@ -1,0 +1,36 @@
+  :host {
+    display: flex;
+    flex-direction: row;
+    align-items: start;
+    justify-content: center;
+    gap: 40px;
+  }
+
+  .main-media {
+    width: 65%;
+    height: 65%;
+  }
+  
+  .main-media img, .main-media video{
+    width: 100%;
+  }
+  
+  .thumbnail-selector {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .thumbnail-selector img, .thumbnail-selector video{
+    width: 138px;
+    height: 138px;
+    cursor: pointer;
+    border: 2px solid rgb(51, 51, 51);
+    border-radius: 10px;
+    transition: border-color 0.3s;
+    margin-bottom: 10px;
+  }
+  
+  .thumbnail-selector img.active, .thumbnail-selector video.active{
+    border: 3px solid black;
+  }
+  
