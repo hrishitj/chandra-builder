@@ -13,30 +13,26 @@
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 32rem;
+    height: auto;
     font-family: 'Outfit';
     font-weight: 200;
-    font-size: 28px;
+    font-size: 1rem;
 
     img {
       width: 100%;
-      height: 100%;
+      max-width: fit-content;
+      height: auto;
     }
 
     .main-page-head-text {
       position: absolute;
       right: 5%;
       padding: 10px 20px;
-      color: black;
-      font-size: 1.5rem;
-      font-weight: 400;
-      text-align: center;
-      border-radius: 5px;
 
       h2 {
-        text-align:left;
+        text-align: left;
         font-weight: 400;
-        font-size: 2rem;
+        font-size: clamp(12px, 2vw, 48px);
         margin: 0;
       }
     }
@@ -52,7 +48,7 @@
   
     span {
       margin: 0 15px;
-      font-size: 1.5rem;
+      font-size: clamp(16px, 1.5vw, 48px);
       font-weight: 300;
       cursor: pointer;
       position: relative;
@@ -66,47 +62,46 @@
     }
   }
 
-  .products-container{
-    text-decoration: none;
+  mat-divider {
+    margin: 0 auto;
+    width: 90%;
+    height: 0.5px;
+    background-color: #6e6a6a;
+  }
+
+  .row{
     display: flex;
-    flex-direction: column;
-    height: 100%;
-    width: 100%;
+    flex-direction: row;
+    gap: 50px;
+    flex-wrap: wrap;
     align-items: center;
+    justify-content: center;
 
-    .row{
+    .builder-details{
+      border: 2px solid black;
+      border-radius: 0.625rem;
       display: flex;
-      flex-direction: row;
-      gap: 50px;
-      flex-wrap: wrap;
+      flex-direction: column;
       align-items: center;
-
-      .builder-details{
-        border: 2px solid black;
-        border-radius: 0.625rem;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        height: 24.75rem;
-        width: 18.5rem;
-        margin: 20px 0px 5px 0px;
-        cursor: pointer;
-        overflow: hidden;
-    
-        img{
-          background: #ffffff;
-          height: 100%;
-          width: 100%;
-        }
+      max-width: 18.5rem; /* Prevent it from getting too big */
+      max-height: 24.75rem;
+      margin: 20px 0px 5px 0px;
+      cursor: pointer;
+      overflow: hidden;
+  
+      img{
+        background: #ffffff;
+        height: 100%;
+        width: 100%;
       }
-      .card-desc {
-        font-weight: 300;
-        font-size: 1.5rem;
-        text-align: center;
-        color: #252525;
-        font-family: 'Outfit';
-        text-decoration: none;
-      }
+    }
+    .card-desc {
+      font-weight: 300;
+      font-size: clamp(16px, 1.5vw, 48px);
+      text-align: center;
+      color: #252525;
+      font-family: 'Outfit';
+      text-decoration: none;
     }
   }
 
@@ -114,7 +109,7 @@
     margin-top: 5rem;
     width: 90%;
     img {
-      height: 24rem;
+      height: auto;
       width: 100%;
     }
   }
@@ -123,16 +118,15 @@
     font-family: 'Outfit';
     text-align: center;
     width: 90%;
-    margin: 40px auto;
     padding: 20px;
     
     h2 {
-        font-size: 3rem;
+        font-size: clamp(16px, 2vw, 48px);
         font-weight: 400;
     }
   
     p {
-        font-size: 2rem;
+      font-size: clamp(16px, 1vw, 48px);
         font-weight: 300;
         margin-bottom: 10px;
     }
@@ -150,7 +144,7 @@
     padding-top: 1rem;
   
     h2 {
-      font-size: 3rem;
+      font-size: clamp(16px, 2vw, 48px);
       font-weight: 200;
       border-bottom: 1px solid #252525;
       text-align: center;
@@ -162,14 +156,14 @@
       padding: 10px 0;
   
       .faq-question {
-        font-size: 1.5rem;
+        font-size: clamp(16px, 1vw, 48px);
         display: flex;
         justify-content: space-between;
         cursor: pointer;
       }
   
       .faq-answer {
-        font-size: 1.5rem;
+        font-size: clamp(16px, 1vw, 48px);
         padding: 10px 0;
         color: #666;
       }

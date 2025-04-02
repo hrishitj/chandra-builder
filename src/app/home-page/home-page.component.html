@@ -2,7 +2,7 @@
 <div class="main-page" [ngStyle]="{'color': companySetting.theme}">
     
     <div class="main-page-head">
-        <img [src]="selectedTab === 'necklace' ? necklaceImageTop : braceletImageTop" alt="logo" class="logo" />
+        <img [src]="selectedTab === 'necklace' ? necklaceImageTop : braceletImageTop" alt="logo" />
         <div class="main-page-head-text">
             <h2 *ngFor="let i of companySetting.header.description"
                 [ngStyle]="{'color': selectedTab === 'necklace' ? 'white' : 'black'}">
@@ -25,19 +25,17 @@
     </div>
     <mat-divider></mat-divider>
 
-    <div class="products-container">
-        <div class="row" *ngIf="selectedTab === 'necklace'">
-            <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 0 }"></ng-container>
-            <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 1 }"></ng-container>
-        </div>
-        <div class="row" *ngIf="selectedTab === 'bracelet'">
-            <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 2 }"></ng-container>
-            <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 3 }"></ng-container>
-        </div>
+    <div class="row" *ngIf="selectedTab === 'necklace'">
+        <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 0 }"></ng-container>
+        <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 1 }"></ng-container>
+    </div>
+    <div class="row" *ngIf="selectedTab === 'bracelet'">
+        <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 2 }"></ng-container>
+        <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 3 }"></ng-container>
     </div>
 
     <div class="image-container">
-        <img [src]="selectedTab === 'necklace' ? necklaceImageBottom : braceletImageBottom" alt="logo" class="logo" />
+        <img [src]="selectedTab === 'necklace' ? necklaceImageBottom : braceletImageBottom" alt="logo"/>
     </div>
 
     <div class="personalization-section">

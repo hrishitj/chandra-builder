@@ -6,7 +6,7 @@ import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-home-page',
-  imports: [RouterModule, CommonModule, MatDividerModule ],
+  imports: [RouterModule, CommonModule, MatDividerModule],
   templateUrl: './home-page.component.html',
   styleUrl: './home-page.component.scss'
 })
