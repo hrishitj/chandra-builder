@@ -15,8 +15,6 @@
     width: 100%;
     height: auto;
     font-family: 'Outfit';
-    font-weight: 200;
-    font-size: 1rem;
 
     img {
       width: 100%;
@@ -32,7 +30,7 @@
       h2 {
         text-align: left;
         font-weight: 400;
-        font-size: clamp(12px, 2vw, 48px);
+        font-size: clamp(12px, 1.8vw, 40px);
         margin: 0;
       }
     }
@@ -48,7 +46,7 @@
   
     span {
       margin: 0 15px;
-      font-size: clamp(16px, 1.5vw, 48px);
+      font-size: clamp(12px, 1.3vw, 40px);
       font-weight: 300;
       cursor: pointer;
       position: relative;
@@ -83,21 +81,20 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      max-width: 18.5rem; /* Prevent it from getting too big */
+      max-width: 18.5rem;
       max-height: 24.75rem;
       margin: 20px 0px 5px 0px;
       cursor: pointer;
       overflow: hidden;
   
       img{
-        background: #ffffff;
         height: 100%;
         width: 100%;
       }
     }
     .card-desc {
       font-weight: 300;
-      font-size: clamp(16px, 1.5vw, 48px);
+      font-size: clamp(12px, 1.4vw, 40px);
       text-align: center;
       color: #252525;
       font-family: 'Outfit';
@@ -121,18 +118,14 @@
     padding: 20px;
     
     h2 {
-        font-size: clamp(16px, 2vw, 48px);
+        font-size: clamp(12px, 1.8vw, 40px);
         font-weight: 400;
     }
   
     p {
-      font-size: clamp(16px, 1vw, 48px);
+      font-size: clamp(10px, 1vw, 36px);
         font-weight: 300;
         margin-bottom: 10px;
-    }
-  
-    strong {
-        font-weight: 400;
     }
   }
   
@@ -144,7 +137,7 @@
     padding-top: 1rem;
   
     h2 {
-      font-size: clamp(16px, 2vw, 48px);
+      font-size: clamp(12px, 1.8vw, 40px);
       font-weight: 200;
       border-bottom: 1px solid #252525;
       text-align: center;
@@ -156,14 +149,14 @@
       padding: 10px 0;
   
       .faq-question {
-        font-size: clamp(16px, 1vw, 48px);
+        font-size: clamp(12px, 1vw, 40px);
         display: flex;
         justify-content: space-between;
         cursor: pointer;
       }
   
       .faq-answer {
-        font-size: clamp(16px, 1vw, 48px);
+        font-size: clamp(12px, 1vw, 40px);
         padding: 10px 0;
         color: #666;
       }

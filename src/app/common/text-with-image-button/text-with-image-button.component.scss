@@ -2,8 +2,8 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 120px;
-    height: 150px;
+    width: 90px;
+    height: 120px;
     align-items: center;
     gap: 10px;
     padding: 0.5rem 1rem;
@@ -16,7 +16,7 @@
     transition: all 0.3s ease;
     font-family: 'Outfit';
     font-weight: 300;
-    font-size: 1.25rem;
+    font-size: clamp(16px, 1.25vw, 48px);
 
     .image-box {
         overflow: hidden;
@@ -38,6 +38,6 @@
     transition: all 0.3s ease;
     font-family: 'Outfit';
     font-weight: light;
-    font-size: 1.25rem;
+    font-size: clamp(16px, 1.25vw, 48px);
     font-weight: 400;
 }
