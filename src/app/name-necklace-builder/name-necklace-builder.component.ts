@@ -148,9 +148,9 @@ export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit{
   }
 
   faqs = [
-    { question: "Do you offer resizing for necklaces or bracelets?", answer: "Sample Answer", open: false },
-    { question: "Can I cancel or modify my order after it’s been placed?", answer: "Sample Answer", open: false },
-    { question: "What is your return/exchange policy?", answer: "Sample Answer", open: false }
+    { question: "Do you offer resizing for necklaces or bracelets?", answer: "Yes, we offer resizing services for our bracelets and necklaces. Please contact our customer service team with your sizing request, and we’ll help you find the perfect fit.", open: false },
+    { question: "Can I cancel or modify my order after it's been placed?", answer: "Once an order has been customized and processed, we are unable to modify or cancel it. However, please contact our customer service team as soon as possible if there are any issues, and we will assist you to the best of our ability.", open: false },
+    { question: "What is your return/exchange policy?", answer: "As our jewelry is personalized, we do not accept returns or exchanges unless the item is damaged or defective. Please review your customization details carefully before completing your order. If there is an issue with your item, contact us, and we'll ensure a resolution.", open: false }
   ];
 
   toggleFaq(index: number) {

@@ -21,12 +21,12 @@
       width: 40%;
 
       .price-section {
-        font-size: clamp(16px, 2vw, 48px);
+        font-size: clamp(12px, 1.8vw, 40px);
       }
 
       h2 {
         margin: 0;
-        font-size: clamp(16px, 2vw, 48px);
+        font-size: clamp(12px, 1.8vw, 40px);
         font-weight: 300;
         color: #868686;
       }
@@ -49,7 +49,7 @@
         gap: 0.5rem;
 
         label {
-          font-size: clamp(16px, 1.5vw, 48px);
+          font-size: clamp(12px, 1.3vw, 40px);
         }
 
         .horizontal-buttons {
@@ -59,7 +59,7 @@
           font-family: 'Outfit';
           border-radius: 5px;
           font-weight: 400;
-          font-size: clamp(16px, 1.5vw, 48px);
+          font-size: clamp(12px, 1.3vw, 40px);
         }
 
         .input-field {
@@ -72,10 +72,9 @@
 
         .quantity-input {
           padding-left: 2rem;
-          height: 46px;
-          font-size: 1.5rem;
+          height: 40px;
+          font-size: clamp(12px, 1.2vw, 40px);
           width: 20%;
-          //padding: 1rem;
           border: 1px solid #ccc;
           border-radius: 30px;
         }
@@ -85,8 +84,8 @@
           gap: 20px;
 
           .option {
-            font-size: clamp(16px, 1.25vw, 48px);
-            height: 50px;
+            font-size: clamp(12px, 1.2vw, 40px);
+            height: 40px;
             padding: 0.5rem 1rem;
             border: 1px solid #ccc;
             border-radius: 10px;
@@ -106,7 +105,7 @@
         }
 
         .submit-button {
-          font-size: clamp(16px, 2vw, 48px);
+          font-size: clamp(12px, 1.75vw, 40px);
           font-weight: 300;
           padding: 0.7rem 1.5rem;
           color: #fff;
@@ -176,23 +175,28 @@
   }
   .product-section {
       color:#252525;
-      font-size: 1.5rem;
+      font-size: clamp(12px, 1vw, 36px);
       display: flex;
       flex-direction: column;
       gap: 1rem;
       margin: 5rem;
       width: 90%;
       padding: 10px;
-  }
 
-  .product-header {
-      padding-bottom: 1rem;
-      font-size: 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      cursor: pointer;
-      font-weight: bold;
-      border-bottom: 1px solid #252525;
+      .product-header {
+        padding-bottom: 1rem;
+        font-size: clamp(14px, 1.5vw, 40px);
+        display: flex;
+        justify-content: space-between;
+        cursor: pointer;
+        font-weight: 400;
+        border-bottom: 1px solid #252525;
+      }
+
+      .product-details {
+        display: flex;
+        gap: 20px;
+      }
   }
 
   .toggle-icon {
@@ -201,33 +205,33 @@
 
   .faq-section {
     color: #252525;
+    margin: 0 auto;
     margin-bottom: 3rem;
-    width: 80%;
+    width: 90%;
     padding-top: 1rem;
   
     h2 {
+      font-size: clamp(12px, 1.8vw, 40px);
       font-weight: 200;
-      font-size: 3rem;
       border-bottom: 1px solid #252525;
       text-align: center;
       cursor: pointer;
     }
   
     .faq-item {
-      font-size: 1.5rem;
-      font-weight: 300;
       border-bottom: 1px solid #252525;
       padding: 10px 0;
   
       .faq-question {
+        font-size: clamp(12px, 1vw, 40px);
         display: flex;
         justify-content: space-between;
         cursor: pointer;
       }
   
       .faq-answer {
+        font-size: clamp(12px, 1vw, 40px);
         padding: 10px 0;
-        font-size: 14px;
         color: #666;
       }
     }
