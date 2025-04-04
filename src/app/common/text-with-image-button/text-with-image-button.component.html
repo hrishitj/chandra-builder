@@ -1,5 +1,5 @@
 <div class="parent-container" [class.selected]="isSelected()" (click)="clicked.emit()"
     [style.border-color]="isSelected() ? themeColor() : 'black'">
-    <div class="image-box"><img [src]="imageSource()" /></div>
+    <img [src]="imageSource()" />
     <span>{{buttonText()}}</span>
 </div>

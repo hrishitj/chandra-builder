@@ -2,12 +2,12 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 90px;
-    height: 120px;
+    width: 5vw;
+    height: auto;
     align-items: center;
     gap: 10px;
     padding: 0.5rem 1rem;
-    border: 1px solid;
+    border: 0.5px solid;
     border-radius: 10px;
     margin: 5px;
     margin-left: 0px;
@@ -16,15 +16,13 @@
     transition: all 0.3s ease;
     font-family: 'Outfit';
     font-weight: 300;
-    font-size: clamp(12px, 1.2vw, 40px);
+    font-size: 1vw;
 
-    .image-box {
-        overflow: hidden;
+    img {
+        height: auto;
+        width: 4vw;
+        max-width: 125px;
         border-radius: 10px;
-        img {
-            height: 100%;
-            width: 100%;
-        }
     }
 
     span {
@@ -34,10 +32,7 @@
 }
 
 .selected {
-    border: solid 2px;
+    border: solid 1.5px;
     transition: all 0.3s ease;
-    font-family: 'Outfit';
-    font-weight: light;
-    font-size: clamp(16px, 1.25vw, 48px);
     font-weight: 400;
 }

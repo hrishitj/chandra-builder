@@ -6,11 +6,12 @@ import { debounceTime } from 'rxjs';
 import { TextWithImageButtonComponent } from "../common/text-with-image-button/text-with-image-button.component";
 import { HttpClient } from '@angular/common/http';
 import { MatDividerModule } from '@angular/material/divider';
+import { MatIconModule } from '@angular/material/icon';
 import { companySettings } from '../common/companyCustomization';
 
 @Component({
   selector: 'app-name-necklace-builder',
-  imports: [ImageSliderComponent, ReactiveFormsModule, CommonModule, TextWithImageButtonComponent, MatDividerModule ],
+  imports: [ImageSliderComponent, ReactiveFormsModule, CommonModule, TextWithImageButtonComponent, MatDividerModule, MatIconModule ],
   providers: [HttpClient],
   templateUrl: './name-necklace-builder.component.html',
   styleUrl: './name-necklace-builder.component.scss',
@@ -56,6 +57,7 @@ export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit{
   public isEmbedded: WritableSignal<boolean> = signal(false);
   public themeColor: WritableSignal<string> = signal('#000000');
   public multiplier: WritableSignal<number> = signal(1);
+  public showPreview: WritableSignal<boolean> = signal(false);
   private curvedLettersLeft = ['A', 'C', 'G', 'J', 'O'];
   private curvedLettersRight = ['A', 'D', 'G', 'L', 'O'];
 
@@ -168,6 +170,10 @@ export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit{
 
   toggleDetails() {
     this.isDetailsVisible = !this.isDetailsVisible;
+  }
+
+  onPreviewClick() {
+    this.showPreview.set(!this.showPreview());
   }
 
 }

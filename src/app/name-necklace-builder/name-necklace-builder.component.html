@@ -2,7 +2,7 @@
 
     <div class="parent-container">
         <div class="img-container">
-            @if(!imageLoaded()) {
+            @if(!imageLoaded() && !showPreview()) {
                 <app-image-slider [mediaItems]="mediaItems" [themeColor]="themeColor()"></app-image-slider>
             } @else {
                 
@@ -29,18 +29,24 @@
             <div class="price-section"><span>${{itemPrice()}}</span></div>
     
             <!-- Custom Name -->
-            <div class="form-group">
-                <label for="customName">Enter your text</label>
-                <input
-                    type="text"
-                    id="customName"
-                    formControlName="customName"
-                    class="input-field"
-                    [attr.placeholder]="(10 - (formGroup.get('customName')?.value?.length || 0)) + ' characters remaining'"
-                    maxlength="10"
-                />
-            </div>
-    
+             
+                <div class="form-group">
+                    <label for="customName">Enter your text</label>
+                    <div class="row">
+                        <input
+                            type="text"
+                            id="customName"
+                            formControlName="customName"
+                            class="input-field"
+                            [attr.placeholder]="(10 - (formGroup.get('customName')?.value?.length || 0)) + ' characters remaining'"
+                            maxlength="10"
+                        />
+                        <button [ngStyle]="formGroup.invalid ? {} : {'background-color': themeColor(), 'color': '#fff'}" [disabled]="formGroup.invalid" type="button" (click)="onPreviewClick()">
+                            Preview
+                            <mat-icon>{{ showPreview() ? 'visibility_off' : 'visibility' }}</mat-icon>
+                        </button>
+                    </div>
+                </div>
             
             <!-- Metal Color -->
             <div class="form-group">
