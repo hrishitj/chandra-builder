@@ -42,6 +42,11 @@
           background-color: #fff;
           cursor: pointer;
         }
+
+        .preview-button:disabled {
+          background-color: #ccc;
+          cursor: default;
+        }
       }
 
       .price-section {
@@ -149,7 +154,7 @@
 
         .submit-button:disabled {
           background-color: #ccc;
-          cursor: not-allowed;
+          cursor: default;
         }
       }
     }

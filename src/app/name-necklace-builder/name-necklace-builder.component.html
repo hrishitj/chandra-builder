@@ -41,7 +41,7 @@
                             [attr.placeholder]="(10 - (formGroup.get('customName')?.value?.length || 0)) + ' characters remaining'"
                             maxlength="10"
                         />
-                        <button [ngStyle]="formGroup.invalid ? {} : {'background-color': themeColor(), 'color': '#fff'}" [disabled]="formGroup.invalid" type="button" (click)="onPreviewClick()">
+                        <button class="preview-button" [matTooltip]="formGroup.invalid ? 'Enter name to preview' : null" [ngStyle]="formGroup.invalid ? {} : {'background-color': themeColor(), 'color': '#fff'}" [disabled]="formGroup.invalid" type="button" (click)="onPreviewClick()">
                             Preview
                             <mat-icon>{{ showPreview() ? 'visibility_off' : 'visibility' }}</mat-icon>
                         </button>
