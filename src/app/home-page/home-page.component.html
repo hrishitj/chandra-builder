@@ -23,7 +23,6 @@
           Bracelet
         </span>
     </div>
-    <mat-divider></mat-divider>
 
     <div class="row" *ngIf="selectedTab === 'necklace'">
         <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 0 }"></ng-container>
@@ -43,27 +42,15 @@
         <p>
             Jewelry is more than just an accessory—it reflects who you are. Our collection of personalized diamond necklaces
             and bracelets is designed to celebrate life's special moments. Whether it's your name, a meaningful date, or a
-            cherished memory, each piece is custom-crafted to shine with elegance and meaning.<br>
+            cherished memory, each piece is custom-crafted to shine with elegance and meaning.
             Whether you are treating yourself or searching for the perfect gift, our exquisite jewelry offers timeless design
             with a personal touch. Celebrate your story or create a truly unforgettable gift for someone special. With
             diamonds that sparkle like your memories, every piece is a lasting treasure.
         </p>
         
     </div>
-    
-    <div class="faq-section">
-        <h2>FAQ's <span class="toggle-icon" (click)="toggleAll()">&#9662;</span></h2>
-        <div class="faq-item" *ngFor="let faq of faqs; let i = index">
-          <div class="faq-question" (click)="toggleFaq(i)">
-            <span>{{ faq.question }}</span>
-            <span class="faq-toggle">{{ faq.open ? '-' : '+' }}</span>
-          </div>
-          <div class="faq-answer" *ngIf="faq.open">
-            {{ faq.answer }}
-          </div>
-        </div>
-    </div>
-    
+
+    <app-faq-section></app-faq-section>
 </div>
 
 <ng-template #builderTemplate let-index="index">

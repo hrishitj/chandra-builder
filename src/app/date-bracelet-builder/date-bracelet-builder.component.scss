@@ -1,122 +1,259 @@
-.parent-container {
-    display: flex;
-    justify-content: space-evenly;
-    background-color: #FFFFFF;
-    font-family: 'Avenir';
-    font-style: light;
-    font-size: 17px;
-}
-
-.form-container {
+.main-product-page {
+    font-family: 'Outfit';
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
-    width: 35%;
-    padding: 2rem;
-    border-radius: 8px;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-}
-
-label {
-    font-weight: bold;
-    color: #333;
-}
-
-.input-field {
-    padding: 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 1rem;
-}
-
-.options-group {
-    display: flex;
-    gap: 0.5rem;
-}
-
-.option {
-    height: 50px;
-    width: 150px;
-    padding: 0.5rem 1rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    background-color: #fff;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.option.active {
-    background-color: #000000;
-    color: #fff;
-    transition: all 0.3s ease;
-}
-
-.error-message {
-    color: red;
-    font-size: 0.9rem;
-}
-
-.submit-button {
-    padding: 0.7rem 1.5rem;
-    background-color: #000000;
-    color: #fff;
-    border: none;
-    border-radius: 4px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-}
-
-.submit-button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
-
-
-
-
-//   -------------------------------------
-
-.img-bracelet-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
     justify-content: center;
-    margin-top: 150px;
-    height: 300px;
-    width: 300px;
-}
-
-.bracelet-img {
-    width: 450px;
-}
-
-
-.final-img-bracelet {
-    height: 35px;
-    margin-right: 1px;
-}
-
-.final-img-bracelet-large {
-    height: 40px;
-    margin-right: 1px;
-}
-
-
-.list-of-img {
-    display: flex;
-    flex-direction: row;
     align-items: center;
-    margin-top: -35px;
-    padding: 0px;
-    margin-left: 0px;
-    margin-right: 0px;
-    background-color: #FFFFFF;
-    width: auto;
-    list-style: none;
+    width: 100%;
+
+    .parent-container {
+        margin-top: 2rem;
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-evenly;
+        width: 100%;
+
+        .form-container {
+            padding-right: 5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            width: 40%;
+
+            .row {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 1rem;
+
+                button {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    justify-content: center;
+                    gap: 10px;
+                    font-family: 'Outfit';
+                    font-weight: 400;
+                    font-size: clamp(12px, 1.2vw, 30px);
+                    padding: 7px 16px;
+                    height: 33px;
+                    border: 1px solid #ccc;
+                    border-radius: 5px;
+                    background-color: #fff;
+                    cursor: pointer;
+                }
+
+                .preview-button:disabled {
+                    background-color: #ccc;
+                    cursor: default;
+                }
+            }
+
+            .price-section {
+                font-size: clamp(12px, 1.8vw, 30px);
+            }
+
+            h2 {
+                margin: 0;
+                font-size: clamp(12px, 1.8vw, 30px);
+                font-weight: 300;
+                color: #868686;
+            }
+
+            .form-group-sub-container {
+                display: flex;
+                flex-direction: row;
+            }
+
+            .form-group-row {
+                width: 100%;
+                display: flex;
+                flex-direction: column;
+                gap: 1.5rem;
+                margin: 10px;
+            }
+
+            .form-group {
+                display: flex;
+                flex-direction: column;
+                gap: 0.5rem;
+
+                label {
+                    font-size: clamp(12px, 1.3vw, 30px);
+                }
+
+                .horizontal-buttons {
+                    display: flex;
+                    flex-direction: row !important;
+                    gap: 0.5rem;
+                    font-family: 'Outfit';
+                    border-radius: 5px;
+                    font-weight: 400;
+                    font-size: clamp(12px, 1.3vw, 30px);
+                }
+
+                .input-field {
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    font-size: clamp(10px, 1vw, 30px);
+                    padding: 0px 5px;
+                    width: 40%;
+                    height: 30px;
+                }
+
+                .quantity-input {
+                    padding-left: 2rem;
+                    width: clamp(65px, 5vw, 125px);
+                    height: clamp(25px, 2vw, 50px);
+                    font-size: clamp(6px, 1.2vw, 30px);
+                    border: 1px solid #ccc;
+                    border-radius: 30px;
+                }
+
+                .options-group {
+                    display: flex;
+                    gap: 10px;
+
+                    .option {
+                        font-size: clamp(6px, 1vw, 25px);
+                        width: clamp(75px, 5vw, 125px);
+                        height: auto;
+                        padding: 8px 16px;
+                        border: 1px solid #ccc;
+                        border-radius: 10px;
+                        background-color: #fff;
+                        cursor: pointer;
+                        transition: all 0.3s ease;
+                        align-items: center;
+                        justify-content: center;
+                    }
+
+                    .option.active {
+                        transition: all 0.3s ease;
+                    }
+                }
+
+                .error-message {
+                    color: red;
+                    font-size: 0.9rem;
+                }
+
+                .submit-button {
+                    font-size: clamp(10px, 1.25vw, 30px);
+                    font-weight: 300;
+                    padding: 0.7rem 1.5rem;
+                    height: auto;
+                    border-radius: 4px;
+                    cursor: pointer;
+                    transition: all 0.3s ease;
+                    width: clamp(65px, 12vw, 400px);
+                    margin-top: 15px;
+                    border: none;
+                }
+
+                .submit-button:disabled {
+                    background-color: #ccc;
+                    color: #666;
+                    cursor: default;
+                }
+
+                /* Primary button (Buy Now) */
+                .submit-button.primary {
+                    background-color: var(--theme-color);
+                    color: #fff;
+                }
+
+                .submit-button.primary:hover:not(:disabled) {
+                    background-color: #fff;
+                    color: var(--theme-color);
+                    border: 1px solid var(--theme-color);
+                }
+
+                /* Secondary button (Add to cart) */
+                .submit-button.secondary {
+                    background-color: #fff;
+                    color: var(--theme-color);
+                    border: 1px solid var(--theme-color);
+                }
+
+                .submit-button.secondary:hover:not(:disabled) {
+                    background-color: var(--theme-color);
+                    color: #fff;
+                }
+            }
+        }
+
+        .img-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 60%;
+
+            app-image-slider {
+                margin-left: 10px;
+            }
+
+            .bracelet-img {
+                width: 85%;
+            }
+
+            .list-of-img {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                margin-top: -4vw;
+                padding: 0px;
+                margin-left: 2px;
+                margin-right: 0px;
+                background-color: #FFFFFF;
+                width: auto;
+                list-style: none;
+
+                .final-img-bracelet {
+                    height: 3.5vw;
+                }
+
+                .final-img-bracelet-large {
+                    height: 4vw;
+                }
+
+            }
+        }
+
+    }
+
+    .product-section {
+        color: #252525;
+        font-size: clamp(12px, 1.05vw, 36px);
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        margin: 3.5rem;
+        width: 90%;
+        padding: 10px;
+
+        .product-header {
+            padding-bottom: 1rem;
+            font-size: clamp(14px, 1.5vw, 40px);
+            display: flex;
+            justify-content: space-between;
+            cursor: pointer;
+            font-weight: 400;
+            border-bottom: 1px solid #252525;
+        }
+
+        .product-details {
+            display: flex;
+            gap: 20px;
+        }
+    }
+
+    .toggle-icon {
+        font-size: 20px;
+    }
+
+    app-faq-section {
+        width: 100%;
+    }
 }

@@ -19,11 +19,11 @@
   </div>
 
   <!-- Main Media -->
-   <div class="main-media" [style.border]="'1px solid ' + themeColor()">
+   <div class="main-media" >
     @if(isImage(mediaItems()[selectedIndex])) {
       <img [src]="mediaItems()[selectedIndex]" alt="Main Image"/>
     } @else {
-      <video autoplay muted>
+      <video autoplay muted loop>
         <source [src]="mediaItems()[selectedIndex]" type="video/mp4"/>
         Your browser does not support the video tag.
       </video>

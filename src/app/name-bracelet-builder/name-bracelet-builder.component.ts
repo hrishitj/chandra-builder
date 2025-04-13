@@ -5,22 +5,25 @@ import { TextWithImageButtonComponent } from "../common/text-with-image-button/t
 import { ImageSliderComponent } from "../common/image-slider/image-slider.component";
 import { debounceTime } from 'rxjs';
 import { companySettings } from '../common/companyCustomization';
+import { FaqSectionComponent } from "../common/faq-section/faq-section.component";
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @Component({
   selector: 'app-name-bracelet-builder',
-  imports: [CommonModule, TextWithImageButtonComponent, ImageSliderComponent, ReactiveFormsModule],
+  imports: [CommonModule, TextWithImageButtonComponent, ImageSliderComponent, ReactiveFormsModule, FaqSectionComponent, MatIconModule, MatTooltipModule],
   templateUrl: './name-bracelet-builder.component.html',
   styleUrl: './name-bracelet-builder.component.scss'
 })
 export class NameBraceletBuilderComponent {
 
   public mediaItems: string[] = [
-    'assets/bracelet/bracelet_3.jpg',
+    'assets/bracelet/bracelet_3.png',
     'assets/bracelet/bracelet_2.jpg',
     'assets/bracelet/bracelet_1.jpg',
     'assets/bracelet/bracelet_4.jpg',
     'assets/bracelet/bracelet_5.jpg',
-    'assets/bracelet/bracelet-video.mp4',
+    'assets/bracelet/bracelet_video_2.mp4',
   ];
 
     public formGroup = new FormGroup({
@@ -50,6 +53,7 @@ export class NameBraceletBuilderComponent {
     public isEmbedded: WritableSignal<boolean> = signal(false);
     public themeColor: WritableSignal<string> = signal('#000000');
     public multiplier: WritableSignal<number> = signal(1);
+    public showPreview: WritableSignal<boolean> = signal(false);
 
     public isDescriptionVisible: boolean = true;
     public isDetailsVisible: boolean = true;
@@ -63,10 +67,15 @@ export class NameBraceletBuilderComponent {
         this.isEmbedded.set(window.self !== window.top);
       }
       this.formGroup.valueChanges
-        .pipe(debounceTime(200))
-        .subscribe(() => {
-          this.formGroup.value.customName?.length ? this.fetchData() : this.imageLoaded.set(false); this.itemPrice.set(0);
-        });
+      .pipe(debounceTime(200))
+      .subscribe(() => {
+        this.formGroup.value.customName?.length
+          ? this.fetchData()
+          : (() => {
+            this.imageLoaded.set(false);
+            this.itemPrice.set(0);
+          })();
+      });
     }
 
     ngAfterViewInit(): void {
@@ -98,7 +107,7 @@ export class NameBraceletBuilderComponent {
         if (jsonResponse && jsonResponse.paths) {
           this.imageLoaded.set(true);
           this.braceletImages.set(jsonResponse.braceletImages);
-          this.itemPrice.set(jsonResponse.price);
+          this.itemPrice.set(parseFloat((jsonResponse.price * this.multiplier()).toFixed(2)));
           this.characterImages.set(jsonResponse.paths);
   
         } else {
@@ -111,7 +120,46 @@ export class NameBraceletBuilderComponent {
       }
     }
 
-    public addToCart() {
+    // async fetchData(): Promise<void> {
+    //   try {
+    //     const mockResponse = {
+    //       price: 203.4,
+    //       paths: [
+    //         "https://chandrajewellery.api.ls2.kenmarkserver.com/JMT-SOURCE SANS PRO FONT(0.30 INCH) DONE/H/H YG.png",
+    //         "https://chandrajewellery.api.ls2.kenmarkserver.com/JMT-SOURCE SANS PRO FONT(0.30 INCH) DONE/R/R YG.png",
+    //         "https://chandrajewellery.api.ls2.kenmarkserver.com/JMT-SOURCE SANS PRO FONT(0.30 INCH) DONE/I/I YG.png",
+    //         "https://chandrajewellery.api.ls2.kenmarkserver.com/JMT-SOURCE SANS PRO FONT(0.30 INCH) DONE/S/S YG.png",
+    //         "https://chandrajewellery.api.ls2.kenmarkserver.com/JMT-SOURCE SANS PRO FONT(0.30 INCH) DONE/H/H YG.png",
+    //         "https://chandrajewellery.api.ls2.kenmarkserver.com/JMT-SOURCE SANS PRO FONT(0.30 INCH) DONE/I/I YG.png",
+    //         "https://chandrajewellery.api.ls2.kenmarkserver.com/JMT-SOURCE SANS PRO FONT(0.30 INCH) DONE/T/T YG.png"
+    //       ],
+    //       chainImages: [
+    //         "https://chandrajewellery.api.ls2.kenmarkserver.com/CHAINS/Gold Left.png",
+    //         "https://chandrajewellery.api.ls2.kenmarkserver.com/CHAINS/Gold Right.png"
+    //       ],
+    //       braceletImages: [
+    //         "https://chandrajewellery.api.ls2.kenmarkserver.com/BR/BR YG.png",
+    //         "https://chandrajewellery.api.ls2.kenmarkserver.com/BR/BR YG.png"
+    //       ],
+    //       length: "2.10",
+    //       width: "1.02",
+    //       height: "12.60",
+    //       deliveryTime: 0
+    //     };
+
+    //     this.imageLoaded.set(true);
+    //     this.braceletImages.set(mockResponse.braceletImages);
+    //     this.itemPrice.set(parseFloat((mockResponse.price * this.multiplier()).toFixed(2)));
+    //     this.characterImages.set(mockResponse.paths);
+    //     // Add bracelet or other properties if needed
+  
+    //   } catch (error) {
+    //     this.imageLoaded.set(false);
+    //     console.error('Error using mock data: ', error);
+    //   }
+    // }
+
+    public buyAction(action: string) {
       if(this.isEmbedded()) {
         if (window.parent) {
           const cartData = {
@@ -126,26 +174,11 @@ export class NameBraceletBuilderComponent {
           };
 
           window.parent.postMessage(
-            { type: 'ADD_TO_CART', payload: cartData },
+            { type: action, payload: cartData },
             '*'
           );
         }
       }
-    }
-
-    faqs = [
-      { question: "Do you offer resizing for necklaces or bracelets?", answer: "Sample Answer", open: false },
-      { question: "Can I cancel or modify my order after it’s been placed?", answer: "Sample Answer", open: false },
-      { question: "What is your return/exchange policy?", answer: "Sample Answer", open: false }
-    ];
-  
-    toggleFaq(index: number) {
-      this.faqs[index].open = !this.faqs[index].open;
-    }
-  
-    toggleAll() {
-      const allOpen = this.faqs.every(faq => faq.open);
-      this.faqs.forEach(faq => faq.open = !allOpen);
     }
 
     toggleDescription() {
@@ -154,6 +187,10 @@ export class NameBraceletBuilderComponent {
   
     toggleDetails() {
       this.isDetailsVisible = !this.isDetailsVisible;
+    }
+
+    onPreviewClick() {
+      this.showPreview.set(!this.showPreview());
     }
 
 }

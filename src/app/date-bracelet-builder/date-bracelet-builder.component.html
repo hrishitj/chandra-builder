@@ -1,146 +1,178 @@
-<div class="parent-container">
-    @if(!imageLoaded) {
-        <app-image-slider [mediaItems]="mediaItems"></app-image-slider>
-    } @else {
+<div class="main-product-page" [ngStyle]="{'color': themeColor()}">
 
-        <div class="img-bracelet-container">
-            <!-- Bracelet Image -->
-            <img 
-              [src]="braceletImages[0]" 
-              alt="left" 
-              class="bracelet-img"
-            />
-
+    <div class="parent-container">
+        <div class="img-container">
+            @if(imageLoaded() && showPreview()) {
+            <img [src]="braceletImages()[0]" alt="left" class="bracelet-img" />
             <!-- List of Images -->
             <ul class="list-of-img">
-                @for(image of characterImages; track $index) {
+                @for(image of characterImages(); track $index) {
                 <li> <img [src]="image" [alt]="image"
                         [ngClass]="formGroup.value.letterHeight === 'Medium' ? 'final-img-bracelet' : 'final-img-bracelet-large'" />
                 </li>
                 }
             </ul>
-        </div>
-    }
-    
-    <div [formGroup]="formGroup" class="form-container">
-        
-        <div>Price : ${{itemPrice}}</div>
-
-        <!-- Custom Date -->
-        <div class="form-group">
-            <mat-form-field class="example-form-field">
-                <mat-label>Choose a date</mat-label>
-                <input matInput [matDatepicker]="datepicker" formControlName="date" />
-                <mat-hint>MM/DD/YYYY</mat-hint>
-                <mat-datepicker-toggle matIconSuffix [for]="datepicker"></mat-datepicker-toggle>
-                <mat-datepicker #datepicker>
-                  <mat-datepicker-actions>
-                    <button mat-button matDatepickerCancel>Cancel</button>
-                    <button mat-raised-button matDatepickerApply>Apply</button>
-                  </mat-datepicker-actions>
-                </mat-datepicker>
-              </mat-form-field>
-          </div>
-
-        <!-- Quantity -->
-        <div class="form-group">
-            <label for="quantity">Quantity:</label>
-            <input
-            type="number"
-            id="quantity"
-            formControlName="quantity"
-            class="input-field"
-            placeholder="Enter quantity"
-            />
-            <div class="error-message" *ngIf="formGroup.get('quantity')?.errors?.['min']">
-            * Please enter a valid quantity greater than 0.
-            </div>
-        </div>
-        
-        <!-- Metal Color -->
-        <div class="form-group">
-            <label>Metal Color:</label>
-            <div class="options-group">
-            @for(color of metalColors; track $index) {
-                <app-text-with-image-button
-                    [imageSource]="color.Icon"
-                    [buttonText]="color.Name"
-                    [isSelected]="formGroup.get('metalColor')?.value === color.Name"
-                    (clicked)="selectOption('metalColor', color.Name)"
-                ></app-text-with-image-button>
+            } @else {
+            <app-image-slider [mediaItems]="mediaItems" [themeColor]="themeColor()"></app-image-slider>
             }
-            </div>
         </div>
-        
-        <!-- Metal Carat -->
-        <div class="form-group">
-            <label>Metal Carat:</label>
-            <div class="options-group">
-            <button
-                type="button"
-                *ngFor="let carat of metalCarats"
-                (click)="selectOption('metalCarat', carat)"
-                [class.active]="formGroup.get('metalCarat')?.value === carat"
-                class="option"
-            >
-                {{ carat }}
-            </button>
+
+        <div [formGroup]="formGroup" class="form-container">
+            <h2>{{formGroup.controls.metalColor.value}} Customized Diamond Bracelet</h2>
+            <div class="price-section"><span>${{itemPrice()}}</span></div>
+
+            <div class="form-group">
+                <label for="date">Choose a date</label>
+                <div class="row">
+                    <input class="input-field" matInput type="date" id="date" formControlName="date" />
+                    <button class="preview-button" [matTooltip]="formGroup.invalid ? 'Enter name to preview' : null"
+                        [ngStyle]="formGroup.invalid ? {} : {'background-color': themeColor(), 'color': '#fff'}"
+                        [disabled]="formGroup.invalid" type="button" (click)="onPreviewClick()">
+                        Preview
+                        <mat-icon>{{ showPreview() ? 'visibility_off' : 'visibility' }}</mat-icon>
+                    </button>
+                </div>
             </div>
-        </div>
-        
-        <!-- Diamond Quality -->
-        <div class="form-group">
-            <label>Diamond Quality:</label>
-            <div class="options-group">
-            <button
-                type="button"
-                *ngFor="let quality of diamondQualities"
-                (click)="selectOption('diamondQuality', quality)"
-                [class.active]="formGroup.get('diamondQuality')?.value === quality"
-                class="option"
-            >
-                {{ quality }}
-            </button>
+
+
+            <!-- Metal Color -->
+            <div class="form-group">
+                <label>Choose your color</label>
+                <div class="options-group">
+                    @for(color of metalColors; track $index) {
+                    <app-text-with-image-button [themeColor]="themeColor()" [imageSource]="color.Icon"
+                        [buttonText]="color.Name" [isSelected]="formGroup.get('metalColor')?.value === color.Name"
+                        (clicked)="selectOption('metalColor', color.Name)"></app-text-with-image-button>
+                    }
+                </div>
             </div>
-        </div>
-        
-        <!-- Font Style -->
-        <div class="form-group">
-            <label>Font Style:</label>
-            <div class="options-group">
-            <button
-                type="button"
-                *ngFor="let font of fontStyles"
-                (click)="selectOption('fontStyle', font)"
-                [class.active]="formGroup.get('fontStyle')?.value === font"
-                class="option"
-            >
-                {{ font }}
-            </button>
+
+            <!-- Metal Carat -->
+            <div class="form-group">
+                <label>Select carat</label>
+                <div class="options-group">
+                    <button type="button" *ngFor="let carat of metalCarats" (click)="selectOption('metalCarat', carat)"
+                        [class.active]="formGroup.get('metalCarat')?.value === carat"
+                        [ngStyle]="formGroup.get('metalCarat')?.value === carat ? {'background-color': themeColor(), 'color': '#fff'} : {}"
+                        class="option">
+                        {{ carat }}
+                    </button>
+                </div>
             </div>
-        </div>
-        
-        <!-- Letter Height -->
-        <div class="form-group">
-            <label>Letter Height:</label>
-            <div class="options-group">
-            <button
-                type="button"
-                *ngFor="let height of letterHeights"
-                (click)="selectOption('letterHeight', height)"
-                [class.active]="formGroup.get('letterHeight')?.value === height"
-                class="option"
-            >
-                {{ height }}
-            </button>
+
+            <div class="form-group-sub-container">
+                <div class="form-group-row">
+                    <!-- Quantity -->
+                    <div class="form-group" style="display: flex; flex-direction: column;">
+                        <label for="quantity">Quantity</label>
+                        <input type="number" id="quantity" formControlName="quantity" class="quantity-input"
+                            placeholder="Enter quantity" />
+                        <div class="error-message" *ngIf="formGroup.get('quantity')?.errors?.['min']">
+                            * Please enter a valid quantity greater than 0.
+                        </div>
+                    </div>
+
+                    <!-- Font Style -->
+                    <div class="form-group">
+                        <label>Font Style</label>
+                        <div class="options-group">
+                            <button type="button" *ngFor="let font of fontStyles"
+                                (click)="selectOption('fontStyle', font)"
+                                [ngStyle]="formGroup.get('fontStyle')?.value === font ? {'background-color': themeColor(), 'color': '#fff'} : {}"
+                                [class.active]="formGroup.get('fontStyle')?.value === font" class="option">
+                                {{ font }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group-row">
+                    <!-- Diamond Quality -->
+                    <div class="form-group">
+                        <label>Diamond Quality</label>
+                        <div class="options-group">
+                            <button type="button" *ngFor="let quality of diamondQualities"
+                                (click)="selectOption('diamondQuality', quality)"
+                                [ngStyle]="formGroup.get('diamondQuality')?.value === quality ? {'background-color': themeColor(), 'color': '#fff'} : {}"
+                                [class.active]="formGroup.get('diamondQuality')?.value === quality" class="option">
+                                {{ quality }}
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Letter Height -->
+                    <div class="form-group">
+                        <label>Letter Height</label>
+                        <div class="options-group">
+                            <button type="button" *ngFor="let height of letterHeights"
+                                (click)="selectOption('letterHeight', height)"
+                                [ngStyle]="formGroup.get('letterHeight')?.value === height ? {'background-color': themeColor(), 'color': '#fff'} : {}"
+                                [class.active]="formGroup.get('letterHeight')?.value === height" class="option">
+                                {{ height }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        
-        <!-- Submit Button -->
-        <div class="form-group">
-            <button (click)="addToCart()" [disabled]="formGroup.invalid" class="submit-button">
-            Add to cart
-            </button>
+
+            <!-- Submit Button -->
+            <div class="form-group" [style.--theme-color]="formGroup.invalid ? '#ccc' : themeColor()">
+                <div class="horizontal-buttons">
+                    <button type="submit" [disabled]="formGroup.invalid" class="submit-button primary"
+                        (click)="buyAction('BUY_NOW')">
+                        Buy Now
+                    </button>
+                    <button type="submit" [disabled]="formGroup.invalid" class="submit-button secondary"
+                        (click)="buyAction('ADD_TO_CART')">
+                        Add to cart
+                    </button>
+                </div>
+            </div>
         </div>
     </div>
+    <div class="product-section">
+        <div class="product-header" (click)="toggleDescription()">
+            <span>Product Description</span>
+            <span class="toggle-icon">{{ isDescriptionVisible ? '-' : '+' }}</span>
+        </div>
+        <div class="product-description" *ngIf="isDescriptionVisible">
+            <p>
+                Capture cherished dates with a custom diamond bracelet. Choose from 10kt, 14kt, or 18kt Yellow, White, or Rose Gold. Select your diamond clarity (VS, SI, or Lab-Grown) and font style (Regular or Sporty). Available in Small (7.6mm uppercase) or Large (8.9mm uppercase) lettering. Handcrafted with a 7.5-inch cable chain, this bracelet is a timeless keepsake.
+            </p>
+        </div>
+
+        <div class="product-header" (click)="toggleDetails()">
+            <span>Product Details</span>
+            <span class="toggle-icon">{{ isDetailsVisible ? '-' : '+' }}</span>
+        </div>
+        <div class="product-details" *ngIf="isDetailsVisible">
+            <div>
+                <h4>Metal Information:</h4>
+                <ul>
+                    <li>Karat: 10 KT or 14 KT</li>
+                    <li>Color: Yellow Gold, White Gold, Rose Gold</li>
+                </ul>
+            </div>
+            <div>
+                <h4>Diamond Information:</h4>
+                <ul>
+                    <li>Number of Diamonds: [Insert Number]</li>
+                    <li>Shape: [Insert Shape]</li>
+                    <li>Carat Weight: [Insert Carat Weight]</li>
+                    <li>Diamond Color: [Insert Diamond Color Grade]</li>
+                    <li>Diamond Clarity: [Insert Diamond Clarity Grade]</li>
+                </ul>
+            </div>
+            <div>
+                <h4>Additional Information:</h4>
+                <ul>
+                    <li>Total Diamond Weight (Approx.):[Insert Total Carat Weight]</li>
+                    <li>Chain Type / Length:[Insert Chain Type] / [Insert Length]</li>
+                    <li>Design Width (Approx.):[Insert Width]</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <app-faq-section></app-faq-section>
 </div>

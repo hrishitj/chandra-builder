@@ -24,7 +24,8 @@
 
     .main-page-head-text {
       position: absolute;
-      right: 5%;
+      right: 15%;
+      bottom: 30%;
       padding: 10px 20px;
 
       h2 {
@@ -46,7 +47,7 @@
   
     span {
       margin: 0 15px;
-      font-size: clamp(12px, 1.3vw, 40px);
+      font-size: clamp(10px, 1.4vw, 36px);
       font-weight: 300;
       cursor: pointer;
       position: relative;
@@ -58,13 +59,6 @@
         text-underline-offset: 5px;
       }
     }
-  }
-
-  mat-divider {
-    margin: 0 auto;
-    width: 90%;
-    height: 0.5px;
-    background-color: #6e6a6a;
   }
 
   .row{
@@ -118,48 +112,18 @@
     padding: 20px;
     
     h2 {
-        font-size: clamp(12px, 1.8vw, 40px);
+        font-size: clamp(12px, 2vw, 40px);
         font-weight: 400;
     }
   
     p {
-      font-size: clamp(10px, 1vw, 36px);
+      font-size: clamp(10px, 1.2vw, 36px);
         font-weight: 300;
         margin-bottom: 10px;
     }
   }
-  
-  .faq-section {
-    color: #252525;
-    margin: 0 auto;
-    margin-bottom: 3rem;
-    width: 90%;
-    padding-top: 1rem;
-  
-    h2 {
-      font-size: clamp(12px, 1.8vw, 40px);
-      font-weight: 200;
-      border-bottom: 1px solid #252525;
-      text-align: center;
-      cursor: pointer;
-    }
-  
-    .faq-item {
-      border-bottom: 1px solid #252525;
-      padding: 10px 0;
-  
-      .faq-question {
-        font-size: clamp(12px, 1vw, 40px);
-        display: flex;
-        justify-content: space-between;
-        cursor: pointer;
-      }
-  
-      .faq-answer {
-        font-size: clamp(12px, 1vw, 40px);
-        padding: 10px 0;
-        color: #666;
-      }
-    }
+
+  app-faq-section{
+    width: 100%;
   }
 }

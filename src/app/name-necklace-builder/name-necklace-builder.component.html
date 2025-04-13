@@ -2,82 +2,69 @@
 
     <div class="parent-container">
         <div class="img-container">
-            @if(!imageLoaded() && !showPreview()) {
-                <app-image-slider [mediaItems]="mediaItems" [themeColor]="themeColor()"></app-image-slider>
+            @if(imageLoaded() && showPreview()) {
+            <!-- Left Image -->
+            <img [src]="chainImages()[0]" alt="left" [ngClass]="isCurvedLetter(true) ? 'left-img-a' : 'left-img'" />
+
+            <!-- List of Images -->
+            <ul class="list-of-img">
+                @for(image of characterImages(); track $index) {
+                <li> <img [src]="image" [alt]="image"
+                        [ngClass]="formGroup.value.letterHeight === 'Medium' ? 'final-img' : 'final-img-large'" />
+                </li>
+                }
+            </ul>
+
+            <!-- Right Image -->
+            <img [src]="chainImages()[1]" alt="right" [ngClass]="isCurvedLetter(false) ? 'right-img-a' : 'right-img'" />
             } @else {
-                
-                <!-- Left Image -->
-                <img [src]="chainImages()[0]" alt="left" [ngClass]="isCurvedLetter(true) ? 'left-img-a' : 'left-img'" />
-            
-                <!-- List of Images -->
-                <ul class="list-of-img">
-                    @for(image of characterImages(); track $index) {
-                    <li> <img [src]="image" [alt]="image"
-                            [ngClass]="formGroup.value.letterHeight === 'Medium' ? 'final-img' : 'final-img-large'" />
-                    </li>
-                    }
-                </ul>
-            
-                <!-- Right Image -->
-                <img [src]="chainImages()[1]" alt="right" [ngClass]="isCurvedLetter(false) ? 'right-img-a' : 'right-img'" />
-            
+            <app-image-slider [mediaItems]="mediaItems" [themeColor]="themeColor()"></app-image-slider>
             }
         </div>
-        
+
         <div [formGroup]="formGroup" class="form-container">
             <h2>{{formGroup.controls.metalColor.value}} Customized Diamond Necklace</h2>
             <div class="price-section"><span>${{itemPrice()}}</span></div>
-    
+
             <!-- Custom Name -->
-             
-                <div class="form-group">
-                    <label for="customName">Enter your text</label>
-                    <div class="row">
-                        <input
-                            type="text"
-                            id="customName"
-                            formControlName="customName"
-                            class="input-field"
-                            [attr.placeholder]="(10 - (formGroup.get('customName')?.value?.length || 0)) + ' characters remaining'"
-                            maxlength="10"
-                        />
-                        <button class="preview-button" [matTooltip]="formGroup.invalid ? 'Enter name to preview' : null" [ngStyle]="formGroup.invalid ? {} : {'background-color': themeColor(), 'color': '#fff'}" [disabled]="formGroup.invalid" type="button" (click)="onPreviewClick()">
-                            Preview
-                            <mat-icon>{{ showPreview() ? 'visibility_off' : 'visibility' }}</mat-icon>
-                        </button>
-                    </div>
+
+            <div class="form-group">
+                <label for="customName">Enter your text</label>
+                <div class="row">
+                    <input type="text" id="customName" formControlName="customName" class="input-field"
+                        [attr.placeholder]="(10 - (formGroup.get('customName')?.value?.length || 0)) + ' characters remaining'"
+                        maxlength="10" />
+                    <button class="preview-button" [matTooltip]="formGroup.invalid ? 'Enter name to preview' : null"
+                        [ngStyle]="formGroup.invalid ? {} : {'background-color': themeColor(), 'color': '#fff'}"
+                        [disabled]="formGroup.invalid" type="button" (click)="onPreviewClick()">
+                        Preview
+                        <mat-icon>{{ showPreview() ? 'visibility_off' : 'visibility' }}</mat-icon>
+                    </button>
                 </div>
-            
+            </div>
+
             <!-- Metal Color -->
             <div class="form-group">
                 <label>Choose your color</label>
                 <div class="options-group">
-                @for(color of metalColors; track $index) {
-                    <app-text-with-image-button
-                    [themeColor]="themeColor()"
-                    [imageSource]="color.Icon"
-                    [buttonText]="color.Name"
-                    [isSelected]="formGroup.get('metalColor')?.value === color.Name"
-                    (clicked)="selectOption('metalColor', color.Name)"
-                    ></app-text-with-image-button>
-                }
+                    @for(color of metalColors; track $index) {
+                    <app-text-with-image-button [themeColor]="themeColor()" [imageSource]="color.Icon"
+                        [buttonText]="color.Name" [isSelected]="formGroup.get('metalColor')?.value === color.Name"
+                        (clicked)="selectOption('metalColor', color.Name)"></app-text-with-image-button>
+                    }
                 </div>
             </div>
-            
+
             <!-- Metal Carat -->
             <div class="form-group">
                 <label>Select carat</label>
                 <div class="options-group">
-                    <button
-                    type="button"
-                    *ngFor="let carat of metalCarats"
-                    (click)="selectOption('metalCarat', carat)"
-                    [class.active]="formGroup.get('metalCarat')?.value === carat"
-                    [ngStyle]="formGroup.get('metalCarat')?.value === carat ? {'background-color': themeColor(), 'color': '#fff'} : {}"
-                    class="option"
-                >
-                    {{ carat }}
-                </button>
+                    <button type="button" *ngFor="let carat of metalCarats" (click)="selectOption('metalCarat', carat)"
+                        [class.active]="formGroup.get('metalCarat')?.value === carat"
+                        [ngStyle]="formGroup.get('metalCarat')?.value === carat ? {'background-color': themeColor(), 'color': '#fff'} : {}"
+                        class="option">
+                        {{ carat }}
+                    </button>
                 </div>
             </div>
 
@@ -86,15 +73,10 @@
                     <!-- Quantity -->
                     <div class="form-group" style="display: flex; flex-direction: column;">
                         <label for="quantity">Quantity</label>
-                        <input
-                        type="number"
-                        id="quantity"
-                        formControlName="quantity"
-                        class="quantity-input"
-                        placeholder="Enter quantity"
-                        />
+                        <input type="number" id="quantity" formControlName="quantity" class="quantity-input"
+                            placeholder="Enter quantity" />
                         <div class="error-message" *ngIf="formGroup.get('quantity')?.errors?.['min']">
-                        * Please enter a valid quantity greater than 0.
+                            * Please enter a valid quantity greater than 0.
                         </div>
                     </div>
 
@@ -102,67 +84,53 @@
                     <div class="form-group">
                         <label>Font Style</label>
                         <div class="options-group">
-                        <button
-                            type="button"
-                            *ngFor="let font of fontStyles"
-                            (click)="selectOption('fontStyle', font)"
-                            [ngStyle]="formGroup.get('fontStyle')?.value === font ? {'background-color': themeColor(), 'color': '#fff'} : {}"
-                            [class.active]="formGroup.get('fontStyle')?.value === font"
-                            class="option"
-                        >
-                            {{ font }}
-                        </button>
+                            <button type="button" *ngFor="let font of fontStyles"
+                                (click)="selectOption('fontStyle', font)"
+                                [ngStyle]="formGroup.get('fontStyle')?.value === font ? {'background-color': themeColor(), 'color': '#fff'} : {}"
+                                [class.active]="formGroup.get('fontStyle')?.value === font" class="option">
+                                {{ font }}
+                            </button>
                         </div>
                     </div>
                 </div>
-                    
-                
+
+
                 <div class="form-group-row">
                     <!-- Diamond Quality -->
                     <div class="form-group">
                         <label>Diamond Quality</label>
                         <div class="options-group">
-                        <button
-                            type="button"
-                            *ngFor="let quality of diamondQualities"
-                            (click)="selectOption('diamondQuality', quality)"
-                            [ngStyle]="formGroup.get('diamondQuality')?.value === quality ? {'background-color': themeColor(), 'color': '#fff'} : {}"
-                            [class.active]="formGroup.get('diamondQuality')?.value === quality"
-                            class="option"
-                        >
-                            {{ quality }}
-                        </button>
+                            <button type="button" *ngFor="let quality of diamondQualities"
+                                (click)="selectOption('diamondQuality', quality)"
+                                [ngStyle]="formGroup.get('diamondQuality')?.value === quality ? {'background-color': themeColor(), 'color': '#fff'} : {}"
+                                [class.active]="formGroup.get('diamondQuality')?.value === quality" class="option">
+                                {{ quality }}
+                            </button>
                         </div>
                     </div>
-                    
+
                     <!-- Letter Height -->
                     <div class="form-group">
                         <label>Letter Height</label>
                         <div class="options-group">
-                        <button
-                            type="button"
-                            *ngFor="let height of letterHeights"
-                            (click)="selectOption('letterHeight', height)"
-                            [ngStyle]="formGroup.get('letterHeight')?.value === height ? {'background-color': themeColor(), 'color': '#fff'} : {}"
-                            [class.active]="formGroup.get('letterHeight')?.value === height"
-                            class="option"
-                        >
-                            {{ height }}
-                        </button>
+                            <button type="button" *ngFor="let height of letterHeights"
+                                (click)="selectOption('letterHeight', height)"
+                                [ngStyle]="formGroup.get('letterHeight')?.value === height ? {'background-color': themeColor(), 'color': '#fff'} : {}"
+                                [class.active]="formGroup.get('letterHeight')?.value === height" class="option">
+                                {{ height }}
+                            </button>
                         </div>
                     </div>
                 </div>
             </div>
-            
-            <!-- Submit Button -->
-            <div class="form-group">
+            <div class="form-group" [style.--theme-color]="formGroup.invalid ? '#ccc' : themeColor()">
                 <div class="horizontal-buttons">
-                    <button [ngStyle]="formGroup.invalid ? {} : {'background-color': themeColor(), 'color': '#fff'}"
-                        type="submit" [disabled]="formGroup.invalid" class="submit-button" (click)="addToCart()">
+                    <button type="submit" [disabled]="formGroup.invalid" class="submit-button primary"
+                        (click)="buyAction('BUY_NOW')">
                         Buy Now
                     </button>
-                    <button [ngStyle]="formGroup.invalid ? {} : {'background-color': '#fff', 'color': themeColor(), border: '1px solid ' + themeColor()}"
-                        type="submit" [disabled]="formGroup.invalid" class="submit-button" (click)="addToCart()">
+                    <button type="submit" [disabled]="formGroup.invalid" class="submit-button secondary"
+                        (click)="buyAction('ADD_TO_CART')">
                         Add to cart
                     </button>
                 </div>
@@ -175,14 +143,18 @@
             <span class="toggle-icon">{{ isDescriptionVisible ? '-' : '+' }}</span>
         </div>
         <div class="product-description" *ngIf="isDescriptionVisible">
-            <p>
-                The Diamond Block Name Necklace is a beautifully crafted piece that celebrates the essence of individuality.
-                Whether you're treating yourself or gifting it to someone special, this personalized necklace is a stunning
-                way to showcase names, initials, or significant dates in a design that’s as unique as the wearer.
+            <!-- <p>
+                The Diamond Block Name Necklace is a beautifully crafted piece that celebrates the essence of
+                individuality.
+                Whether you're treating yourself or gifting it to someone special, this personalized necklace is a
+                stunning
+                way to showcase names, initials, or significant dates in a design that's as unique as the wearer.
             </p>
             <p>
-                Crafted with meticulous attention to detail, this necklace is available in 10 KT or 14 KT gold in your choice
-                of Yellow, White, or Rose Gold. Choose from three exquisite diamond qualities to match your budget and create
+                Crafted with meticulous attention to detail, this necklace is available in 10 KT or 14 KT gold in your
+                choice
+                of Yellow, White, or Rose Gold. Choose from three exquisite diamond qualities to match your budget and
+                create
                 a piece that perfectly reflects your style.
             </p>
             <ul>
@@ -190,14 +162,19 @@
                 <li><strong>Large Letter Height:</strong> approx. 0.35 mm</li>
             </ul>
             <p>
-                This custom necklace also offers the opportunity to add up to 10 personalized charms—perfect for commemorating special moments or adding a touch of personal flair.
+                This custom necklace also offers the opportunity to add up to 10 personalized charms—perfect for
+                commemorating special moments or adding a touch of personal flair.
                 <br>
-                Explore our full Personalized Jewelry Collection and discover the perfect piece to reflect your unique story.
+                Explore our full Personalized Jewelry Collection and discover the perfect piece to reflect your unique
+                story.
                 <br>
                 Please note: All custom jewelry sales are final.
+            </p> -->
+            <p>
+                Design a necklace that speaks to you. Choose 10kt, 14kt, or 18kt Yellow, White, or Rose Gold. Select VS, SI, or Lab-Grown diamonds to illuminate your name. Personalize with Regular or Sporty fonts, and Small (7.6mm uppercase) or Large (8.9mm uppercase) lettering. Handcrafted with an 18-inch adjustable cable chain (16/17 inches), this necklace is a unique expression of your identity.
             </p>
         </div>
-    
+
         <div class="product-header" (click)="toggleDetails()">
             <span>Product Details</span>
             <span class="toggle-icon">{{ isDetailsVisible ? '-' : '+' }}</span>
@@ -230,16 +207,5 @@
             </div>
         </div>
     </div>
-    <div class="faq-section">
-        <h2>FAQ's <span class="toggle-icon" (click)="toggleAll()">&#9662;</span></h2>
-        <div class="faq-item" *ngFor="let faq of faqs; let i = index">
-          <div class="faq-question" (click)="toggleFaq(i)">
-            <span>{{ faq.question }}</span>
-            <span class="faq-toggle">{{ faq.open ? '-' : '+' }}</span>
-          </div>
-          <div class="faq-answer" *ngIf="faq.open">
-            {{ faq.answer }}
-          </div>
-        </div>
-    </div>
+    <app-faq-section></app-faq-section>
 </div>

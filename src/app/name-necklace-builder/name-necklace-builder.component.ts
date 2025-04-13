@@ -9,16 +9,17 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { companySettings } from '../common/companyCustomization';
+import { FaqSectionComponent } from "../common/faq-section/faq-section.component";
 
 @Component({
   selector: 'app-name-necklace-builder',
-  imports: [ImageSliderComponent, ReactiveFormsModule, CommonModule, TextWithImageButtonComponent, MatDividerModule, MatIconModule, MatTooltipModule ],
+  imports: [ImageSliderComponent, ReactiveFormsModule, CommonModule, TextWithImageButtonComponent, MatDividerModule, MatIconModule, MatTooltipModule, FaqSectionComponent],
   providers: [HttpClient],
   templateUrl: './name-necklace-builder.component.html',
   styleUrl: './name-necklace-builder.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit{
+export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit {
 
   public isDescriptionVisible: boolean = true;
   public isDetailsVisible: boolean = true;
@@ -38,9 +39,10 @@ export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit{
     'assets/necklace/necklace_2.jpg',
     'assets/necklace/necklace_1.jpg',
     'assets/necklace/necklace_4.jpg',
+    'assets/necklace/necklace_6.png',
     'assets/necklace/necklace-video.mp4',
   ];
-  
+
   public metalColors = [
     { Name: 'Gold', Icon: 'assets/metals/Gold.jpg' },
     { Name: 'Rose Gold', Icon: 'assets/metals/RoseGold.jpg' },
@@ -73,7 +75,12 @@ export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit{
     this.formGroup.valueChanges
       .pipe(debounceTime(200))
       .subscribe(() => {
-        this.formGroup.value.customName?.length ? this.fetchData() : this.imageLoaded.set(false); this.itemPrice.set(0);
+        this.formGroup.value.customName?.length
+          ? this.fetchData()
+          : (() => {
+            this.imageLoaded.set(false);
+            this.itemPrice.set(0);
+          })();
       });
   }
 
@@ -86,7 +93,7 @@ export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit{
       this.multiplier.set(settings.multiplier);
     }
   }
-  
+
   public selectOption(field: string, value: string): void {
     this.formGroup.get(field)?.setValue(value);
   }
@@ -119,7 +126,8 @@ export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit{
     }
   }
 
-  public addToCart() {
+
+  public buyAction(action: string) {
     if(this.isEmbedded()) {
       if (window.parent) {
         const cartData = {
@@ -134,7 +142,7 @@ export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit{
         };
 
         window.parent.postMessage(
-          { type: 'ADD_TO_CART', payload: cartData },
+          { type: action, payload: cartData },
           '*'
         );
       }
@@ -142,27 +150,12 @@ export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit{
   }
 
   public isCurvedLetter(firstLetter: boolean): boolean {
-    if(!this.formGroup.get('customName')?.value || this.formGroup.get('customName')?.value?.length === 0) {
+    if (!this.formGroup.get('customName')?.value || this.formGroup.get('customName')?.value?.length === 0) {
       return false;
     }
     const customName = this.formGroup.get('customName')?.value || '';
     let Letter = firstLetter ? customName.charAt(0) : customName.charAt(customName.length - 1);
     return firstLetter ? this.curvedLettersLeft.includes(Letter.toUpperCase()) : this.curvedLettersRight.includes(Letter.toUpperCase());
-  }
-
-  faqs = [
-    { question: "Do you offer resizing for necklaces or bracelets?", answer: "Yes, we offer resizing services for our bracelets and necklaces. Please contact our customer service team with your sizing request, and we’ll help you find the perfect fit.", open: false },
-    { question: "Can I cancel or modify my order after it's been placed?", answer: "Once an order has been customized and processed, we are unable to modify or cancel it. However, please contact our customer service team as soon as possible if there are any issues, and we will assist you to the best of our ability.", open: false },
-    { question: "What is your return/exchange policy?", answer: "As our jewelry is personalized, we do not accept returns or exchanges unless the item is damaged or defective. Please review your customization details carefully before completing your order. If there is an issue with your item, contact us, and we'll ensure a resolution.", open: false }
-  ];
-
-  toggleFaq(index: number) {
-    this.faqs[index].open = !this.faqs[index].open;
-  }
-
-  toggleAll() {
-    const allOpen = this.faqs.every(faq => faq.open);
-    this.faqs.forEach(faq => faq.open = !allOpen);
   }
 
   toggleDescription() {
