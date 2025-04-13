@@ -8,10 +8,11 @@ import { companySettings } from '../common/companyCustomization';
 import { FaqSectionComponent } from "../common/faq-section/faq-section.component";
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MeasurementScaleComponent } from "../common/measurement-scale/measurement-scale.component";
 
 @Component({
   selector: 'app-name-bracelet-builder',
-  imports: [CommonModule, TextWithImageButtonComponent, ImageSliderComponent, ReactiveFormsModule, FaqSectionComponent, MatIconModule, MatTooltipModule],
+  imports: [CommonModule, TextWithImageButtonComponent, ImageSliderComponent, ReactiveFormsModule, FaqSectionComponent, MatIconModule, MatTooltipModule, MeasurementScaleComponent],
   templateUrl: './name-bracelet-builder.component.html',
   styleUrl: './name-bracelet-builder.component.scss'
 })
@@ -53,6 +54,7 @@ export class NameBraceletBuilderComponent {
     public isEmbedded: WritableSignal<boolean> = signal(false);
     public themeColor: WritableSignal<string> = signal('#000000');
     public multiplier: WritableSignal<number> = signal(1);
+    public itemWidth: WritableSignal<number> = signal(0);
     public showPreview: WritableSignal<boolean> = signal(false);
 
     public isDescriptionVisible: boolean = true;
@@ -109,7 +111,7 @@ export class NameBraceletBuilderComponent {
           this.braceletImages.set(jsonResponse.braceletImages);
           this.itemPrice.set(parseFloat((jsonResponse.price * this.multiplier()).toFixed(2)));
           this.characterImages.set(jsonResponse.paths);
-  
+          this.itemWidth.set(jsonResponse.width);
         } else {
           this.imageLoaded.set(false);
           console.error('Failed to fetch paths or price data.');
@@ -119,45 +121,6 @@ export class NameBraceletBuilderComponent {
         console.error('Error fetching data: ', error);
       }
     }
-
-    // async fetchData(): Promise<void> {
-    //   try {
-    //     const mockResponse = {
-    //       price: 203.4,
-    //       paths: [
-    //         "https://chandrajewellery.api.ls2.kenmarkserver.com/JMT-SOURCE SANS PRO FONT(0.30 INCH) DONE/H/H YG.png",
-    //         "https://chandrajewellery.api.ls2.kenmarkserver.com/JMT-SOURCE SANS PRO FONT(0.30 INCH) DONE/R/R YG.png",
-    //         "https://chandrajewellery.api.ls2.kenmarkserver.com/JMT-SOURCE SANS PRO FONT(0.30 INCH) DONE/I/I YG.png",
-    //         "https://chandrajewellery.api.ls2.kenmarkserver.com/JMT-SOURCE SANS PRO FONT(0.30 INCH) DONE/S/S YG.png",
-    //         "https://chandrajewellery.api.ls2.kenmarkserver.com/JMT-SOURCE SANS PRO FONT(0.30 INCH) DONE/H/H YG.png",
-    //         "https://chandrajewellery.api.ls2.kenmarkserver.com/JMT-SOURCE SANS PRO FONT(0.30 INCH) DONE/I/I YG.png",
-    //         "https://chandrajewellery.api.ls2.kenmarkserver.com/JMT-SOURCE SANS PRO FONT(0.30 INCH) DONE/T/T YG.png"
-    //       ],
-    //       chainImages: [
-    //         "https://chandrajewellery.api.ls2.kenmarkserver.com/CHAINS/Gold Left.png",
-    //         "https://chandrajewellery.api.ls2.kenmarkserver.com/CHAINS/Gold Right.png"
-    //       ],
-    //       braceletImages: [
-    //         "https://chandrajewellery.api.ls2.kenmarkserver.com/BR/BR YG.png",
-    //         "https://chandrajewellery.api.ls2.kenmarkserver.com/BR/BR YG.png"
-    //       ],
-    //       length: "2.10",
-    //       width: "1.02",
-    //       height: "12.60",
-    //       deliveryTime: 0
-    //     };
-
-    //     this.imageLoaded.set(true);
-    //     this.braceletImages.set(mockResponse.braceletImages);
-    //     this.itemPrice.set(parseFloat((mockResponse.price * this.multiplier()).toFixed(2)));
-    //     this.characterImages.set(mockResponse.paths);
-    //     // Add bracelet or other properties if needed
-  
-    //   } catch (error) {
-    //     this.imageLoaded.set(false);
-    //     console.error('Error using mock data: ', error);
-    //   }
-    // }
 
     public buyAction(action: string) {
       if(this.isEmbedded()) {

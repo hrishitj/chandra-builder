@@ -20,7 +20,7 @@
     flex-direction: column;
   }
   
-  .thumbnail-selector img, .thumbnail-selector video{
+  .thumbnail-selector > img, .thumbnail-selector > .thumbnail-wrapper{
     width: 6.5vw;
     height: auto;
     cursor: pointer;
@@ -29,8 +29,25 @@
     transition: border-color 0.3s;
     margin-bottom: 10px;
   }
-  
-  .thumbnail-selector img.active, .thumbnail-selector video.active{
-    border: 0.5px solid black;
+
+  .thumbnail-wrapper {
+    position: relative;
+
+    .play-overlay {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 40px;
+      transform: translate(-50%, -50%);
+      opacity: 0.75;
+      pointer-events: none;
+    }
+
+    video{
+      width: 100%;
+      height: auto;
+      border-radius: 10px;
+      display: block;
+    }
   }
   

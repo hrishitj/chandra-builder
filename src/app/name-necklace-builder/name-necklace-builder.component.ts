@@ -10,10 +10,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { companySettings } from '../common/companyCustomization';
 import { FaqSectionComponent } from "../common/faq-section/faq-section.component";
+import { MeasurementScaleComponent } from "../common/measurement-scale/measurement-scale.component";
 
 @Component({
   selector: 'app-name-necklace-builder',
-  imports: [ImageSliderComponent, ReactiveFormsModule, CommonModule, TextWithImageButtonComponent, MatDividerModule, MatIconModule, MatTooltipModule, FaqSectionComponent],
+  imports: [ImageSliderComponent, ReactiveFormsModule, CommonModule, TextWithImageButtonComponent, MatDividerModule, MatIconModule, MatTooltipModule, FaqSectionComponent, MeasurementScaleComponent],
   providers: [HttpClient],
   templateUrl: './name-necklace-builder.component.html',
   styleUrl: './name-necklace-builder.component.scss',
@@ -61,6 +62,7 @@ export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit {
   public themeColor: WritableSignal<string> = signal('#000000');
   public multiplier: WritableSignal<number> = signal(1);
   public showPreview: WritableSignal<boolean> = signal(false);
+  public itemWidth: WritableSignal<number> = signal(0);
   private curvedLettersLeft = ['A', 'C', 'G', 'J', 'O'];
   private curvedLettersRight = ['A', 'D', 'G', 'L', 'O'];
 
@@ -115,6 +117,7 @@ export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit {
         this.chainImages.set(jsonResponse.chainImages);
         this.itemPrice.set(parseFloat((jsonResponse.price * this.multiplier()).toFixed(2)));
         this.characterImages.set(jsonResponse.paths);
+        this.itemWidth.set(jsonResponse.width);
 
       } else {
         this.imageLoaded.set(false);

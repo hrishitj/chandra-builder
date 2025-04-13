@@ -10,10 +10,13 @@
         alt="Thumbnail"
       />
       } @else {
-        <video [style.border]="($index === selectedIndex ? '3px' : '1px') + ' solid ' + themeColor()" (click)="selectMedia($index)" muted >
-          <source [src]="item" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
+        <div class="thumbnail-wrapper" [style.border]="($index === selectedIndex ? '2px' : '1px') + ' solid ' + themeColor()" (click)="selectMedia($index)">
+          <video muted>
+            <source [src]="item" type="video/mp4" />
+            Your browser does not support the video tag.
+          </video>
+          <img src="assets/play-button-icon.svg" alt="Play" class="play-overlay" />
+        </div>
       }
     }
   </div>

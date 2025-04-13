@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'app-faq-section',
   imports: [CommonModule],
   templateUrl: './faq-section.component.html',
-  styleUrl: './faq-section.component.scss'
+  styleUrl: './faq-section.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FaqSectionComponent {
   faqs = [

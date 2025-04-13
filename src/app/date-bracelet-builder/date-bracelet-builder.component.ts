@@ -13,6 +13,7 @@ import { FaqSectionComponent } from "../common/faq-section/faq-section.component
 import { companySettings } from '../common/companyCustomization';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
+import { MeasurementScaleComponent } from '../common/measurement-scale/measurement-scale.component';
 
 @Component({
   selector: 'app-date-bracelet-builder',
@@ -22,9 +23,8 @@ import { MatIconModule } from '@angular/material/icon';
     CommonModule,
     TextWithImageButtonComponent,
     ImageSliderComponent,
-    ReactiveFormsModule,
-    MatDatepickerModule, MatFormFieldModule, MatInputModule, MatDatepickerModule, MatButtonModule,
-    FaqSectionComponent, MatTooltipModule, MatIconModule
+    ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule,
+    FaqSectionComponent, MatTooltipModule, MatIconModule, MeasurementScaleComponent
   ],
   templateUrl: './date-bracelet-builder.component.html',
   styleUrl: './date-bracelet-builder.component.scss'
@@ -68,6 +68,7 @@ export class DateBraceletBuilderComponent {
   public themeColor: WritableSignal<string> = signal('#000000');
   public multiplier: WritableSignal<number> = signal(1);
   public showPreview: WritableSignal<boolean> = signal(false);
+  public itemWidth: WritableSignal<number> = signal(0);
   private formattedDate: string | null = null;
 
   public isDescriptionVisible: boolean = true;
@@ -129,6 +130,7 @@ export class DateBraceletBuilderComponent {
         this.braceletImages.set(jsonResponse.braceletImages);
         this.itemPrice.set(parseFloat((jsonResponse.price * this.multiplier()).toFixed(2)));
         this.characterImages.set(jsonResponse.paths);
+        this.itemWidth.set(jsonResponse.width);
 
       } else {
         this.imageLoaded.set(false);

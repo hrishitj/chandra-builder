@@ -185,10 +185,17 @@
 
     .img-container {
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       width: 60%;
+
+      .necklace-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+      }
 
       app-image-slider {
         margin-left: 10px;

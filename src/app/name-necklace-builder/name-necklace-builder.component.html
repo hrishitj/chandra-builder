@@ -3,20 +3,23 @@
     <div class="parent-container">
         <div class="img-container">
             @if(imageLoaded() && showPreview()) {
-            <!-- Left Image -->
-            <img [src]="chainImages()[0]" alt="left" [ngClass]="isCurvedLetter(true) ? 'left-img-a' : 'left-img'" />
+                <div class="necklace-container">
+                    <!-- Left Image -->
+                    <img [src]="chainImages()[0]" alt="left" [ngClass]="isCurvedLetter(true) ? 'left-img-a' : 'left-img'" />
 
-            <!-- List of Images -->
-            <ul class="list-of-img">
-                @for(image of characterImages(); track $index) {
-                <li> <img [src]="image" [alt]="image"
-                        [ngClass]="formGroup.value.letterHeight === 'Medium' ? 'final-img' : 'final-img-large'" />
-                </li>
-                }
-            </ul>
+                    <!-- List of Images -->
+                    <ul class="list-of-img">
+                        @for(image of characterImages(); track $index) {
+                        <li> <img [src]="image" [alt]="image"
+                                [ngClass]="formGroup.value.letterHeight === 'Medium' ? 'final-img' : 'final-img-large'" />
+                        </li>
+                        }
+                    </ul>
 
-            <!-- Right Image -->
-            <img [src]="chainImages()[1]" alt="right" [ngClass]="isCurvedLetter(false) ? 'right-img-a' : 'right-img'" />
+                    <!-- Right Image -->
+                    <img [src]="chainImages()[1]" alt="right" [ngClass]="isCurvedLetter(false) ? 'right-img-a' : 'right-img'" />
+                </div>
+                <app-measurement-scale [height]="formGroup.value.letterHeight" [width]="itemWidth()" />
             } @else {
             <app-image-slider [mediaItems]="mediaItems" [themeColor]="themeColor()"></app-image-slider>
             }

@@ -12,6 +12,7 @@
                 </li>
                 }
             </ul>
+            <app-measurement-scale [height]="formGroup.value.letterHeight" [width]="itemWidth()" />
             } @else {
             <app-image-slider [mediaItems]="mediaItems" [themeColor]="themeColor()"></app-image-slider>
             }
