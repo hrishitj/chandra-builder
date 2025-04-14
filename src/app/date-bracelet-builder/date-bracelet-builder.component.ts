@@ -32,12 +32,11 @@ import { MeasurementScaleComponent } from '../common/measurement-scale/measureme
 export class DateBraceletBuilderComponent {
 
   public mediaItems: string[] = [
-    'assets/bracelet/bracelet_3.png',
-    'assets/bracelet/bracelet_2.jpg',
-    'assets/bracelet/bracelet_1.jpg',
-    'assets/bracelet/bracelet_4.jpg',
-    'assets/bracelet/bracelet_5.jpg',
-    'assets/bracelet/bracelet_video_2.mp4',
+    'assets/date-bracelet/date_bracelet_1.png',
+    'assets/date-bracelet/date_bracelet_2.png',
+    'assets/date-bracelet/date_bracelet_3.png',
+    'assets/date-bracelet/date_bracelet_4.png',
+    'assets/date-bracelet/date_bracelet_5.png'
   ];
 
   public formGroup = new FormGroup({

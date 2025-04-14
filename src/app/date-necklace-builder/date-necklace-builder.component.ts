@@ -31,12 +31,11 @@ export class DateNecklaceBuilderComponent {
   });
 
   public mediaItems: string[] = [
-    'assets/necklace/necklace_3.jpg',
-    'assets/necklace/necklace_2.jpg',
-    'assets/necklace/necklace_1.jpg',
-    'assets/necklace/necklace_4.jpg',
-    'assets/necklace/necklace_6.png',
-    'assets/necklace/necklace-video.mp4',
+    'assets/date-necklace/date_necklace_1.png',
+    'assets/date-necklace/date_necklace_2.png',
+    'assets/date-necklace/date_necklace_3.png',
+    'assets/date-necklace/date_necklace_4.png',
+    'assets/date-necklace/date_necklace_5.png'
   ];
 
   public metalColors = [

@@ -36,12 +36,12 @@ export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit {
   });
 
   public mediaItems: string[] = [
-    'assets/necklace/necklace_3.jpg',
-    'assets/necklace/necklace_2.jpg',
-    'assets/necklace/necklace_1.jpg',
-    'assets/necklace/necklace_4.jpg',
-    'assets/necklace/necklace_6.png',
-    'assets/necklace/necklace-video.mp4',
+    'assets/name-necklace/name_necklace_1.png',
+    'assets/name-necklace/name_necklace_2.png',
+    'assets/name-necklace/name_necklace_3.png',
+    'assets/name-necklace/name_necklace_4.jpg',
+    'assets/name-necklace/name_necklace_5.jpg',
+    'assets/name-necklace/name_necklace_video.mp4',
   ];
 
   public metalColors = [
