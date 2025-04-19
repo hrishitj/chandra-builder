@@ -68,6 +68,8 @@ export class DateBraceletBuilderComponent {
   public multiplier: WritableSignal<number> = signal(1);
   public showPreview: WritableSignal<boolean> = signal(false);
   public itemWidth: WritableSignal<number> = signal(0);
+  public noOfDiamonds: WritableSignal<number> = signal(0);
+  public caratWeight: WritableSignal<number> = signal(0);
   private formattedDate: string | null = null;
 
   public isDescriptionVisible: boolean = true;
@@ -114,7 +116,7 @@ export class DateBraceletBuilderComponent {
       const date = new Date(this.formGroup.value.date);
       this.formattedDate = this.formatDateDDMMYYYY(date);
     }
-    const url = `https://chandrajewellery.api.ls2.kenmarkserver.com/costing?quantity=${this.formGroup.value.quantity}&metalColor=${this.formGroup.value.metalColor}&metalKarat=${this.formGroup.value.metalCarat}&DiamondQuality=${this.formGroup.value.diamondQuality}&fontStyle=${this.formGroup.value.fontStyle}&letterHeight=${this.formGroup.value.letterHeight}&customName=${this.formattedDate}`;
+    const url = `https://api.chandrajewellery.kenmarkserver.com/costing?quantity=${this.formGroup.value.quantity}&metalColor=${this.formGroup.value.metalColor}&metalKarat=${this.formGroup.value.metalCarat}&DiamondQuality=${this.formGroup.value.diamondQuality}&fontStyle=${this.formGroup.value.fontStyle}&letterHeight=${this.formGroup.value.letterHeight}&customName=${this.formattedDate}`;
 
     try {
       const response = await fetch(url);
@@ -130,6 +132,8 @@ export class DateBraceletBuilderComponent {
         this.itemPrice.set(parseFloat((jsonResponse.price * this.multiplier()).toFixed(2)));
         this.characterImages.set(jsonResponse.paths);
         this.itemWidth.set(jsonResponse.width);
+        this.noOfDiamonds.set(jsonResponse.noOfDiamonds);
+        this.caratWeight.set(jsonResponse.caratWeight);
 
       } else {
         this.imageLoaded.set(false);

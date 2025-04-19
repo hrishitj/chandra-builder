@@ -63,6 +63,8 @@ export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit {
   public multiplier: WritableSignal<number> = signal(1);
   public showPreview: WritableSignal<boolean> = signal(false);
   public itemWidth: WritableSignal<number> = signal(0);
+  public noOfDiamonds: WritableSignal<number> = signal(0);
+  public caratWeight: WritableSignal<number> = signal(0);
   private curvedLettersLeft = ['A', 'C', 'G', 'J', 'O'];
   private curvedLettersRight = ['A', 'D', 'G', 'L', 'O'];
 
@@ -100,9 +102,13 @@ export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit {
     this.formGroup.get(field)?.setValue(value);
   }
 
+  public get formValue() {
+    return this.formGroup.getRawValue();
+  }
+
 
   async fetchData(): Promise<void> {
-    const url = `https://chandrajewellery.api.ls2.kenmarkserver.com/costing?quantity=${this.formGroup.value.quantity}&metalColor=${this.formGroup.value.metalColor}&metalKarat=${this.formGroup.value.metalCarat}&DiamondQuality=${this.formGroup.value.diamondQuality}&fontStyle=${this.formGroup.value.fontStyle}&letterHeight=${this.formGroup.value.letterHeight}&customName=${this.formGroup.value.customName}`;
+    const url = `https://api.chandrajewellery.kenmarkserver.com/costing?quantity=${this.formGroup.value.quantity}&metalColor=${this.formGroup.value.metalColor}&metalKarat=${this.formGroup.value.metalCarat}&DiamondQuality=${this.formGroup.value.diamondQuality}&fontStyle=${this.formGroup.value.fontStyle}&letterHeight=${this.formGroup.value.letterHeight}&customName=${this.formGroup.value.customName}`;
 
     try {
       const response = await fetch(url);
@@ -118,6 +124,8 @@ export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit {
         this.itemPrice.set(parseFloat((jsonResponse.price * this.multiplier()).toFixed(2)));
         this.characterImages.set(jsonResponse.paths);
         this.itemWidth.set(jsonResponse.width);
+        this.noOfDiamonds.set(jsonResponse.noOfDiamonds);
+        this.caratWeight.set(jsonResponse.caratWeight);
 
       } else {
         this.imageLoaded.set(false);

@@ -55,6 +55,8 @@ export class NameBraceletBuilderComponent {
   public themeColor: WritableSignal<string> = signal('#000000');
   public multiplier: WritableSignal<number> = signal(1);
   public itemWidth: WritableSignal<number> = signal(0);
+  public noOfDiamonds: WritableSignal<number> = signal(0);
+  public caratWeight: WritableSignal<number> = signal(0);
   public showPreview: WritableSignal<boolean> = signal(false);
 
   public isDescriptionVisible: boolean = true;
@@ -96,7 +98,7 @@ export class NameBraceletBuilderComponent {
 
 
   async fetchData(): Promise<void> {
-    const url = `https://chandrajewellery.api.ls2.kenmarkserver.com/costing?quantity=${this.formGroup.value.quantity}&metalColor=${this.formGroup.value.metalColor}&metalKarat=${this.formGroup.value.metalCarat}&DiamondQuality=${this.formGroup.value.diamondQuality}&fontStyle=${this.formGroup.value.fontStyle}&letterHeight=${this.formGroup.value.letterHeight}&customName=${this.formGroup.value.customName}`;
+    const url = `https://api.chandrajewellery.kenmarkserver.com/costing?quantity=${this.formGroup.value.quantity}&metalColor=${this.formGroup.value.metalColor}&metalKarat=${this.formGroup.value.metalCarat}&DiamondQuality=${this.formGroup.value.diamondQuality}&fontStyle=${this.formGroup.value.fontStyle}&letterHeight=${this.formGroup.value.letterHeight}&customName=${this.formGroup.value.customName}`;
 
     try {
       const response = await fetch(url);
@@ -112,6 +114,8 @@ export class NameBraceletBuilderComponent {
         this.itemPrice.set(parseFloat((jsonResponse.price * this.multiplier()).toFixed(2)));
         this.characterImages.set(jsonResponse.paths);
         this.itemWidth.set(jsonResponse.width);
+        this.noOfDiamonds.set(jsonResponse.noOfDiamonds);
+        this.caratWeight.set(jsonResponse.caratWeight);
       } else {
         this.imageLoaded.set(false);
         console.error('Failed to fetch paths or price data.');
