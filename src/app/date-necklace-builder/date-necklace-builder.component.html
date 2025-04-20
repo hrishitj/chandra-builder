@@ -157,16 +157,16 @@
             <div>
                 <h4>Metal Information:</h4>
                 <ul>
-                    <li>Karat: 10 KT or 14 KT</li>
-                    <li>Color: Yellow Gold, White Gold, Rose Gold</li>
+                    <li>Karat: {{formValue.metalCarat ?? ''}}</li>
+                    <li>Color: {{formValue.metalColor ?? ''}}</li>
                 </ul>
             </div>
             <div>
                 <h4>Diamond Information:</h4>
                 <ul>
-                    <li>Number of Diamonds: [Insert Number]</li>
-                    <li>Shape: [Insert Shape]</li>
-                    <li>Carat Weight: [Insert Carat Weight]</li>
+                    <li>Number of Diamonds: {{noOfDiamonds()}} </li>
+                    <li>Shape: Round</li>
+                    <li>Carat Weight: {{caratWeight().toFixed(2)}} </li>
                     <li>Diamond Color: [Insert Diamond Color Grade]</li>
                     <li>Diamond Clarity: [Insert Diamond Clarity Grade]</li>
                 </ul>
@@ -174,9 +174,9 @@
             <div>
                 <h4>Additional Information:</h4>
                 <ul>
-                    <li>Total Diamond Weight (Approx.):[Insert Total Carat Weight]</li>
-                    <li>Chain Type / Length:[Insert Chain Type] / [Insert Length]</li>
-                    <li>Design Width (Approx.):[Insert Width]</li>
+                    <li>Total Diamond Weight (Approx.):{{caratWeight().toFixed(2)}}</li>
+                    <li>Chain Type / Length: Cat 30 Cable Chain with Lobster Lock / 18 INCH</li>
+                    <li>Design Width (Approx.): {{itemWidth()}} </li>
                 </ul>
             </div>
         </div>

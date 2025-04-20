@@ -1,7 +1,19 @@
 
 <div class="main-page" [ngStyle]="{'color': companySetting.theme}">
     
+
     <div class="main-page-head">
+        <img [src]="necklaceImageTop" alt="logo" />
+        <div class="main-page-head-text">
+            <h2 *ngFor="let i of companySetting.header.description"
+                [ngStyle]="{'color': 'white'}">
+                {{ i }}
+            </h2>
+        </div>
+    </div>
+
+    <!-- add when tabs are added -->
+    <!-- <div class="main-page-head">
         <img [src]="selectedTab === 'necklace' ? necklaceImageTop : braceletImageTop" alt="logo" />
         <div class="main-page-head-text">
             <h2 *ngFor="let i of companySetting.header.description"
@@ -22,19 +34,32 @@
           (click)="selectTab('bracelet')">
           Bracelet
         </span>
-    </div>
+    </div> -->
 
-    <div class="row" *ngIf="selectedTab === 'necklace'">
+    <!-- <div class="row" *ngIf="selectedTab === 'necklace'">
         <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 0 }"></ng-container>
         <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 1 }"></ng-container>
     </div>
     <div class="row" *ngIf="selectedTab === 'bracelet'">
         <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 2 }"></ng-container>
         <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 3 }"></ng-container>
+    </div> -->
+
+    <div class="row">
+        <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 0 }"></ng-container>
+        <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 1 }"></ng-container>
+        <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 2 }"></ng-container>
+        <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 3 }"></ng-container>
     </div>
 
-    <div class="image-container">
+
+
+    <!-- <div class="image-container">
         <img [src]="selectedTab === 'necklace' ? necklaceImageBottom : braceletImageBottom" alt="logo"/>
+    </div> -->
+
+    <div class="image-container">
+        <img [src]="necklaceImageBottom" alt="logo"/>
     </div>
 
     <div class="personalization-section">
@@ -54,7 +79,7 @@
 </div>
 
 <ng-template #builderTemplate let-index="index">
-    <div>
+    <div class="builder-card">
         <a [routerLink]="buildersData[index].Url" [queryParams]="buildersData[index].queryParams">
             <div class="builder-details">
                 <img [src]="buildersData[index].Img" />

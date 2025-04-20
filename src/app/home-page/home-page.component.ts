@@ -19,15 +19,15 @@ export class HomePageComponent implements OnInit {
 
   constructor(private route: ActivatedRoute) {}
 
-  public selectedTab: string = 'necklace'; // Default tab
+  // public selectedTab: string = 'necklace'; // Default tab
   public necklaceImageTop: string = 'assets/home/necklace-header.jpg';
   public necklaceImageBottom: string = 'assets/home/necklace-bottom.jpg';
   public braceletImageTop: string = 'assets/home/bracelet-header.jpg'; 
   public braceletImageBottom: string = 'assets/home/bracelet-bottom.jpg'; 
 
-  selectTab(tab: string) {
-    this.selectedTab = tab;
-  }
+  // selectTab(tab: string) {
+  //   this.selectedTab = tab;
+  // }
 
   ngOnInit(): void {
     this.route.queryParamMap.subscribe(params => {

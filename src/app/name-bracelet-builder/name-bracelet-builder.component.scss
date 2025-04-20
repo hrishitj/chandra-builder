@@ -79,7 +79,7 @@
         gap: 0.5rem;
 
         label {
-          font-size: clamp(12px, 1.3vw, 30px);
+          font-size: clamp(12px, 1.3vw, 20px);
         }
 
         .horizontal-buttons {
@@ -115,8 +115,8 @@
           gap: 10px;
 
           .option {
-            font-size: clamp(6px, 1vw, 25px);
-            width: clamp(75px, 5vw, 125px);
+            font-size: clamp(6px, 1vw, 20px);
+            width: max-content;
             height: auto;
             padding: 8px 16px;
             border: 1px solid #ccc;
@@ -139,14 +139,14 @@
         }
 
         .submit-button {
-          font-size: clamp(10px, 1.25vw, 30px);
+          font-size: clamp(10px, 1.25vw, 25px);
           font-weight: 300;
-          padding: 0.7rem 1.5rem;
+          padding: 0.7rem 1.25rem;
           height: auto;
           border-radius: 4px;
           cursor: pointer;
           transition: all 0.3s ease;
-          width: clamp(65px, 12vw, 400px);
+          width: max-content;
           margin-top: 15px;
           border: none;
         }

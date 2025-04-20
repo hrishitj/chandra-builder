@@ -36,7 +36,7 @@
                 <div class="row">
                     <input type="text" id="customName" formControlName="customName" class="input-field"
                         [attr.placeholder]="(10 - (formGroup.get('customName')?.value?.length || 0)) + ' characters remaining'"
-                        maxlength="10" />
+                        maxlength="10" style="text-transform: uppercase;" />
                     <button class="preview-button" [matTooltip]="formGroup.invalid ? 'Enter name to preview' : null"
                         [ngStyle]="formGroup.invalid ? {} : {'background-color': themeColor(), 'color': '#fff'}"
                         [disabled]="formGroup.invalid" type="button" (click)="onPreviewClick()">
@@ -146,33 +146,6 @@
             <span class="toggle-icon">{{ isDescriptionVisible ? '-' : '+' }}</span>
         </div>
         <div class="product-description" *ngIf="isDescriptionVisible">
-            <!-- <p>
-                The Diamond Block Name Necklace is a beautifully crafted piece that celebrates the essence of
-                individuality.
-                Whether you're treating yourself or gifting it to someone special, this personalized necklace is a
-                stunning
-                way to showcase names, initials, or significant dates in a design that's as unique as the wearer.
-            </p>
-            <p>
-                Crafted with meticulous attention to detail, this necklace is available in 10 KT or 14 KT gold in your
-                choice
-                of Yellow, White, or Rose Gold. Choose from three exquisite diamond qualities to match your budget and
-                create
-                a piece that perfectly reflects your style.
-            </p>
-            <ul>
-                <li><strong>Small Letter Height:</strong> approx. 0.30 mm</li>
-                <li><strong>Large Letter Height:</strong> approx. 0.35 mm</li>
-            </ul>
-            <p>
-                This custom necklace also offers the opportunity to add up to 10 personalized charms—perfect for
-                commemorating special moments or adding a touch of personal flair.
-                <br>
-                Explore our full Personalized Jewelry Collection and discover the perfect piece to reflect your unique
-                story.
-                <br>
-                Please note: All custom jewelry sales are final.
-            </p> -->
             <p>
                 Design a necklace that speaks to you. Choose 10kt, 14kt, or 18kt Yellow, White, or Rose Gold. Select VS, SI, or Lab-Grown diamonds to illuminate your name. Personalize with Regular or Sporty fonts, and Small (7.6mm uppercase) or Large (8.9mm uppercase) lettering. Handcrafted with an 18-inch adjustable cable chain (16/17 inches), this necklace is a unique expression of your identity.
             </p>
@@ -195,7 +168,7 @@
                 <ul>
                     <li>Number of Diamonds: {{noOfDiamonds()}} </li>
                     <li>Shape: Round</li>
-                    <li>Carat Weight: {{caratWeight()}} </li>
+                    <li>Carat Weight: {{caratWeight().toFixed(2)}} </li>
                     <li>Diamond Color: [Insert Diamond Color Grade]</li>
                     <li>Diamond Clarity: [Insert Diamond Clarity Grade]</li>
                 </ul>
@@ -203,7 +176,7 @@
             <div>
                 <h4>Additional Information:</h4>
                 <ul>
-                    <li>Total Diamond Weight (Approx.):[Insert Total Carat Weight]</li>
+                    <li>Total Diamond Weight (Approx.):{{caratWeight().toFixed(2)}}</li>
                     <li>Chain Type / Length: Cat 30 Cable Chain with Lobster Lock / 18 INCH</li>
                     <li>Design Width (Approx.): {{itemWidth()}} </li>
                 </ul>

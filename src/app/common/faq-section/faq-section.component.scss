@@ -18,14 +18,14 @@
       padding: 20px 0;
   
       .faq-question {
-        font-size: clamp(12px, 1.3vw, 36px);
+        font-size: clamp(12px, 1.3vw, 32px);
         display: flex;
         justify-content: space-between;
         cursor: pointer;
       }
   
       .faq-answer {
-        font-size: clamp(10px, 1vw, 30px);
+        font-size: clamp(10px, 1vw, 28px);
         padding: 20px 0px 2px 5px;
         color: #666;
       }
