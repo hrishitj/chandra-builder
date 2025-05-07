@@ -26,7 +26,7 @@
                 <label for="date">Choose a date</label>
                 <div class="row">
                     <input class="input-field" matInput type="date" id="date" formControlName="date" />
-                    <button class="preview-button" [matTooltip]="formGroup.invalid ? 'Enter name to preview' : null"
+                    <button class="preview-button" [matTooltip]="formGroup.invalid ? 'Enter date to preview' : null"
                         [ngStyle]="formGroup.invalid ? {} : {'background-color': themeColor(), 'color': '#fff'}"
                         [disabled]="formGroup.invalid" type="button" (click)="onPreviewClick()">
                         Preview
