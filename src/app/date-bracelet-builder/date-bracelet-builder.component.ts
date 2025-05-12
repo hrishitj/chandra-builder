@@ -1,11 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component, signal, WritableSignal } from '@angular/core';
-import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { TextWithImageButtonComponent } from "../common/text-with-image-button/text-with-image-button.component";
 import { ImageSliderComponent } from "../common/image-slider/image-slider.component";
 import { debounceTime } from 'rxjs';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule, provideNativeDateAdapter } from '@angular/material/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -17,7 +15,7 @@ import { MeasurementScaleComponent } from '../common/measurement-scale/measureme
 
 @Component({
   selector: 'app-date-bracelet-builder',
-  providers: [provideNativeDateAdapter()],
+  providers: [],
   imports: [
     MatFormFieldModule,
     CommonModule,
@@ -46,7 +44,7 @@ export class DateBraceletBuilderComponent {
     diamondQuality: new FormControl('VS', Validators.required),
     fontStyle: new FormControl('Regular', Validators.required),
     letterHeight: new FormControl('Medium', Validators.required),
-    date: new FormControl('', Validators.required),
+    date: new FormControl('', this.endsWithDotValidator),
   });
 
   public metalColors = [
@@ -112,12 +110,8 @@ export class DateBraceletBuilderComponent {
 
   async fetchData(): Promise<void> {
 
-    if (this.formGroup.value.date) {
-      const date = new Date(this.formGroup.value.date);
-      this.formattedDate = this.formatDateDDMMYYYY(date);
-    }
     var metalColor = this.formGroup.value.metalColor === 'White Gold' ? 'Platinum' : this.formGroup.value.metalColor === 'Yellow Gold' ? 'Gold' : this.formGroup.value.metalColor;
-    const url = `https://api.chandrajewellery.kenmarkserver.com/costing?quantity=${this.formGroup.value.quantity}&metalColor=${metalColor}&metalKarat=${this.formGroup.value.metalCarat}&DiamondQuality=${this.formGroup.value.diamondQuality}&fontStyle=${this.formGroup.value.fontStyle}&letterHeight=${this.formGroup.value.letterHeight}&customName=${this.formattedDate}`;
+    const url = `https://api.chandrajewellery.kenmarkserver.com/costing?quantity=${this.formGroup.value.quantity}&metalColor=${metalColor}&metalKarat=${this.formGroup.value.metalCarat}&DiamondQuality=${this.formGroup.value.diamondQuality}&fontStyle=${this.formGroup.value.fontStyle}&letterHeight=${this.formGroup.value.letterHeight}&customName=${this.formGroup.value.date}`;
 
     try {
       const response = await fetch(url);
@@ -168,6 +162,53 @@ export class DateBraceletBuilderComponent {
     }
   }
 
+  endsWithDotValidator(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
+    if (!value) return null;
+
+    return value.endsWith('.') ? { endsWithDot: true } : null;
+  }
+
+
+  restrictInput(event: KeyboardEvent) {
+    const inputChar = event.key;
+    const currentValue = (event.target as HTMLInputElement).value;
+
+    // Allow control keys
+    if (['Backspace', 'ArrowLeft', 'ArrowRight', 'Delete'].includes(inputChar)) {
+      return;
+    }
+
+    if (currentValue.length === 10) {
+      event.preventDefault();
+      return;
+    }
+
+    // Only digits and dot allowed
+    if (!/[0-9.]/.test(inputChar)) {
+      event.preventDefault();
+      return;
+    }
+
+    // Prevent starting with dot
+    if (inputChar === '.' && currentValue.length === 0) {
+      event.preventDefault();
+      return;
+    }
+
+    // Prevent more than 2 dots
+    if (inputChar === '.' && (currentValue.match(/\./g) || []).length >= 2) {
+      event.preventDefault();
+      return;
+    }
+
+    // Optional: prevent consecutive dots
+    if (inputChar === '.' && currentValue.endsWith('.')) {
+      event.preventDefault();
+      return;
+    }
+  }
+
   public get formValue() {
     return this.formGroup.getRawValue();
   }
@@ -182,13 +223,6 @@ export class DateBraceletBuilderComponent {
 
   onPreviewClick() {
     this.showPreview.set(!this.showPreview());
-  }
-
-  private formatDateDDMMYYYY(date: Date): string {
-    const dd = String(date.getDate()).padStart(2, '0');
-    const mm = String(date.getMonth() + 1).padStart(2, '0');
-    const yyyy = date.getFullYear();
-    return `${dd}.${mm}.${yyyy}`;
   }
 
 }

@@ -23,8 +23,25 @@
             .row {
                 display: flex;
                 flex-direction: row;
-                align-items: center;
+                align-items: start;
                 gap: 1rem;
+
+                .input-wrapper {
+
+                    display: flex;
+                    flex-direction: column;
+                    gap: 0.25rem;
+                    width: 40%;
+        
+                    .input-field {
+                      border: 1px solid #ccc;
+                      border-radius: 4px;
+                      font-size: clamp(10px, 1vw, 30px);
+                      padding: 0px 5px;
+                      width: 100%;
+                      height: 30px;
+                    }
+                }
 
                 button {
                     display: flex;
@@ -256,4 +273,8 @@
     app-faq-section {
         width: 100%;
     }
+}
+
+::ng-deep mat-error {
+    font-size: 1vw;
 }

@@ -22,10 +22,16 @@
             <h2>{{formGroup.controls.metalColor.value}} Customized Diamond Bracelet</h2>
             <div class="price-section"><span>${{itemPrice()}}</span></div>
 
+            <!-- Custom Date -->
             <div class="form-group">
                 <label for="date">Choose a date</label>
                 <div class="row">
-                    <input class="input-field" matInput type="date" id="date" formControlName="date" />
+                    <div class="input-wrapper">
+                        <input class="input-field" matInput formControlName="date" placeholder="Eg. 16.11.25" (keypress)="restrictInput($event)"/>
+                        <mat-error *ngIf="formGroup.get('date')?.hasError('endsWithDot')">
+                            Date cannot end with a dot.
+                        </mat-error>
+                    </div>
                     <button class="preview-button" [matTooltip]="formGroup.invalid ? 'Enter date to preview' : null"
                         [ngStyle]="formGroup.invalid ? {} : {'background-color': themeColor(), 'color': '#fff'}"
                         [disabled]="formGroup.invalid" type="button" (click)="onPreviewClick()">

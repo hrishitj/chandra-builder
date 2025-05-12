@@ -8,11 +8,12 @@ import { TextWithImageButtonComponent } from "../common/text-with-image-button/t
 import { ImageSliderComponent } from "../common/image-slider/image-slider.component";
 import { MeasurementScaleComponent } from "../common/measurement-scale/measurement-scale.component";
 import { MatIconModule } from '@angular/material/icon';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { AbstractControl, ValidationErrors } from '@angular/forms';
 
 @Component({
-  selector: 'app-date-necklace-builder',
-  imports: [ImageSliderComponent, ReactiveFormsModule, CommonModule, TextWithImageButtonComponent, MatIconModule, MatTooltipModule, FaqSectionComponent, MeasurementScaleComponent],
+  imports: [MatFormFieldModule, ImageSliderComponent, ReactiveFormsModule, CommonModule, TextWithImageButtonComponent, MatIconModule, MatTooltipModule, FaqSectionComponent, MeasurementScaleComponent],
   templateUrl: './date-necklace-builder.component.html',
   styleUrl: './date-necklace-builder.component.scss'
 })
@@ -27,7 +28,7 @@ export class DateNecklaceBuilderComponent {
     diamondQuality: new FormControl('VS', Validators.required),
     fontStyle: new FormControl('Regular', Validators.required),
     letterHeight: new FormControl('Medium', Validators.required),
-    date: new FormControl('', Validators.required),
+    date: new FormControl('', this.endsWithDotValidator),
   });
 
   public mediaItems: string[] = [
@@ -59,7 +60,6 @@ export class DateNecklaceBuilderComponent {
   public itemWidth: WritableSignal<number> = signal(0);
   public noOfDiamonds: WritableSignal<number> = signal(0);
   public caratWeight: WritableSignal<number> = signal(0);
-  private formattedDate: string | null = null;
 
 
   constructor() {
@@ -100,12 +100,8 @@ export class DateNecklaceBuilderComponent {
   }
 
   async fetchData(): Promise<void> {
-    if (this.formGroup.value.date) {
-      const date = new Date(this.formGroup.value.date);
-      this.formattedDate = this.formatDateDDMMYYYY(date);
-    }
     var metalColor = this.formGroup.value.metalColor === 'White Gold' ? 'Platinum' : this.formGroup.value.metalColor === 'Yellow Gold' ? 'Gold' : this.formGroup.value.metalColor;
-    const url = `https://api.chandrajewellery.kenmarkserver.com/costing?quantity=${this.formGroup.value.quantity}&metalColor=${metalColor}&metalKarat=${this.formGroup.value.metalCarat}&DiamondQuality=${this.formGroup.value.diamondQuality}&fontStyle=${this.formGroup.value.fontStyle}&letterHeight=${this.formGroup.value.letterHeight}&customName=${this.formattedDate}`;
+    const url = `https://api.chandrajewellery.kenmarkserver.com/costing?quantity=${this.formGroup.value.quantity}&metalColor=${metalColor}&metalKarat=${this.formGroup.value.metalCarat}&DiamondQuality=${this.formGroup.value.diamondQuality}&fontStyle=${this.formGroup.value.fontStyle}&letterHeight=${this.formGroup.value.letterHeight}&customName=${this.formGroup.value.date}`;
 
     try {
       const response = await fetch(url);
@@ -157,6 +153,53 @@ export class DateNecklaceBuilderComponent {
     }
   }
 
+  endsWithDotValidator(control: AbstractControl): ValidationErrors | null {
+    const value = control.value;
+    if (!value) return null;
+  
+    return value.endsWith('.') ? { endsWithDot: true } : null;
+  }
+
+
+  restrictInput(event: KeyboardEvent) {
+    const inputChar = event.key;
+    const currentValue = (event.target as HTMLInputElement).value;
+
+    // Allow control keys
+    if (['Backspace', 'ArrowLeft', 'ArrowRight', 'Delete'].includes(inputChar)) {
+      return;
+    }
+
+    if(currentValue.length === 10) {
+      event.preventDefault();
+      return;
+    }
+
+    // Only digits and dot allowed
+    if (!/[0-9.]/.test(inputChar)) {
+      event.preventDefault();
+      return;
+    }
+
+    // Prevent starting with dot
+    if (inputChar === '.' && currentValue.length === 0) {
+      event.preventDefault();
+      return;
+    }
+
+    // Prevent more than 2 dots
+    if (inputChar === '.' && (currentValue.match(/\./g) || []).length >= 2) {
+      event.preventDefault();
+      return;
+    }
+
+    // Optional: prevent consecutive dots
+    if (inputChar === '.' && currentValue.endsWith('.')) {
+      event.preventDefault();
+      return;
+    }
+  }
+
   toggleDescription() {
     this.isDescriptionVisible = !this.isDescriptionVisible;
   }
@@ -169,10 +212,4 @@ export class DateNecklaceBuilderComponent {
     this.showPreview.set(!this.showPreview());
   }
 
-  private formatDateDDMMYYYY(date: Date): string {
-    const dd = String(date.getDate()).padStart(2, '0');
-    const mm = String(date.getMonth() + 1).padStart(2, '0');
-    const yyyy = date.getFullYear();
-    return `${dd}.${mm}.${yyyy}`;
-  }
 }
