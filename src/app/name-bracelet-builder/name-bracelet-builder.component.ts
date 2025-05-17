@@ -115,7 +115,7 @@ export class NameBraceletBuilderComponent {
       if (jsonResponse && jsonResponse.paths) {
         this.imageLoaded.set(true);
         this.braceletImages.set(jsonResponse.braceletImages);
-        this.itemPrice.set(parseFloat((jsonResponse.price * this.multiplier()).toFixed(2)));
+        this.itemPrice.set(parseFloat((jsonResponse.price.braceletPrice * this.multiplier()).toFixed(2)));
         this.characterImages.set(jsonResponse.paths);
         this.itemWidth.set(jsonResponse.width);
         this.noOfDiamonds.set(jsonResponse.noOfDiamonds);

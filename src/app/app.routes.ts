@@ -11,4 +11,5 @@ export const routes: Routes = [
     { path: 'name-necklace-builder', component: NameNecklaceBuilderComponent },
     { path: 'date-necklace-builder', component: DateNecklaceBuilderComponent },
     { path: 'date-bracelet-builder', component: DateBraceletBuilderComponent },
+    { path: '', redirectTo: '/home', pathMatch: 'full' },
   ];

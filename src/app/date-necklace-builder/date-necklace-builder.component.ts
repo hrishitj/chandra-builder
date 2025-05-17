@@ -114,7 +114,7 @@ export class DateNecklaceBuilderComponent {
       if (jsonResponse && jsonResponse.paths) {
         this.imageLoaded.set(true);
         this.chainImages.set(jsonResponse.chainImages);
-        this.itemPrice.set(parseFloat((jsonResponse.price * this.multiplier()).toFixed(2)));
+        this.itemPrice.set(parseFloat((jsonResponse.price.necklacePrice * this.multiplier()).toFixed(2)));
         this.characterImages.set(jsonResponse.paths);
         this.itemWidth.set(jsonResponse.width);
         this.noOfDiamonds.set(jsonResponse.noOfDiamonds);
