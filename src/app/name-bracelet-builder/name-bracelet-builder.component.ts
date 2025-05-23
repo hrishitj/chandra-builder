@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal, WritableSignal } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TextWithImageButtonComponent } from "../common/text-with-image-button/text-with-image-button.component";
 import { ImageSliderComponent } from "../common/image-slider/image-slider.component";
-import { debounceTime } from 'rxjs';
+import { debounceTime, Subscription } from 'rxjs';
 import { companySettings } from '../common/companyCustomization';
 import { FaqSectionComponent } from "../common/faq-section/faq-section.component";
 import { MatIconModule } from '@angular/material/icon';
@@ -16,7 +16,7 @@ import { MeasurementScaleComponent } from "../common/measurement-scale/measureme
   templateUrl: './name-bracelet-builder.component.html',
   styleUrl: './name-bracelet-builder.component.scss'
 })
-export class NameBraceletBuilderComponent {
+export class NameBraceletBuilderComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public mediaItems: string[] = [
     'assets/name-bracelet/name_bracelet_1.png',
@@ -58,6 +58,7 @@ export class NameBraceletBuilderComponent {
   public noOfDiamonds: WritableSignal<number> = signal(0);
   public caratWeight: WritableSignal<number> = signal(0);
   public showPreview: WritableSignal<boolean> = signal(false);
+  public subscription: Subscription = new Subscription();
 
   public isDescriptionVisible: boolean = true;
   public isDetailsVisible: boolean = true;
@@ -70,7 +71,9 @@ export class NameBraceletBuilderComponent {
     if (typeof window !== 'undefined') {
       this.isEmbedded.set(window.self !== window.top);
     }
-    this.formGroup.valueChanges
+
+    this.subscription.add(
+      this.formGroup.valueChanges
       .pipe(debounceTime(200))
       .subscribe(() => {
         this.formGroup.value.customName?.length
@@ -79,7 +82,12 @@ export class NameBraceletBuilderComponent {
             this.imageLoaded.set(false);
             this.itemPrice.set(0);
           })();
-      });
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   ngAfterViewInit(): void {

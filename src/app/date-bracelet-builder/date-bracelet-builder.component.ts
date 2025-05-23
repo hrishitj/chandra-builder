@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal, WritableSignal } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { TextWithImageButtonComponent } from "../common/text-with-image-button/text-with-image-button.component";
 import { ImageSliderComponent } from "../common/image-slider/image-slider.component";
-import { debounceTime } from 'rxjs';
+import { debounceTime, Subscription } from 'rxjs';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -27,7 +27,7 @@ import { MeasurementScaleComponent } from '../common/measurement-scale/measureme
   templateUrl: './date-bracelet-builder.component.html',
   styleUrl: './date-bracelet-builder.component.scss'
 })
-export class DateBraceletBuilderComponent {
+export class DateBraceletBuilderComponent implements OnInit, OnDestroy, AfterViewInit {
 
   public mediaItems: string[] = [
     'assets/date-bracelet/date_bracelet_1.png',
@@ -69,6 +69,7 @@ export class DateBraceletBuilderComponent {
   public noOfDiamonds: WritableSignal<number> = signal(0);
   public caratWeight: WritableSignal<number> = signal(0);
   private formattedDate: string | null = null;
+  private subscription: Subscription = new Subscription();
 
   public isDescriptionVisible: boolean = true;
   public isDetailsVisible: boolean = true;
@@ -81,7 +82,7 @@ export class DateBraceletBuilderComponent {
     if (typeof window !== 'undefined') {
       this.isEmbedded.set(window.self !== window.top);
     }
-    this.formGroup.valueChanges
+    this.subscription.add(this.formGroup.valueChanges
       .pipe(debounceTime(200))
       .subscribe(() => {
         this.formGroup.value.date?.length
@@ -90,7 +91,11 @@ export class DateBraceletBuilderComponent {
             this.imageLoaded.set(false);
             this.itemPrice.set(0);
           })();
-      });
+      }));
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   ngAfterViewInit(): void {

@@ -1,6 +1,6 @@
-import { Component, signal, WritableSignal } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
 import { companySettings } from '../common/companyCustomization';
-import { debounceTime } from 'rxjs';
+import { debounceTime, Subscription } from 'rxjs';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FaqSectionComponent } from "../common/faq-section/faq-section.component";
 import { CommonModule } from '@angular/common';
@@ -17,7 +17,7 @@ import { AbstractControl, ValidationErrors } from '@angular/forms';
   templateUrl: './date-necklace-builder.component.html',
   styleUrl: './date-necklace-builder.component.scss'
 })
-export class DateNecklaceBuilderComponent {
+export class DateNecklaceBuilderComponent implements OnInit, AfterViewInit, OnDestroy {
   public isDescriptionVisible: boolean = true;
   public isDetailsVisible: boolean = true;
 
@@ -60,7 +60,7 @@ export class DateNecklaceBuilderComponent {
   public itemWidth: WritableSignal<number> = signal(0);
   public noOfDiamonds: WritableSignal<number> = signal(0);
   public caratWeight: WritableSignal<number> = signal(0);
-
+  private subscription: Subscription = new Subscription();
 
   constructor() {
   }
@@ -69,7 +69,9 @@ export class DateNecklaceBuilderComponent {
     if (typeof window !== 'undefined') {
       this.isEmbedded.set(window.self !== window.top);
     }
-    this.formGroup.valueChanges
+
+    this.subscription.add(
+      this.formGroup.valueChanges
       .pipe(debounceTime(200))
       .subscribe(() => {
         this.formGroup.value.date?.length
@@ -78,7 +80,13 @@ export class DateNecklaceBuilderComponent {
             this.imageLoaded.set(false);
             this.itemPrice.set(0);
           })();
-      });
+      })
+    );
+    
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   ngAfterViewInit(): void {

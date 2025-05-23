@@ -1,8 +1,8 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, OnInit, signal, WritableSignal } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ImageSliderComponent } from "../common/image-slider/image-slider.component";
 import { CommonModule } from '@angular/common';
-import { debounceTime } from 'rxjs';
+import { debounceTime, Subscription } from 'rxjs';
 import { TextWithImageButtonComponent } from "../common/text-with-image-button/text-with-image-button.component";
 import { HttpClient } from '@angular/common/http';
 import { MatDividerModule } from '@angular/material/divider';
@@ -20,7 +20,7 @@ import { MeasurementScaleComponent } from "../common/measurement-scale/measureme
   styleUrl: './name-necklace-builder.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit {
+export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit, OnDestroy {
 
   public isDescriptionVisible: boolean = true;
   public isDetailsVisible: boolean = true;
@@ -67,6 +67,7 @@ export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit {
   public caratWeight: WritableSignal<number> = signal(0);
   private curvedLettersLeft = ['A', 'C', 'G', 'J', 'O'];
   private curvedLettersRight = ['A', 'D', 'G', 'L', 'O'];
+  private subscription: Subscription = new Subscription();
 
 
   constructor() {
@@ -76,7 +77,9 @@ export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit {
     if (typeof window !== 'undefined') {
       this.isEmbedded.set(window.self !== window.top);
     }
-    this.formGroup.valueChanges
+
+    this.subscription.add(
+      this.formGroup.valueChanges
       .pipe(debounceTime(200))
       .subscribe(() => {
         this.formGroup.value.customName?.length
@@ -85,7 +88,12 @@ export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit {
             this.imageLoaded.set(false);
             this.itemPrice.set(0);
           })();
-      });
+      })
+    );
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   ngAfterViewInit(): void {
