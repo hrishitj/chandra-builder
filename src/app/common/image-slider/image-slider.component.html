@@ -6,11 +6,11 @@
         <img 
         [src]="item"
         (click)="selectMedia($index)" 
-        [style.border]="($index === selectedIndex ? '2px' : '1px') + ' solid ' + themeColor()"
+        [style.border]="($index === selectedIndex ? '1px solid ' + themeColor() : null)"
         alt="Thumbnail"
       />
       } @else {
-        <div class="thumbnail-wrapper" [style.border]="($index === selectedIndex ? '2px' : '1px') + ' solid ' + themeColor()" (click)="selectMedia($index)">
+        <div class="thumbnail-wrapper" [style.border]="($index === selectedIndex ? '1px solid ' + themeColor() : null)" (click)="selectMedia($index)">
           <video muted>
             <source [src]="item" type="video/mp4" />
             Your browser does not support the video tag.

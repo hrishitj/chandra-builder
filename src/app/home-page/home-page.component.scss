@@ -4,7 +4,6 @@
   justify-content: center;
   align-items: center;
   width: 100%;
-  font-family: 'Outfit';
 
   .main-page-head {
     position: relative;
@@ -13,7 +12,6 @@
     align-items: center;
     width: 100%;
     height: auto;
-    font-family: 'Outfit';
 
     img {
       width: 100%;
@@ -38,7 +36,6 @@
 
   .tabs {
     margin-top: 2rem;
-    font-family: 'Outfit';
     font-weight: 300;
     display: flex;
     justify-content: center;
@@ -63,21 +60,19 @@
   .row {
     display: flex;
     flex-direction: row;
-    gap: 50px;
     flex-wrap: wrap;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     margin-top: 4rem;
+    padding: 0px 50px;
 
     .builder-card {
 
       display: flex;
       flex-direction: column;
-      width: 17%;
+      width: 24%;
 
       .builder-details {
-        border: 2px solid black;
-        border-radius: 0.625rem;
         display: flex;
         flex-direction: column;
         align-items: center;
@@ -98,7 +93,6 @@
         font-size: clamp(12px, 1.3vw, 30px);
         text-align: center;
         color: #252525;
-        font-family: 'Outfit';
         text-decoration: none;
       }
     }
@@ -107,8 +101,8 @@
 
 
   .image-container {
-    margin-top: 5rem;
-    width: 90%;
+    padding: 0px 50px;
+    margin: 100px 0px;
 
     img {
       height: auto;
@@ -117,12 +111,11 @@
   }
 
   .personalization-section {
-    font-family: 'Outfit';
     text-align: center;
-    width: 90%;
-    padding: 20px;
+    padding: 0px 50px;
 
     h2 {
+      margin: 0;
       font-size: clamp(12px, 2vw, 36px);
       font-weight: 400;
     }

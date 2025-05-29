@@ -1,28 +1,14 @@
 .parent-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    width: 5.2vw;
-    height: auto;
+    width: fit-content;
+    height: fit-content;
     align-items: center;
-    gap: 10px;
-    padding: 0.5rem 0.5rem;
-    border: 0.5px solid;
-    border-radius: 10px;
-    margin: 5px;
-    margin-left: 0px;
-    background-color: #fff;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-family: 'Outfit';
-    font-weight: 300;
-    font-size: 1vw;
 
     img {
-        height: auto;
-        width: 4vw;
-        max-width: 125px;
-        border-radius: 10px;
+        height: 60px;
+        width: 60px;
+        max-width: 60px;
     }
 
     span {
@@ -32,7 +18,7 @@
 }
 
 .selected {
-    border: solid 1.5px;
+    border: solid 1px;
     transition: all 0.3s ease;
     font-weight: 400;
 }

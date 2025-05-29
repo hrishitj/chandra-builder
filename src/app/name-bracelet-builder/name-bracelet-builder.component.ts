@@ -31,7 +31,7 @@ export class NameBraceletBuilderComponent implements OnInit, OnDestroy, AfterVie
     quantity: new FormControl(1, [Validators.required, Validators.min(1)]),
     metalColor: new FormControl('White Gold', Validators.required),
     metalCarat: new FormControl('10KT', Validators.required),
-    diamondQuality: new FormControl('VS', Validators.required),
+    diamondQuality: new FormControl('Natural VS', Validators.required),
     fontStyle: new FormControl('Regular', Validators.required),
     letterHeight: new FormControl('Medium', Validators.required),
     customName: new FormControl('', [Validators.required, Validators.maxLength(10)]),
@@ -43,7 +43,7 @@ export class NameBraceletBuilderComponent implements OnInit, OnDestroy, AfterVie
     { Name: 'Rose Gold', Icon: 'assets/metals/RoseGold.jpg' },
   ];
   public metalCarats = ['10KT', '14KT', '18KT'];
-  public diamondQualities = ['VS', 'SI', 'LAB'];
+  public diamondQualities = ['Natural VS', 'Natural SI', 'Lab Grown'];
   public fontStyles = ['Regular', 'Sport'];
   public letterHeights = ['Medium', 'Large'];
 
@@ -110,7 +110,8 @@ export class NameBraceletBuilderComponent implements OnInit, OnDestroy, AfterVie
 
   async fetchData(): Promise<void> {
     var metalColor = this.formGroup.value.metalColor === 'White Gold' ? 'Platinum' : this.formGroup.value.metalColor === 'Yellow Gold' ? 'Gold' : this.formGroup.value.metalColor;
-    const url = `https://api.chandrajewellery.kenmarkserver.com/costing?quantity=${this.formGroup.value.quantity}&metalColor=${metalColor}&metalKarat=${this.formGroup.value.metalCarat}&DiamondQuality=${this.formGroup.value.diamondQuality}&fontStyle=${this.formGroup.value.fontStyle}&letterHeight=${this.formGroup.value.letterHeight}&customName=${this.formGroup.value.customName}`;
+    var diamondQuality = this.formGroup.value.diamondQuality === 'Natural VS' ? 'VS' : this.formGroup.value.diamondQuality === 'Natural SI' ? 'SI' : 'LAB';
+    const url = `https://api.chandrajewellery.kenmarkserver.com/costing?quantity=${this.formGroup.value.quantity}&metalColor=${metalColor}&metalKarat=${this.formGroup.value.metalCarat}&DiamondQuality=${diamondQuality}&fontStyle=${this.formGroup.value.fontStyle}&letterHeight=${this.formGroup.value.letterHeight}&customName=${this.formGroup.value.customName}`;
 
     try {
       const response = await fetch(url);

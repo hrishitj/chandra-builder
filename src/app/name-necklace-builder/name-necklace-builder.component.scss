@@ -1,20 +1,19 @@
 .main-product-page {
-  font-family: 'Outfit';
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
+  background: #F5F5F5;
 
   .parent-container {
     margin-top: 2rem;
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-evenly;
     width: 100%;
+    display: flex;
+    gap: 35px;
 
     .form-container {
-      padding-right: 5rem;
+      padding-right: 4rem;
       display: flex;
       flex-direction: column;
       gap: 1.5rem;
@@ -32,13 +31,11 @@
           align-items: center;
           justify-content: center;
           gap: 10px;
-          font-family: 'Outfit';
           font-weight: 400;
           font-size: clamp(12px, 1.2vw, 30px);
           padding: 7px 16px;
           height: 33px;
           border: 1px solid #ccc;
-          border-radius: 5px;
           background-color: #fff;
           cursor: pointer;
         }
@@ -63,6 +60,7 @@
       .form-group-sub-container {
         display: flex;
         flex-direction: row;
+        gap: 30px;
       }
 
       .form-group-row {
@@ -70,7 +68,7 @@
         display: flex;
         flex-direction: column;
         gap: 1.5rem;
-        margin: 10px;
+        justify-content: space-between;
       }
 
       .form-group {
@@ -82,20 +80,9 @@
           font-size: clamp(12px, 1.3vw, 20px);
         }
 
-        .horizontal-buttons {
-          display: flex;
-          flex-direction: row !important;
-          gap: 0.5rem;
-          font-family: 'Outfit';
-          border-radius: 5px;
-          font-weight: 400;
-          font-size: clamp(12px, 1.3vw, 30px);
-        }
-
         .input-field {
           border: 1px solid #ccc;
-          border-radius: 4px;
-          font-size: clamp(10px, 1vw, 30px);
+          font-size: clamp(10px, 0.75vw, 30px);
           padding: 0px 5px;
           width: 40%;
           height: 30px;
@@ -103,11 +90,10 @@
 
         .quantity-input {
           padding-left: 2rem;
-          width: clamp(65px, 5vw, 125px);
-          height: clamp(25px, 2vw, 50px);
+          width: clamp(40px, 1vw, 125px);
+          height: clamp(25px, 3vw, 50px);
           font-size: clamp(6px, 1.2vw, 30px);
           border: 1px solid #ccc;
-          border-radius: 30px;
         }
 
         .options-group {
@@ -116,11 +102,10 @@
 
           .option {
             font-size: clamp(6px, 1vw, 20px);
-            width: max-content;
-            height: auto;
+            width: 60px;
+            height: 60px;
             padding: 8px 16px;
             border: 1px solid #ccc;
-            border-radius: 10px;
             background-color: #fff;
             cursor: pointer;
             transition: all 0.3s ease;
@@ -128,8 +113,21 @@
             justify-content: center;
           }
 
-          .option.active {
+          .height-option {
+            font-size: clamp(6px, 1vw, 20px);
+            width: max-content;
+            height: 40px;
+            padding: 8px 16px;
+            border: 1px solid #ccc;
+            background-color: #fff;
+            cursor: pointer;
             transition: all 0.3s ease;
+            align-items: center;
+            justify-content: center;
+          }
+
+          .active {
+            border: 1px solid black;
           }
         }
 
@@ -138,48 +136,57 @@
           font-size: 0.9rem;
         }
 
-        .submit-button {
-          font-size: clamp(10px, 1.25vw, 25px);
-          font-weight: 300;
-          padding: 0.7rem 1.25rem;
-          height: auto;
-          border-radius: 4px;
-          cursor: pointer;
-          transition: all 0.3s ease;
-          width: max-content;
-          margin-top: 15px;
-          border: none;
+        .cta-buttons {
+          display: flex;
+          flex-direction: column !important;
+          gap: 10px;
+          margin-top: 10px;
+          font-weight: 400;
+          font-size: clamp(12px, 1.3vw, 30px);
+
+          .submit-button {
+            font-size: clamp(10px, 1.25vw, 25px);
+            font-weight: 300;
+            padding: 0.7rem 1.25rem;
+            height: auto;
+            cursor: pointer;
+            width: 80%;
+            border: none;
+          }
+
+          .submit-button:disabled {
+            background-color: #ccc;
+            color: #666;
+            cursor: default;
+          }
+
+          /* Primary button (Buy Now) */
+          .submit-button.primary {
+            background-color: var(--theme-color);
+            color: #fff;
+          }
+
+          .submit-button.primary:hover:not(:disabled) {
+            background-color: #fff;
+            color: var(--theme-color);
+            border: 1px solid var(--theme-color);
+          }
+
+          /* Secondary button (Add to cart) */
+          .submit-button.secondary {
+            background-color: #fff;
+            color: var(--theme-color);
+            border: 1px solid var(--theme-color);
+          }
+
+          .submit-button.secondary:hover:not(:disabled) {
+            transition: 0.3s ease-in-out;
+            background-color: var(--theme-color);
+            color: #fff;
+          }
         }
-        
-        .submit-button:disabled {
-          background-color: #ccc;
-          color: #666;
-          cursor: default;
-        }
-        
-        /* Primary button (Buy Now) */
-        .submit-button.primary {
-          background-color: var(--theme-color);
-          color: #fff;
-        }
-        
-        .submit-button.primary:hover:not(:disabled) {
-          background-color: #fff;
-          color: var(--theme-color);
-          border: 1px solid var(--theme-color);
-        }
-        
-        /* Secondary button (Add to cart) */
-        .submit-button.secondary {
-          background-color: #fff;
-          color: var(--theme-color);
-          border: 1px solid var(--theme-color);
-        }
-        
-        .submit-button.secondary:hover:not(:disabled) {
-          background-color: var(--theme-color);
-          color: #fff;
-        }   
+
+
       }
     }
 
@@ -187,8 +194,9 @@
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      justify-content: start;
       width: 60%;
+      padding-left: 20px;
 
       .necklace-container {
         display: flex;
@@ -200,7 +208,7 @@
       app-image-slider {
         margin-left: 10px;
       }
-      
+
 
       .left-img {
         margin-right: -15px;
@@ -224,6 +232,7 @@
         display: flex;
         flex-direction: row;
         align-items: center;
+        background-color: #F4F4F4;
         padding: 0px;
         margin-right: -3px;
         list-style: none;
@@ -238,37 +247,44 @@
       }
     }
   }
+
   .product-section {
-      color:#252525;
-      font-size: clamp(12px, 1.05vw, 36px);
+    color: #252525;
+    font-size: clamp(12px, 1.05vw, 36px);
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin: 3.5rem;
+    width: 90%;
+    padding: 10px;
+
+    .product-header {
+      padding-bottom: 1rem;
+      font-size: clamp(14px, 1.5vw, 40px);
       display: flex;
-      flex-direction: column;
-      gap: 1rem;
-      margin: 3.5rem;
-      width: 90%;
-      padding: 10px;
+      justify-content: space-between;
+      cursor: pointer;
+      font-weight: 400;
+      border-bottom: 1px solid #252525;
+    }
 
-      .product-header {
-        padding-bottom: 1rem;
-        font-size: clamp(14px, 1.5vw, 40px);
-        display: flex;
-        justify-content: space-between;
-        cursor: pointer;
+    .product-details {
+      display: flex;
+      gap: 20px;
+
+      .section-header {
+        font-size: clamp(12px, 1.3vw, 30px);
         font-weight: 400;
-        border-bottom: 1px solid #252525;
+        margin-bottom: 10px;
       }
-
-      .product-details {
-        display: flex;
-        gap: 20px;
-      }
+    }
   }
 
   .toggle-icon {
-      font-size: 20px;
+    font-size: 20px;
   }
 
-  app-faq-section{
+  app-faq-section {
     width: 100%;
   }
 }

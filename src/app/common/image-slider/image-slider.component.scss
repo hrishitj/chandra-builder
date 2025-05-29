@@ -1,13 +1,13 @@
   :host {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: start;
     justify-content: center;
-    gap: 50px;
+    gap: clamp(30px, 3vw, 50px);
   }
 
   .main-media {
-    width: 30vw;
+    width: 35vw;
     height: auto;
   }
   
@@ -21,11 +21,9 @@
   }
   
   .thumbnail-selector > img, .thumbnail-selector > .thumbnail-wrapper{
-    width: 6.5vw;
+    width: 7.5vw;
     height: auto;
     cursor: pointer;
-    border: 0.3px solid rgb(51, 51, 51);
-    border-radius: 10px;
     transition: border-color 0.3s;
     margin-bottom: 10px;
   }

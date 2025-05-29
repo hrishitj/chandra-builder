@@ -1,5 +1,4 @@
-import { Component, input, OnInit, output } from '@angular/core';
-import { EventEmitter } from 'stream';
+import { Component, input, output } from '@angular/core';
 
 @Component({
   selector: 'app-text-with-image-button',

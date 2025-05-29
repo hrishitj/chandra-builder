@@ -1,5 +1,7 @@
-<div class="parent-container" [class.selected]="isSelected()" (click)="clicked.emit()"
+<div class="parent-container" (click)="clicked.emit()"
     [style.border-color]="isSelected() ? themeColor() : 'black'">
-    <img [src]="imageSource()" />
-    <span>{{buttonText()}}</span>
+    <img [class.selected]="isSelected()" [src]="imageSource()" />
+    @if(buttonText()) {
+        <span class="button-text">{{ buttonText() }}</span>
+    }
 </div>
