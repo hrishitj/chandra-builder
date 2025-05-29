@@ -1,4 +1,4 @@
-<div class="main-product-page" [ngStyle]="{'color': themeColor()}">
+<div class="main-product-page">
 
     <div class="parent-container">
         <div class="img-container">
@@ -39,9 +39,9 @@
                             Date cannot end with a dot.
                         </mat-error>
                     </div>
-                    <button class="preview-button" [matTooltip]="formGroup.invalid ? 'Enter date to preview' : null"
-                        [ngStyle]="formGroup.invalid ? {} : {'background-color': themeColor(), 'color': '#fff'}"
-                        [disabled]="formGroup.invalid" type="button" (click)="onPreviewClick()">
+                    <button class="preview-button" [matTooltip]="formGroup.invalid || formGroup.get('date')?.value?.length === 0 ? 'Enter date to preview' : null"
+                        [ngStyle]="formGroup.invalid || formGroup.get('date')?.value?.length === 0 ? {} : {'background-color': themeColor(), 'color': '#fff'}"
+                        [disabled]="formGroup.invalid || formGroup.get('date')?.value?.length === 0" type="button" (click)="onPreviewClick()">
                         Preview
                         <mat-icon>{{ showPreview() ? 'visibility_off' : 'visibility' }}</mat-icon>
                     </button>
@@ -54,7 +54,7 @@
                 <div class="options-group">
                     @for(color of metalColors; track $index) {
                     <app-text-with-image-button [themeColor]="themeColor()" [imageSource]="color.Icon"
-                        [buttonText]="color.Name" [isSelected]="formGroup.get('metalColor')?.value === color.Name"
+                        [isSelected]="formGroup.get('metalColor')?.value === color.Name"
                         (clicked)="selectOption('metalColor', color.Name)"></app-text-with-image-button>
                     }
                 </div>
@@ -66,7 +66,6 @@
                 <div class="options-group">
                     <button type="button" *ngFor="let carat of metalCarats" (click)="selectOption('metalCarat', carat)"
                         [class.active]="formGroup.get('metalCarat')?.value === carat"
-                        [ngStyle]="formGroup.get('metalCarat')?.value === carat ? {'background-color': themeColor(), 'color': '#fff'} : {}"
                         class="option">
                         {{ carat }}
                     </button>
@@ -91,8 +90,7 @@
                         <div class="options-group">
                             <button type="button" *ngFor="let font of fontStyles"
                                 (click)="selectOption('fontStyle', font)"
-                                [ngStyle]="formGroup.get('fontStyle')?.value === font ? {'background-color': themeColor(), 'color': '#fff'} : {}"
-                                [class.active]="formGroup.get('fontStyle')?.value === font" class="option">
+                                [class.active]="formGroup.get('fontStyle')?.value === font" class="height-option">
                                 {{ font }}
                             </button>
                         </div>
@@ -107,8 +105,7 @@
                         <div class="options-group">
                             <button type="button" *ngFor="let quality of diamondQualities"
                                 (click)="selectOption('diamondQuality', quality)"
-                                [ngStyle]="formGroup.get('diamondQuality')?.value === quality ? {'background-color': themeColor(), 'color': '#fff'} : {}"
-                                [class.active]="formGroup.get('diamondQuality')?.value === quality" class="option">
+                                [class.active]="formGroup.get('diamondQuality')?.value === quality" class="height-option">
                                 {{ quality }}
                             </button>
                         </div>
@@ -120,8 +117,7 @@
                         <div class="options-group">
                             <button type="button" *ngFor="let height of letterHeights"
                                 (click)="selectOption('letterHeight', height)"
-                                [ngStyle]="formGroup.get('letterHeight')?.value === height ? {'background-color': themeColor(), 'color': '#fff'} : {}"
-                                [class.active]="formGroup.get('letterHeight')?.value === height" class="option">
+                                [class.active]="formGroup.get('letterHeight')?.value === height" class="height-option">
                                 {{ height }}
                             </button>
                         </div>
@@ -129,7 +125,7 @@
                 </div>
             </div>
             <div class="form-group" [style.--theme-color]="formGroup.invalid ? '#ccc' : themeColor()">
-                <div class="horizontal-buttons">
+                <div class="cta-buttons">
                     <button type="submit" [disabled]="formGroup.invalid" class="submit-button primary"
                         (click)="buyAction('BUY_NOW')">
                         Buy Now
@@ -159,24 +155,22 @@
         </div>
         <div class="product-details" *ngIf="isDetailsVisible">
             <div>
-                <h4>Metal Information:</h4>
+                <div class="section-header">Metal Information:</div>
                 <ul>
                     <li>Karat: {{formValue.metalCarat ?? ''}}</li>
                     <li>Color: {{formValue.metalColor ?? ''}}</li>
                 </ul>
             </div>
             <div>
-                <h4>Diamond Information:</h4>
+                <div class="section-header">Diamond Information:</div>
                 <ul>
                     <li>Number of Diamonds: {{noOfDiamonds()}} </li>
                     <li>Shape: Round</li>
                     <li>Carat Weight: {{caratWeight().toFixed(2)}} </li>
-                    <li>Diamond Color: [Insert Diamond Color Grade]</li>
-                    <li>Diamond Clarity: [Insert Diamond Clarity Grade]</li>
                 </ul>
             </div>
             <div>
-                <h4>Additional Information:</h4>
+                <div class="section-header">Additional Information:</div>
                 <ul>
                     <li>Total Diamond Weight (Approx.):{{caratWeight().toFixed(2)}}</li>
                     <li>Chain Type / Length: Cat 30 Cable Chain with Lobster Lock / 18 INCH</li>
