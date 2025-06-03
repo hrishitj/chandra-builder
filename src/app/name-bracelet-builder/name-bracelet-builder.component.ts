@@ -1,5 +1,5 @@
-import { CommonModule } from '@angular/common';
-import { AfterViewInit, Component, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
+import { AfterViewInit, Component, inject, OnDestroy, OnInit, PLATFORM_ID, signal, WritableSignal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { TextWithImageButtonComponent } from "../common/text-with-image-button/text-with-image-button.component";
 import { ImageSliderComponent } from "../common/image-slider/image-slider.component";
@@ -62,6 +62,18 @@ export class NameBraceletBuilderComponent implements OnInit, OnDestroy, AfterVie
 
   public isDescriptionVisible: boolean = true;
   public isDetailsVisible: boolean = true;
+  public isSmallView = signal<boolean>(false);
+
+  private platformId = inject(PLATFORM_ID);
+  private resizeListener!: () => void;
+
+  private onResize(): void {
+    this.checkWindowWidth();
+  }
+
+  private checkWindowWidth(): void {
+    this.isSmallView.set(window.innerWidth < 800);
+  }
 
   constructor(
   ) {
@@ -88,6 +100,9 @@ export class NameBraceletBuilderComponent implements OnInit, OnDestroy, AfterVie
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    if (isPlatformBrowser(this.platformId)) {
+      window.removeEventListener('resize', this.resizeListener);
+    }
   }
 
   ngAfterViewInit(): void {
@@ -97,6 +112,12 @@ export class NameBraceletBuilderComponent implements OnInit, OnDestroy, AfterVie
       const settings = companyName ? companySettings[companyName] : companySettings['default'];
       this.themeColor.set(settings.theme);
       this.multiplier.set(settings.multiplier);
+    }
+
+    if (isPlatformBrowser(this.platformId)) {
+      this.checkWindowWidth(); // Initial check
+      this.resizeListener = this.onResize.bind(this);
+      window.addEventListener('resize', this.resizeListener);
     }
   }
 

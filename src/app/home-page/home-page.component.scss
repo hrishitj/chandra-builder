@@ -28,34 +28,34 @@
       h2 {
         text-align: left;
         font-weight: 400;
-        font-size: clamp(14px, 2vw, 40px);
+        font-size: clamp(10px, 2vw, 40px);
         margin: 0;
       }
     }
   }
 
-  .tabs {
-    margin-top: 2rem;
-    font-weight: 300;
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
+  // .tabs {
+  //   margin-top: 2rem;
+  //   font-weight: 300;
+  //   display: flex;
+  //   justify-content: center;
+  //   margin-bottom: 20px;
 
-    span {
-      margin: 0 15px;
-      font-size: clamp(12px, 1.6vw, 38px);
-      font-weight: 300;
-      cursor: pointer;
-      position: relative;
-      transition: color 0.3s ease-in-out;
+  //   span {
+  //     margin: 0 15px;
+  //     font-size: clamp(12px, 1.6vw, 38px);
+  //     font-weight: 300;
+  //     cursor: pointer;
+  //     position: relative;
+  //     transition: color 0.3s ease-in-out;
 
-      &.active {
-        font-weight: 400;
-        text-decoration: underline;
-        text-underline-offset: 5px;
-      }
-    }
-  }
+  //     &.active {
+  //       font-weight: 400;
+  //       text-decoration: underline;
+  //       text-underline-offset: 5px;
+  //     }
+  //   }
+  // }
 
   .row {
     display: flex;
@@ -63,12 +63,13 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
-    margin-top: 4rem;
-    padding: 0px 50px;
+    margin-top: 5vw;
+    padding: 0px 3vw;
 
     .builder-card {
 
       display: flex;
+      flex-wrap: wrap;
       flex-direction: column;
       width: 24%;
 
@@ -90,7 +91,7 @@
 
       .card-desc {
         font-weight: 300;
-        font-size: clamp(12px, 1.3vw, 30px);
+        font-size: clamp(8px, 1.3vw, 30px);
         text-align: center;
         color: #252525;
         text-decoration: none;
@@ -101,8 +102,8 @@
 
 
   .image-container {
-    padding: 0px 50px;
-    margin: 100px 0px;
+    padding: 0px 3vw;
+    margin: 7vw 0px;
 
     img {
       height: auto;
@@ -112,16 +113,16 @@
 
   .personalization-section {
     text-align: center;
-    padding: 0px 50px;
+    padding: 0px 3vw;
 
     h2 {
       margin: 0;
-      font-size: clamp(12px, 2vw, 36px);
+      font-size: clamp(10px, 2vw, 36px);
       font-weight: 400;
     }
 
     p {
-      font-size: clamp(10px, 1.2vw, 30px);
+      font-size: clamp(8px, 1.2vw, 30px);
       font-weight: 300;
       margin-bottom: 10px;
     }

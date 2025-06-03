@@ -6,8 +6,8 @@
     transition: all 0.3s ease;
 
     img {
-        height: 60px;
-        width: 60px;
+        height: clamp(30px, 5vw, 60px);
+        width: clamp(30px, 5vw, 60px);
         max-width: 60px;
     }
 

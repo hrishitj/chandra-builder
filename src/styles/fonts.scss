@@ -1,6 +1,7 @@
 @font-face {
-    font-family: 'Avenir';
-    src: url('/assets/fonts/Avenir.otf') format('opentype');
-    font-weight: 300;
-    font-style: normal;
+  font-family: 'Avenir';
+  src: url('/assets/fonts/Avenir.woff') format('woff');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
 }

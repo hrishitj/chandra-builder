@@ -1,12 +1,11 @@
 .faq-section {
     color: #252525;
-    margin: 0 auto;
-    margin-bottom: 3rem;
+    margin: 5px auto;
     width: 90%;
     padding-top: 1rem;
   
     h2 {
-      font-size: clamp(12px, 1.8vw, 40px);
+      font-size: clamp(10px, 1.8vw, 40px);
       font-weight: 200;
       border-bottom: 1px solid #252525;
       text-align: center;
@@ -15,18 +14,18 @@
   
     .faq-item {
       border-bottom: 1px solid #252525;
-      padding: 20px 0;
+      padding: 2vw 0;
   
       .faq-question {
-        font-size: clamp(12px, 1.3vw, 32px);
+        font-size: clamp(10px, 1.3vw, 32px);
         display: flex;
         justify-content: space-between;
         cursor: pointer;
       }
   
       .faq-answer {
-        font-size: clamp(10px, 1vw, 28px);
-        padding: 20px 0px 2px 5px;
+        font-size: clamp(8px, 1vw, 28px);
+        padding: 2vw 0px 2px 5px;
         color: #666;
       }
     }

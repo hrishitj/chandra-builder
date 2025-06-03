@@ -1,31 +1,65 @@
-  :host {
+  .normal-view-container {
     display: flex;
     flex-direction: row;
     align-items: start;
     justify-content: center;
     gap: clamp(30px, 3vw, 50px);
+
+    .main-media {
+      width: 35vw;
+      height: auto;
+    }
+
+    .main-media img,
+    .main-media video {
+      width: 100%;
+    }
+
+    .thumbnail-selector {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
   }
 
-  .main-media {
-    width: 35vw;
-    height: auto;
-  }
-  
-  .main-media img, .main-media video{
-    width: 100%;
-  }
-  
-  .thumbnail-selector {
+  .small-view-container {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: clamp(30px, 3vw, 50px);
+
+    .main-media {
+      width: 75vw;
+      height: auto;
+    }
+
+    .main-media img,
+    .main-media video {
+      width: 100%;
+    }
+
+    .thumbnail-selector {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+    }
+
+    .thumbnail-selector>img,
+    .thumbnail-selector>.thumbnail-wrapper {
+      width: 12vw;
+      height: auto;
+      cursor: pointer;
+      transition: border-color 0.3s;
+    }
   }
-  
-  .thumbnail-selector > img, .thumbnail-selector > .thumbnail-wrapper{
+
+  .thumbnail-selector>img,
+  .thumbnail-selector>.thumbnail-wrapper {
     width: 7.5vw;
     height: auto;
     cursor: pointer;
     transition: border-color 0.3s;
-    margin-bottom: 10px;
   }
 
   .thumbnail-wrapper {
@@ -41,11 +75,9 @@
       pointer-events: none;
     }
 
-    video{
+    video {
       width: 100%;
       height: auto;
-      border-radius: 10px;
       display: block;
     }
   }
-  

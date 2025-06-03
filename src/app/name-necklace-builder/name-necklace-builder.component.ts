@@ -1,7 +1,7 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, inject, OnDestroy, OnInit, PLATFORM_ID, signal, WritableSignal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ImageSliderComponent } from "../common/image-slider/image-slider.component";
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { debounceTime, Subscription } from 'rxjs';
 import { TextWithImageButtonComponent } from "../common/text-with-image-button/text-with-image-button.component";
 import { HttpClient } from '@angular/common/http';
@@ -22,6 +22,7 @@ import { MeasurementScaleComponent } from "../common/measurement-scale/measureme
 })
 export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit, OnDestroy {
 
+  public isSmallView = signal<boolean>(false);
   public isDescriptionVisible: boolean = true;
   public isDetailsVisible: boolean = true;
 
@@ -70,7 +71,15 @@ export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit, OnDe
   private subscription: Subscription = new Subscription();
 
 
-  constructor() {
+  private platformId = inject(PLATFORM_ID);
+  private resizeListener!: () => void;
+
+  private onResize(): void {
+    this.checkWindowWidth();
+  }
+
+  private checkWindowWidth(): void {
+    this.isSmallView.set(window.innerWidth < 800);
   }
 
   ngOnInit(): void {
@@ -94,6 +103,9 @@ export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit, OnDe
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    if (isPlatformBrowser(this.platformId)) {
+      window.removeEventListener('resize', this.resizeListener);
+    }
   }
 
   ngAfterViewInit(): void {
@@ -103,6 +115,12 @@ export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit, OnDe
       const settings = companyName ? companySettings[companyName] : companySettings['default'];
       this.themeColor.set(settings.theme);
       this.multiplier.set(settings.multiplier);
+    }
+
+    if (isPlatformBrowser(this.platformId)) {
+      this.checkWindowWidth(); // Initial check
+      this.resizeListener = this.onResize.bind(this);
+      window.addEventListener('resize', this.resizeListener);
     }
   }
 

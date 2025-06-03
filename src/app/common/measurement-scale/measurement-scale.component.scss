@@ -1,7 +1,7 @@
 .measurment-container {
     display: flex;
     align-items: center;
-    margin-top: 100px;
+    margin-top: 10vw;
     color: #747070;
 
     .details-container-height {
@@ -10,6 +10,10 @@
         align-items: center;
         justify-content: flex-start;
         color: #747070;
+
+        p {
+            font-size: clamp(15px,1.25vw, 40px);
+        }
     }
 
     .details-container-width {
@@ -17,8 +21,11 @@
         flex-direction: column;
         align-items: center;
         justify-content: flex-start;
-        margin-left: 100px;
+        margin-left: 10vw;
         color: #747070;
+        p {
+            font-size: clamp(15px,1.25vw, 40px);
+        }
     }
 }
 
