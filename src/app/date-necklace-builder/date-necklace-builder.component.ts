@@ -1,9 +1,9 @@
-import { AfterViewInit, Component, OnDestroy, OnInit, signal, WritableSignal } from '@angular/core';
+import { AfterViewInit, Component, inject, OnDestroy, OnInit, PLATFORM_ID, signal, WritableSignal } from '@angular/core';
 import { companySettings } from '../common/companyCustomization';
 import { debounceTime, Subscription } from 'rxjs';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { FaqSectionComponent } from "../common/faq-section/faq-section.component";
-import { CommonModule } from '@angular/common';
+import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { TextWithImageButtonComponent } from "../common/text-with-image-button/text-with-image-button.component";
 import { ImageSliderComponent } from "../common/image-slider/image-slider.component";
 import { MeasurementScaleComponent } from "../common/measurement-scale/measurement-scale.component";
@@ -28,7 +28,10 @@ export class DateNecklaceBuilderComponent implements OnInit, AfterViewInit, OnDe
     diamondQuality: new FormControl('Natural VS', Validators.required),
     fontStyle: new FormControl('Regular', Validators.required),
     letterHeight: new FormControl('Medium', Validators.required),
-    date: new FormControl('', this.endsWithDotValidator),
+    date: new FormControl('', [
+      Validators.required,
+      this.endsWithDotValidator
+    ])
   });
 
   public mediaItems: string[] = [
@@ -61,6 +64,18 @@ export class DateNecklaceBuilderComponent implements OnInit, AfterViewInit, OnDe
   public noOfDiamonds: WritableSignal<number> = signal(0);
   public caratWeight: WritableSignal<number> = signal(0);
   private subscription: Subscription = new Subscription();
+  public isSmallView = signal<boolean>(false);
+
+  private platformId = inject(PLATFORM_ID);
+  private resizeListener!: () => void;
+
+  private onResize(): void {
+    this.checkWindowWidth();
+  }
+
+  private checkWindowWidth(): void {
+    this.isSmallView.set(window.innerWidth < 800);
+  }
 
   constructor() {
   }
@@ -87,6 +102,9 @@ export class DateNecklaceBuilderComponent implements OnInit, AfterViewInit, OnDe
 
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
+    if (isPlatformBrowser(this.platformId)) {
+      window.removeEventListener('resize', this.resizeListener);
+    }
   }
 
   ngAfterViewInit(): void {
@@ -96,6 +114,12 @@ export class DateNecklaceBuilderComponent implements OnInit, AfterViewInit, OnDe
       const settings = companyName ? companySettings[companyName] : companySettings['default'];
       this.themeColor.set(settings.theme);
       this.multiplier.set(settings.multiplier);
+    }
+
+    if (isPlatformBrowser(this.platformId)) {
+      this.checkWindowWidth(); // Initial check
+      this.resizeListener = this.onResize.bind(this);
+      window.addEventListener('resize', this.resizeListener);
     }
   }
 

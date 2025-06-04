@@ -1,6 +1,6 @@
 <div class="main-product-page">
-
-    <div class="parent-container">
+@if(!isSmallView()) {
+    <div class="parent-container-normal">
         <div class="img-container">
             @if(imageLoaded() && showPreview()) {
                 <div class="necklace-container">
@@ -39,9 +39,9 @@
                             Date cannot end with a dot.
                         </mat-error>
                     </div>
-                    <button class="preview-button" [matTooltip]="formGroup.invalid || formGroup.get('date')?.value?.length === 0 ? 'Enter date to preview' : null"
-                        [ngStyle]="formGroup.invalid || formGroup.get('date')?.value?.length === 0 ? {} : {'background-color': themeColor(), 'color': '#fff'}"
-                        [disabled]="formGroup.invalid || formGroup.get('date')?.value?.length === 0" type="button" (click)="onPreviewClick()">
+                    <button class="preview-button" [matTooltip]="formGroup.invalid ? 'Enter date to preview' : null"
+                        [ngStyle]="formGroup.invalid ? {} : {'background-color': themeColor(), 'color': '#fff'}"
+                        [disabled]="formGroup.invalid" type="button" (click)="onPreviewClick()">
                         Preview
                         <mat-icon>{{ showPreview() ? 'visibility_off' : 'visibility' }}</mat-icon>
                     </button>
@@ -138,6 +138,149 @@
             </div>
         </div>
     </div>
+}
+@else {
+    <div class="parent-container-small">
+        <div class="img-container">
+            @if(imageLoaded() && showPreview()) {
+            <div class="necklace-container">
+                <!-- Left Image -->
+                <img [src]="chainImages()[0]" alt="left" [ngClass]=" 'left-img'" />
+
+                <!-- List of Images -->
+                <ul class="list-of-img">
+                    @for(image of characterImages(); track $index) {
+                    <li> <img [src]="image" [alt]="image"
+                            [ngClass]="formGroup.value.letterHeight === 'Medium' ? 'final-img' : 'final-img-large'" />
+                    </li>
+                    }
+                </ul>
+
+                <!-- Right Image -->
+                <img [src]="chainImages()[1]" alt="right" [ngClass]=" 'right-img'" />
+            </div>
+            <app-measurement-scale [height]="formGroup.value.letterHeight" [width]="itemWidth()" />
+            } @else {
+            <app-image-slider [mediaItems]="mediaItems" [themeColor]="themeColor()"></app-image-slider>
+            }
+        </div>
+
+        <div [formGroup]="formGroup" class="form-container">
+            <h2>{{formGroup.controls.metalColor.value}} Customized Diamond Necklace</h2>
+            <div class="price-section"><span>${{itemPrice()}}</span></div>
+
+            <!-- Custom Date -->
+            <div class="form-group">
+                <label for="date">Choose a date</label>
+                <div class="row">
+                    <div class="input-wrapper">
+                        <input class="input-field" matInput formControlName="date" placeholder="Eg. 16.11.25" (keypress)="restrictInput($event)"/>
+                        <mat-error *ngIf="formGroup.get('date')?.hasError('endsWithDot')">
+                            Date cannot end with a dot.
+                        </mat-error>
+                    </div>
+                    <button class="preview-button" [matTooltip]="formGroup.invalid ? 'Enter date to preview' : null"
+                        [ngStyle]="formGroup.invalid ? {} : {'background-color': themeColor(), 'color': '#fff'}"
+                        [disabled]="formGroup.invalid" type="button" (click)="onPreviewClick()">
+                        Preview
+                        <mat-icon>{{ showPreview() ? 'visibility_off' : 'visibility' }}</mat-icon>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Metal Color -->
+            <div class="form-group">
+                <label>Choose your color</label>
+                <div class="options-group">
+                    @for(color of metalColors; track $index) {
+                    <app-text-with-image-button [themeColor]="themeColor()" [imageSource]="color.Icon"
+                        [isSelected]="formGroup.get('metalColor')?.value === color.Name"
+                        (clicked)="selectOption('metalColor', color.Name)"></app-text-with-image-button>
+                    }
+                </div>
+            </div>
+
+            <!-- Metal Carat -->
+            <div class="form-group">
+                <label>Select carat</label>
+                <div class="options-group">
+                    <button type="button" *ngFor="let carat of metalCarats" (click)="selectOption('metalCarat', carat)"
+                        [class.active]="formGroup.get('metalCarat')?.value === carat" class="option">
+                        {{ carat }}
+                    </button>
+                </div>
+            </div>
+
+            <div class="form-group-sub-container">
+                <div class="form-group-row">
+                    <!-- Quantity -->
+                    <div class="form-group" style="display: flex; flex-direction: column;">
+                        <label for="quantity">Quantity</label>
+                        <input type="number" id="quantity" formControlName="quantity" class="quantity-input"
+                            placeholder="Enter quantity" />
+                        <div class="error-message" *ngIf="formGroup.get('quantity')?.errors?.['min']">
+                            * Please enter a valid quantity greater than 0.
+                        </div>
+                    </div>
+
+                    <!-- Font Style -->
+                    <div class="form-group">
+                        <label>Font Style</label>
+                        <div class="options-group">
+                            <button type="button" *ngFor="let font of fontStyles"
+                                (click)="selectOption('fontStyle', font)"
+                                [class.active]="formGroup.get('fontStyle')?.value === font" class="height-option">
+                                {{ font }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="form-group-row">
+                    <!-- Diamond Quality -->
+                    <div class="form-group">
+                        <label>Diamond Quality</label>
+                        <div class="options-group">
+                            <button type="button" *ngFor="let quality of diamondQualities"
+                                (click)="selectOption('diamondQuality', quality)"
+                                [class.active]="formGroup.get('diamondQuality')?.value === quality"
+                                class="height-option">
+                                {{ quality }}
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Letter Height -->
+                    <div class="form-group">
+                        <label>Letter Height</label>
+                        <div class="options-group">
+                            <button type="button" *ngFor="let height of letterHeights"
+                                (click)="selectOption('letterHeight', height)"
+                                [class.active]="formGroup.get('letterHeight')?.value === height" class="height-option">
+                                {{ height }}
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group" [style.--theme-color]="formGroup.invalid ? '#ccc' : themeColor()">
+                <div class="cta-buttons">
+                    <button type="submit" [disabled]="formGroup.invalid" class="submit-button primary"
+                        (click)="buyAction('BUY_NOW')">
+                        Buy Now
+                    </button>
+                    <button type="submit" [disabled]="formGroup.invalid" class="submit-button secondary"
+                        (click)="buyAction('ADD_TO_CART')">
+                        Add to cart
+                    </button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+}
+
     <div class="product-section">
         <div class="product-header" (click)="toggleDescription()">
             <span>Product Description</span>
