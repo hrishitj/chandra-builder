@@ -1,88 +1,127 @@
 
-<div class="main-page" [ngStyle]="{'color': companySetting.theme}">
-    
-    <div class="main-page-head">
-        <img [src]="necklaceImageTop" alt="logo" />
-        <div class="main-page-head-text">
-            <h2 *ngFor="let i of companySetting.header.description"
-                [ngStyle]="{'color': 'white'}">
-                {{ i }}
-            </h2>
-        </div>
-    </div>
-
-    <!-- add when tabs are added -->
-    <!-- <div class="main-page-head">
-        <img [src]="selectedTab === 'necklace' ? necklaceImageTop : braceletImageTop" alt="logo" />
-        <div class="main-page-head-text">
-            <h2 *ngFor="let i of companySetting.header.description"
-                [ngStyle]="{'color': selectedTab === 'necklace' ? 'white' : 'black'}">
-                {{ i }}
-            </h2>
-        </div>
-    </div>
-
-    <div class="tabs">
-        <span 
-          [class.active]="selectedTab === 'necklace'" 
-          (click)="selectTab('necklace')">
-          Necklace
-        </span>
-        <span 
-          [class.active]="selectedTab === 'bracelet'" 
-          (click)="selectTab('bracelet')">
-          Bracelet
-        </span>
-    </div> -->
-
-    <!-- <div class="row" *ngIf="selectedTab === 'necklace'">
-        <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 0 }"></ng-container>
-        <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 1 }"></ng-container>
-    </div>
-    <div class="row" *ngIf="selectedTab === 'bracelet'">
-        <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 2 }"></ng-container>
-        <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 3 }"></ng-container>
-    </div> -->
-
-    <div class="row">
-        <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 0 }"></ng-container>
-        <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 1 }"></ng-container>
-        <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 2 }"></ng-container>
-        <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 3 }"></ng-container>
-    </div>
-
-
-
-    <!-- <div class="image-container">
-        <img [src]="selectedTab === 'necklace' ? necklaceImageBottom : braceletImageBottom" alt="logo"/>
-    </div> -->
-
-    <div class="image-container">
-        <img [src]="necklaceImageBottom" alt="logo"/>
-    </div>
-
-    <div class="personalization-section">
-        <h2>Discover the Sparkle of Personalization</h2>
-        <p>
-            Jewelry is more than just an accessory—it reflects who you are. Our collection of personalized diamond necklaces
-            and bracelets is designed to celebrate life's special moments. Whether it's your name, a meaningful date, or a
-            cherished memory, each piece is custom-crafted to shine with elegance and meaning.
-            Whether you are treating yourself or searching for the perfect gift, our exquisite jewelry offers timeless design
-            with a personal touch. Celebrate your story or create a truly unforgettable gift for someone special. With
-            diamonds that sparkle like your memories, every piece is a lasting treasure.
-        </p>
+@if(!isSmallView()) {
+    <div class="main-page" [ngStyle]="{'color': companySetting.theme}">
         
-    </div>
+        <div class="main-page-head">
+            <img [src]="necklaceImageTop" alt="logo" />
+            <!-- <div class="main-page-head-text">
+                <h2 *ngFor="let i of companySetting.header.description"
+                    [ngStyle]="{'color': 'white'}">
+                    {{ i }}
+                </h2>
+            </div> -->
+        </div>
 
-    <app-faq-section></app-faq-section>
-</div>
+        <!-- add when tabs are added -->
+        <!-- <div class="main-page-head">
+            <img [src]="selectedTab === 'necklace' ? necklaceImageTop : braceletImageTop" alt="logo" />
+            <div class="main-page-head-text">
+                <h2 *ngFor="let i of companySetting.header.description"
+                    [ngStyle]="{'color': selectedTab === 'necklace' ? 'white' : 'black'}">
+                    {{ i }}
+                </h2>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <span 
+            [class.active]="selectedTab === 'necklace'" 
+            (click)="selectTab('necklace')">
+            Necklace
+            </span>
+            <span 
+            [class.active]="selectedTab === 'bracelet'" 
+            (click)="selectTab('bracelet')">
+            Bracelet
+            </span>
+        </div> -->
+
+        <!-- <div class="row" *ngIf="selectedTab === 'necklace'">
+            <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 0 }"></ng-container>
+            <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 1 }"></ng-container>
+        </div>
+        <div class="row" *ngIf="selectedTab === 'bracelet'">
+            <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 2 }"></ng-container>
+            <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 3 }"></ng-container>
+        </div> -->
+
+        <div class="row">
+            <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 0 }"></ng-container>
+            <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 1 }"></ng-container>
+            <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 2 }"></ng-container>
+            <ng-container *ngTemplateOutlet="builderTemplate; context: { index: 3 }"></ng-container>
+        </div>
+
+
+
+        <!-- <div class="image-container">
+            <img [src]="selectedTab === 'necklace' ? necklaceImageBottom : braceletImageBottom" alt="logo"/>
+        </div> -->
+
+        <div class="image-container">
+            <img [src]="necklaceImageBottom" alt="logo"/>
+            <div class="banner-text">
+                <h2 *ngFor="let i of companySetting.header.description"
+                    [ngStyle]="{'color': 'black'}">
+                    {{ i }}
+                </h2>
+            </div>
+        </div>
+
+        <div class="personalization-section">
+            <h2>Discover the Sparkle of Personalization</h2>
+            <p>
+                Jewelry is more than just an accessory—it reflects who you are. Our collection of personalized diamond necklaces
+                and bracelets is designed to celebrate life's special moments. Whether it's your name, a meaningful date, or a
+                cherished memory, each piece is custom-crafted to shine with elegance and meaning.
+                Whether you are treating yourself or searching for the perfect gift, our exquisite jewelry offers timeless design
+                with a personal touch. Celebrate your story or create a truly unforgettable gift for someone special. With
+                diamonds that sparkle like your memories, every piece is a lasting treasure.
+            </p>
+            
+        </div>
+
+        <app-faq-section></app-faq-section>
+    </div>
+}
+@else {
+    <div class="main-page-mobile" [ngStyle]="{'color': companySetting.theme}">
+        <div class="top-banner">
+            <img [src]="mobileHeaderImage" alt="logo" />
+        </div>
+
+        <div class="row">
+            <ng-container *ngTemplateOutlet="builderTemplateMobile; context: { index: 0 }"></ng-container>
+            <ng-container *ngTemplateOutlet="builderTemplateMobile; context: { index: 1 }"></ng-container>
+            <ng-container *ngTemplateOutlet="builderTemplateMobile; context: { index: 2 }"></ng-container>
+            <ng-container *ngTemplateOutlet="builderTemplateMobile; context: { index: 3 }"></ng-container>
+        </div>
+
+        <div class="image-container">
+            <img [src]="mobileBottomImage" alt="logo"/>
+            <div class="banner-text">
+                <h2 *ngFor="let i of companySetting.header.description"
+                    [ngStyle]="{'color': 'black'}">
+                    {{ i }}
+                </h2>
+            </div>
+        </div>
+    </div>
+}
 
 <ng-template #builderTemplate let-index="index">
     <div class="builder-card">
         <a [routerLink]="buildersData[index].Url" [queryParams]="buildersData[index].queryParams">
-            <div class="builder-details">
-                <img [src]="buildersData[index].Img" />
-            </div>
+            <img [src]="buildersData[index].Img" />
+        </a>
+        <div class="card-desc">{{ buildersData[index].Description }}</div>
+    </div>
+</ng-template>
+
+<ng-template #builderTemplateMobile let-index="index">
+    <div class="builder-card">
+        <a [routerLink]="buildersData[index].Url" [queryParams]="buildersData[index].queryParams">
+            <img [src]="buildersData[index].MobileImg" />
         </a>
         <div class="card-desc">{{ buildersData[index].Description }}</div>
     </div>
