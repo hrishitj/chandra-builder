@@ -71,14 +71,14 @@
         <div class="personalization-section">
             <h2>Discover the Sparkle of Personalization</h2>
             <p>
-                Jewelry is more than just an accessory—it reflects who you are. Our collection of personalized diamond necklaces
-                and bracelets is designed to celebrate life's special moments. Whether it's your name, a meaningful date, or a
-                cherished memory, each piece is custom-crafted to shine with elegance and meaning.
-                Whether you are treating yourself or searching for the perfect gift, our exquisite jewelry offers timeless design
-                with a personal touch. Celebrate your story or create a truly unforgettable gift for someone special. With
-                diamonds that sparkle like your memories, every piece is a lasting treasure.
+                Jewelry is more than just an accessory—it reflects who you are. Our collection of personalized diamond necklaces and bracelets is designed to celebrate life's special moments. Whether it's your name, a meaningful date, or a cherished memory, each piece is custom-crafted to shine with elegance and meaning.
             </p>
-            
+            <p>
+                Whether you are treating yourself or searching for the perfect gift, our exquisite jewelry offers timeless design with a personal touch. Celebrate your story or create a truly unforgettable gift for someone special. With diamonds that sparkle like your memories, every piece is a lasting treasure.
+            </p>
+            <p>
+                Make it personal. Make it memorable.
+            </p>
         </div>
 
         <app-faq-section></app-faq-section>
@@ -100,12 +100,27 @@
         <div class="image-container">
             <img [src]="mobileBottomImage" alt="logo"/>
             <div class="banner-text">
-                <h2 *ngFor="let i of companySetting.header.description"
+                <h5 *ngFor="let i of companySetting.header.description"
                     [ngStyle]="{'color': 'black'}">
                     {{ i }}
-                </h2>
+                </h5>
             </div>
         </div>
+
+        <div class="personalization-section">
+            <h2>Discover the Sparkle of Personalization</h2>
+            <p>
+                Jewelry is more than just an accessory—it reflects who you are. Our collection of personalized diamond necklaces and bracelets is designed to celebrate life's special moments. Whether it's your name, a meaningful date, or a cherished memory, each piece is custom-crafted to shine with elegance and meaning.
+            </p>
+            <p>
+                Whether you are treating yourself or searching for the perfect gift, our exquisite jewelry offers timeless design with a personal touch. Celebrate your story or create a truly unforgettable gift for someone special. With diamonds that sparkle like your memories, every piece is a lasting treasure.
+            </p>
+            <p>
+                Make it personal. Make it memorable.
+            </p>
+        </div>
+        
+        <app-faq-section></app-faq-section>
     </div>
 }
 

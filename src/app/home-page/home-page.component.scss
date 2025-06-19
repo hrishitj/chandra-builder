@@ -61,7 +61,6 @@
     display: flex;
     flex-direction: row;
     gap: 12px;
-    flex-wrap: wrap;
     align-items: center;
     justify-content: center;
     margin: 5vw 3vw 0 3vw;
@@ -186,5 +185,56 @@
         margin: 8px;
       }
     }
+  }
+
+  .image-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    margin: 12px 0;
+    width: 100%;
+
+    img {
+      object-fit: cover;
+    }
+
+    .banner-text {
+      position: absolute;
+      top: 25%;
+      right: 5%;
+      width: 120px;
+
+      h5 {
+        text-align: center;
+        font-weight: 400;
+        font-size: 10px;
+        margin: 0;
+      }
+    }
+  }
+
+  .personalization-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 15px 10px;
+
+    h2 {
+      margin: 0;
+      font-size: 5vw;
+      font-weight: 400;
+    }
+
+    p {
+      text-align: center;
+      width: 76%;
+      font-size: 3.5vw;
+      font-weight: 400;
+      margin-bottom: 10px;
+    }
+  }
+
+  app-faq-section {
+    width: 100%;
   }
 }

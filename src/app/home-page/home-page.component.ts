@@ -27,7 +27,7 @@ export class HomePageComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private checkWindowWidth(): void {
-    this.isSmallView.set(window.innerWidth < 800);
+    this.isSmallView.set(window.innerWidth < 451);
   }
 
   constructor(private route: ActivatedRoute) {}
