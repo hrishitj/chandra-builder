@@ -1,5 +1,5 @@
-import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Component, inject, OnDestroy, OnInit, PLATFORM_ID, signal, AfterViewInit } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { companySettings } from '../common/companyCustomization';
 import { MatDividerModule } from '@angular/material/divider';
@@ -9,34 +9,19 @@ import { FaqSectionComponent } from "../common/faq-section/faq-section.component
   selector: 'app-home-page',
   imports: [RouterModule, CommonModule, MatDividerModule, FaqSectionComponent],
   templateUrl: './home-page.component.html',
-  styleUrl: './home-page.component.scss'
+  styleUrl: './home-page.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HomePageComponent implements OnInit, AfterViewInit, OnDestroy {
+export class HomePageComponent implements OnInit {
 
   public buildersData: { Img: string; MobileImg: string; Description: string; Url: string, queryParams: any }[] = [];
   public companySetting: { theme: string; multiplier: number; header: {img: string, description: string []} } = companySettings['default'];
-  public headerDetails : { Img: string; Description: string;} = { Img: '', Description: ''};
-
-  public isSmallView = signal<boolean>(false);
-
-  private platformId = inject(PLATFORM_ID);
-  private resizeListener!: () => void;
-
-  private onResize(): void {
-    this.checkWindowWidth();
-  }
-
-  private checkWindowWidth(): void {
-    this.isSmallView.set(window.innerWidth < 451);
-  }
 
   constructor(private route: ActivatedRoute) {}
 
   // public selectedTab: string = 'necklace'; // Default tab
-  public necklaceImageTop: string = 'assets/home/necklace-header.jpg';
-  public necklaceImageBottom: string = 'assets/home/necklace-bottom.jpg';
-  public braceletImageTop: string = 'assets/home/bracelet-header.jpg'; 
-  public braceletImageBottom: string = 'assets/home/bracelet-bottom.jpg';
+  public headerImage: string = 'assets/home/header.png';
+  public footerImage: string = 'assets/home/footer.png';
   public mobileHeaderImage: string = 'assets/home/mobile-header.png';
   public mobileBottomImage: string = 'assets/home/mobile-bottom-image.jpg';
 
@@ -46,7 +31,6 @@ export class HomePageComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit(): void {
     this.route.queryParamMap.subscribe(params => {
-
       const companyName = params.get("company");
       const queryParams = companyName ? { company: companyName } : {};
       this.companySetting = companyName ? companySettings[companyName] : companySettings['default'];
@@ -60,17 +44,4 @@ export class HomePageComponent implements OnInit, AfterViewInit, OnDestroy {
     });
   }
 
-  ngAfterViewInit(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      this.checkWindowWidth(); // Initial check
-      this.resizeListener = this.onResize.bind(this);
-      window.addEventListener('resize', this.resizeListener);
-    }
-  }
-
-  ngOnDestroy(): void {
-    if (isPlatformBrowser(this.platformId)) {
-      window.removeEventListener('resize', this.resizeListener);
-    }
-  }
 }
