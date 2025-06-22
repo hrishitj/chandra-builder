@@ -1,15 +1,25 @@
 import { Routes } from '@angular/router';
-import { HomePageComponent } from './home-page/home-page.component';
-import { NameNecklaceBuilderComponent } from './name-necklace-builder/name-necklace-builder.component';
-import { NameBraceletBuilderComponent } from './name-bracelet-builder/name-bracelet-builder.component';
-import { DateBraceletBuilderComponent } from './date-bracelet-builder/date-bracelet-builder.component';
-import { DateNecklaceBuilderComponent } from './date-necklace-builder/date-necklace-builder.component';
 
 export const routes: Routes = [
-    { path: 'home', component: HomePageComponent },
-    { path: 'name-bracelet-builder', component: NameBraceletBuilderComponent },
-    { path: 'name-necklace-builder', component: NameNecklaceBuilderComponent },
-    { path: 'date-necklace-builder', component: DateNecklaceBuilderComponent },
-    { path: 'date-bracelet-builder', component: DateBraceletBuilderComponent },
+    { 
+      path: 'home', 
+      loadComponent: () => import('./home-page/home-page.component').then(m => m.HomePageComponent),
+    },
+    { 
+      path: 'name-bracelet-builder',
+      loadComponent: () => import('./name-bracelet-builder/name-bracelet-builder.component').then(m => m.NameBraceletBuilderComponent),
+    },
+    { 
+      path: 'name-necklace-builder',
+      loadComponent: () => import('./name-necklace-builder/name-necklace-builder.component').then(m => m.NameNecklaceBuilderComponent),
+    },
+    { 
+      path: 'date-necklace-builder',
+      loadComponent: () => import('./date-necklace-builder/date-necklace-builder.component').then(m => m.DateNecklaceBuilderComponent),
+    },
+    { 
+      path: 'date-bracelet-builder',
+      loadComponent: () => import('./date-bracelet-builder/date-bracelet-builder.component').then(m => m.DateBraceletBuilderComponent),
+    },
     { path: '', redirectTo: '/home', pathMatch: 'full' },
   ];
