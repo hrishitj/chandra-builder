@@ -1,83 +1,70 @@
-  .normal-view-container {
-    display: flex;
-    flex-direction: row;
-    align-items: start;
-    justify-content: center;
-    gap: clamp(30px, 3vw, 50px);
+.media-container {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: start; 
+  justify-content: center;
+  gap: clamp(30px, 3vw, 50px);
 
-    .main-media {
-      width: 35vw;
-      height: auto;
-    }
-
-    .main-media img,
-    .main-media video {
-      width: 100%;
-    }
-
-    .thumbnail-selector {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
+  .main-media {
+    width: 35vw;
+    height: auto;
   }
 
-  .small-view-container {
+  .main-media img,
+  .main-media video {
+    width: 100%;
+  }
+
+  .thumbnail-selector {
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: clamp(30px, 3vw, 50px);
+    gap: 10px;
 
-    .main-media {
-      width: 75vw;
-      height: auto;
-    }
-
-    .main-media img,
-    .main-media video {
-      width: 100%;
-    }
-
-    .thumbnail-selector {
-      display: flex;
-      flex-direction: row;
-      gap: 10px;
-    }
-
-    .thumbnail-selector>img,
-    .thumbnail-selector>.thumbnail-wrapper {
-      width: 12vw;
-      height: auto;
+    > img,
+    > .thumbnail-wrapper {
+      width: 7.5vw;
       cursor: pointer;
       transition: border-color 0.3s;
     }
   }
+}
 
-  .thumbnail-selector>img,
-  .thumbnail-selector>.thumbnail-wrapper {
-    width: 7.5vw;
-    height: auto;
-    cursor: pointer;
-    transition: border-color 0.3s;
+.thumbnail-wrapper {
+  position: relative;
+
+  video {
+    width: 100%;
+    display: block;
   }
 
-  .thumbnail-wrapper {
-    position: relative;
+  .play-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 5vw;
+    transform: translate(-50%, -50%);
+    opacity: 0.75;
+    pointer-events: none;
+  }
+}
 
-    .play-overlay {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 40px;
-      transform: translate(-50%, -50%);
-      opacity: 0.75;
-      pointer-events: none;
+/* 💡 Responsive: small view overrides */
+@media (max-width: 800px) {
+  .media-container {
+    flex-direction: column;
+    align-items: center;
+
+    .main-media {
+      width: 75vw;
     }
 
-    video {
-      width: 100%;
-      height: auto;
-      display: block;
+    .thumbnail-selector {
+      flex-direction: row;
+
+      > img,
+      > .thumbnail-wrapper {
+        width: 12vw;
+      }
     }
   }
+}

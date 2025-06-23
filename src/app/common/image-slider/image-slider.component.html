@@ -1,70 +1,31 @@
-@if(!isSmallView()) {
-<div class="normal-view-container">
-  <!-- Thumbnail Selector -->
-  <div class="thumbnail-selector">
-    @for (item of mediaItems(); track $index) {
-    <!-- Display thumbnails for images/videos -->
-    @if(isImage(item)) {
-    <img [src]="item" (click)="selectMedia($index)"
-      [style.border]="($index === selectedIndex ? '1px solid ' + themeColor() : null)" alt="Thumbnail" />
+<div class="media-container">
+  <!-- Main Media -->
+  <div class="main-media">
+    @if(isImage(mediaItems()[selectedIndex])) {
+      <img [src]="mediaItems()[selectedIndex]" alt="Main Image" />
     } @else {
-    <div class="thumbnail-wrapper" [style.border]="($index === selectedIndex ? '1px solid ' + themeColor() : null)"
-      (click)="selectMedia($index)">
-      <video muted>
-        <source [src]="item" type="video/mp4" />
+      <video autoplay muted loop>
+        <source [src]="mediaItems()[selectedIndex]" type="video/mp4" />
         Your browser does not support the video tag.
       </video>
-      <img src="assets/play-button-icon.svg" alt="Play" class="play-overlay" />
-    </div>
-    }
-    }
-  </div>
-
-  <!-- Main Media -->
-  <div class="main-media">
-    @if(isImage(mediaItems()[selectedIndex])) {
-    <img [src]="mediaItems()[selectedIndex]" alt="Main Image" />
-    } @else {
-    <video autoplay muted loop>
-      <source [src]="mediaItems()[selectedIndex]" type="video/mp4" />
-      Your browser does not support the video tag.
-    </video>
-    }
-  </div>
-</div>
-}
-@else {
-<div class="small-view-container">
-  <!-- Main Media -->
-  <div class="main-media">
-    @if(isImage(mediaItems()[selectedIndex])) {
-    <img [src]="mediaItems()[selectedIndex]" alt="Main Image" />
-    } @else {
-    <video autoplay muted loop>
-      <source [src]="mediaItems()[selectedIndex]" type="video/mp4" />
-      Your browser does not support the video tag.
-    </video>
     }
   </div>
 
   <!-- Thumbnail Selector -->
   <div class="thumbnail-selector">
-    @for (item of mediaItems(); track $index) {
-    <!-- Display thumbnails for images/videos -->
-    @if(isImage(item)) {
-    <img [src]="item" (click)="selectMedia($index)"
-      [style.border]="($index === selectedIndex ? '1px solid ' + themeColor() : null)" alt="Thumbnail" />
-    } @else {
-    <div class="thumbnail-wrapper" [style.border]="($index === selectedIndex ? '1px solid ' + themeColor() : null)"
-      (click)="selectMedia($index)">
-      <video muted>
-        <source [src]="item" type="video/mp4" />
-        Your browser does not support the video tag.
-      </video>
-      <img src="assets/play-button-icon.svg" alt="Play" class="play-overlay" />
-    </div>
-    }
+    @for(item of mediaItems(); track $index) {
+      @if(isImage(item)) {
+        <img [src]="item" (click)="selectMedia($index)"
+          [style.border]="($index === selectedIndex ? '1px solid ' + themeColor() : null)" alt="Thumbnail" />
+      } @else {
+        <div class="thumbnail-wrapper" [style.border]="($index === selectedIndex ? '1px solid ' + themeColor() : null)"
+          (click)="selectMedia($index)">
+          <video muted>
+            <source [src]="item" type="video/mp4" />
+          </video>
+          <img src="assets/play-button-icon.svg" alt="Play" class="play-overlay" />
+        </div>
+      }
     }
   </div>
 </div>
-}
