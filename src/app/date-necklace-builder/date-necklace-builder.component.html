@@ -32,7 +32,7 @@
             <!-- Custom Date -->
             <div class="form-group">
                 <label for="date">Choose a date</label>
-                <div class="row">
+                <div class="row" [style.--theme-color]="formGroup.invalid ? '#ccc' : themeColor()">
                     <div class="input-wrapper">
                         <input class="input-field" matInput formControlName="date" placeholder="Eg. 16.11.25" (keypress)="restrictInput($event)"/>
                         <mat-error *ngIf="formGroup.get('date')?.hasError('endsWithDot')">
@@ -40,7 +40,7 @@
                         </mat-error>
                     </div>
                     <button class="preview-button" [matTooltip]="formGroup.invalid ? 'Enter date to preview' : null"
-                        [ngStyle]="formGroup.invalid ? {} : {'background-color': themeColor(), 'color': '#fff'}"
+                        [class.enabled-preview]="!formGroup.invalid"
                         [disabled]="formGroup.invalid" type="button" (click)="onPreviewClick()">
                         Preview
                         <mat-icon>{{ showPreview() ? 'visibility_off' : 'visibility' }}</mat-icon>
@@ -172,7 +172,7 @@
             <!-- Custom Date -->
             <div class="form-group">
                 <label for="date">Choose a date</label>
-                <div class="row">
+                <div class="row" [style.--theme-color]="formGroup.invalid ? '#ccc' : themeColor()">
                     <div class="input-wrapper">
                         <input class="input-field" matInput formControlName="date" placeholder="Eg. 16.11.25" (keypress)="restrictInput($event)"/>
                         <mat-error *ngIf="formGroup.get('date')?.hasError('endsWithDot')">
@@ -180,7 +180,7 @@
                         </mat-error>
                     </div>
                     <button class="preview-button" [matTooltip]="formGroup.invalid ? 'Enter date to preview' : null"
-                        [ngStyle]="formGroup.invalid ? {} : {'background-color': themeColor(), 'color': '#fff'}"
+                        [class.enabled-preview]="!formGroup.invalid"
                         [disabled]="formGroup.invalid" type="button" (click)="onPreviewClick()">
                         Preview
                         <mat-icon>{{ showPreview() ? 'visibility_off' : 'visibility' }}</mat-icon>
@@ -296,7 +296,8 @@
             <span>Product Details</span>
             <span class="toggle-icon">{{ isDetailsVisible ? '-' : '+' }}</span>
         </div>
-        <div class="product-details" *ngIf="isDetailsVisible">
+        @if(isDetailsVisible) {
+        <div class="product-details" [class.mobile]="isSmallView()">
             <div>
                 <div class="section-header">Metal Information:</div>
                 <ul>
@@ -321,6 +322,7 @@
                 </ul>
             </div>
         </div>
+        }
     </div>
     <app-faq-section></app-faq-section>
 </div>

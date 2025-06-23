@@ -24,12 +24,12 @@
 
             <div class="form-group">
                 <label for="customName">Enter your text</label>
-                <div class="row">
+                <div class="row" [style.--theme-color]="formGroup.invalid ? '#ccc' : themeColor()">
                     <input type="text" id="customName" formControlName="customName" class="input-field"
                         [attr.placeholder]="(10 - (formGroup.get('customName')?.value?.length || 0)) + ' characters remaining'"
                         maxlength="10" style="text-transform: uppercase;" />
                     <button class="preview-button" [matTooltip]="formGroup.invalid ? 'Enter name to preview' : null"
-                        [ngStyle]="formGroup.invalid ? {} : {'background-color': themeColor(), 'color': '#fff'}"
+                        [class.enabled-preview]="!formGroup.invalid"
                         [disabled]="formGroup.invalid" type="button" (click)="onPreviewClick()">
                         Preview
                         <mat-icon>{{ showPreview() ? 'visibility_off' : 'visibility' }}</mat-icon>
@@ -156,12 +156,12 @@
 
             <div class="form-group">
                 <label for="customName">Enter your text</label>
-                <div class="row">
+                <div class="row" [style.--theme-color]="formGroup.invalid ? '#ccc' : themeColor()">
                     <input type="text" id="customName" formControlName="customName" class="input-field"
                         [attr.placeholder]="(10 - (formGroup.get('customName')?.value?.length || 0)) + ' characters remaining'"
                         maxlength="10" style="text-transform: uppercase;" />
                     <button class="preview-button" [matTooltip]="formGroup.invalid ? 'Enter name to preview' : null"
-                        [ngStyle]="formGroup.invalid ? {} : {'background-color': themeColor(), 'color': '#fff'}"
+                        [class.enabled-preview]="!formGroup.invalid"
                         [disabled]="formGroup.invalid" type="button" (click)="onPreviewClick()">
                         Preview
                         <mat-icon>{{ showPreview() ? 'visibility_off' : 'visibility' }}</mat-icon>
@@ -278,33 +278,33 @@
             <span>Product Details</span>
             <span class="toggle-icon">{{ isDetailsVisible ? '-' : '+' }}</span>
         </div>
-        <div class="product-details" *ngIf="isDetailsVisible">
+        @if(isDetailsVisible) {
+        <div class="product-details" [class.mobile]="isSmallView()">
             <div>
-                <h4>Metal Information:</h4>
+                <div class="section-header">Metal Information:</div>
                 <ul>
                     <li>Karat: {{formValue.metalCarat ?? ''}}</li>
                     <li>Color: {{formValue.metalColor ?? ''}}</li>
                 </ul>
             </div>
             <div>
-                <h4>Diamond Information:</h4>
+                <div class="section-header">Diamond Information:</div>
                 <ul>
                     <li>Number of Diamonds: {{noOfDiamonds()}} </li>
                     <li>Shape: Round</li>
                     <li>Carat Weight: {{caratWeight().toFixed(2)}} </li>
-                    <li>Diamond Color: [Insert Diamond Color Grade]</li>
-                    <li>Diamond Clarity: [Insert Diamond Clarity Grade]</li>
                 </ul>
             </div>
             <div>
-                <h4>Additional Information:</h4>
+                <div class="section-header">Additional Information:</div>
                 <ul>
                     <li>Total Diamond Weight (Approx.):{{caratWeight().toFixed(2)}}</li>
-                    <li>Chain Type / Length: Cat 30 Cable Chain with Lobster Lock / 7.5 INCH</li>
+                    <li>Chain Type / Length: Cat 30 Cable Chain with Lobster Lock / 18 INCH</li>
                     <li>Design Width (Approx.): {{itemWidth()}} </li>
                 </ul>
             </div>
         </div>
+        }
     </div>
     <app-faq-section></app-faq-section>
 </div>

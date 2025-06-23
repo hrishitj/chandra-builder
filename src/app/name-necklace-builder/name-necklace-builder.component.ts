@@ -4,7 +4,6 @@ import { ImageSliderComponent } from "../common/image-slider/image-slider.compon
 import { CommonModule, isPlatformBrowser } from '@angular/common';
 import { debounceTime, Subscription } from 'rxjs';
 import { TextWithImageButtonComponent } from "../common/text-with-image-button/text-with-image-button.component";
-import { HttpClient } from '@angular/common/http';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
@@ -15,7 +14,6 @@ import { MeasurementScaleComponent } from "../common/measurement-scale/measureme
 @Component({
   selector: 'app-name-necklace-builder',
   imports: [ImageSliderComponent, ReactiveFormsModule, CommonModule, TextWithImageButtonComponent, MatDividerModule, MatIconModule, MatTooltipModule, FaqSectionComponent, MeasurementScaleComponent],
-  providers: [HttpClient],
   templateUrl: './name-necklace-builder.component.html',
   styleUrl: './name-necklace-builder.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush

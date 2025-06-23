@@ -50,11 +50,17 @@
           gap: 10px;
           font-weight: 400;
           font-size: clamp(12px, 1.2vw, 30px);
+          font-family: 'Avenir', sans-serif;
           padding: 7px 16px;
           height: 33px;
           border: 1px solid #ccc;
           background-color: #fff;
           cursor: pointer;
+
+          &.enabled-preview {
+            background-color: var(--theme-color);
+            color: #fff;
+          }
         }
 
         .preview-button:disabled {
@@ -102,6 +108,7 @@
           width: clamp(40px, 1vw, 125px);
           height: clamp(25px, 3vw, 50px);
           font-size: clamp(6px, 1.2vw, 20px);
+          font-family: 'Avenir', sans-serif;
           border: 1px solid #ccc;
         }
 
@@ -111,6 +118,7 @@
 
           .option {
             font-size: clamp(6px, 1vw, 18px);
+            font-family: 'Avenir', sans-serif;
             width: 60px;
             height: 60px;
             border: 1px solid #ccc;
@@ -123,6 +131,7 @@
 
           .height-option {
             font-size: clamp(6px, 1vw, 18px);
+            font-family: 'Avenir', sans-serif;
             width: max-content;
             height: 40px;
             padding: 8px 16px;
@@ -151,6 +160,7 @@
           margin-top: 10px;
           font-weight: 400;
           font-size: clamp(12px, 1.3vw, 30px);
+          font-family: 'Avenir', sans-serif;
 
           .submit-button {
             font-size: clamp(10px, 1.25vw, 25px);
@@ -158,7 +168,7 @@
             padding: 0.7rem 1.25rem;
             height: auto;
             cursor: pointer;
-            width: 80%;
+            width: 100%;
             border: none;
           }
 
@@ -308,11 +318,17 @@
           gap: 10px;
           font-weight: 400;
           font-size: clamp(12px, 1.2vw, 30px);
+          font-family: 'Avenir', sans-serif;
           padding: 7px 16px;
           height: 33px;
           border: 1px solid #ccc;
           background-color: #fff;
           cursor: pointer;
+
+          &.enabled-preview {
+            background-color: var(--theme-color);
+            color: #fff;
+          }
         }
 
         .preview-button:disabled {
@@ -354,6 +370,7 @@
           height: clamp(25px, 3vw, 50px);
           font-size: clamp(6px, 0.8vw, 20px);
           border: 1px solid #ccc;
+          font-family: 'Avenir', sans-serif;
         }
 
         .options-group {
@@ -364,6 +381,7 @@
             font-size: clamp(8px, 1vw, 18px);
             width: clamp(30px, 5vw, 60px);
             height: clamp(30px, 5vw, 60px);
+            font-family: 'Avenir', sans-serif;
             border: 1px solid #ccc;
             background-color: #fff;
             cursor: pointer;
@@ -374,6 +392,7 @@
 
           .height-option {
             font-size: clamp(6px, 1vw, 18px);
+            font-family: 'Avenir', sans-serif;
             width: 10vw;
             word-wrap: normal;
             height: 30px;
@@ -400,6 +419,7 @@
           margin-top: 10px;
           font-weight: 400;
           font-size: clamp(12px, 1.3vw, 30px);
+          font-family: 'Avenir', sans-serif;
 
           .submit-button {
             font-size: clamp(10px, 1.25vw, 25px);
@@ -522,6 +542,10 @@
     .product-details {
       display: flex;
       gap: 20px;
+
+      &.mobile {
+        flex-direction: column;
+      }
 
       .section-header {
         font-size: clamp(12px, 1.3vw, 30px);

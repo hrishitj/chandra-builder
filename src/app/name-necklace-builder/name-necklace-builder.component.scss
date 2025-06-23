@@ -32,12 +32,18 @@
           justify-content: center;
           gap: 10px;
           font-weight: 400;
+          font-family: 'Avenir', sans-serif;
           font-size: clamp(12px, 1.2vw, 30px);
           padding: 7px 16px;
           height: 33px;
           border: 1px solid #ccc;
           background-color: #fff;
           cursor: pointer;
+
+          &.enabled-preview {
+            background-color: var(--theme-color);
+            color: #fff;
+          }
         }
 
         .preview-button:disabled {
@@ -103,6 +109,7 @@
 
           .option {
             font-size: clamp(6px, 1vw, 18px);
+            font-family: 'Avenir', sans-serif;
             width: 60px;
             height: 60px;
             border: 1px solid #ccc;
@@ -115,6 +122,7 @@
 
           .height-option {
             font-size: clamp(6px, 1vw, 18px);
+            font-family: 'Avenir', sans-serif;
             width: max-content;
             height: 40px;
             padding: 8px 16px;
@@ -139,6 +147,7 @@
         .cta-buttons {
           display: flex;
           flex-direction: column !important;
+          font-family: 'Avenir', sans-serif;
           gap: 10px;
           margin-top: 10px;
           font-weight: 400;
@@ -291,6 +300,11 @@
           border: 1px solid #ccc;
           background-color: #fff;
           cursor: pointer;
+
+          &.enabled-preview {
+            background-color: var(--theme-color);
+            color: #fff;
+          }
         }
 
         .preview-button:disabled {
@@ -349,6 +363,7 @@
 
           .option {
             font-size: clamp(8px, 1vw, 18px);
+            font-family: 'Avenir', sans-serif;
             width: clamp(30px, 5vw, 60px);
             height: clamp(30px, 5vw, 60px);
             border: 1px solid #ccc;
@@ -361,6 +376,7 @@
 
           .height-option {
             font-size: clamp(6px, 1vw, 18px);
+            font-family: 'Avenir', sans-serif;
             width: 10vw;
             word-wrap: normal;
             height: 30px;
@@ -385,16 +401,17 @@
           flex-direction: column !important;
           gap: 10px;
           margin-top: 10px;
+          font-family: 'Avenir', sans-serif;
           font-weight: 400;
           font-size: clamp(12px, 1.3vw, 30px);
 
           .submit-button {
+            width: 100%;
             font-size: clamp(10px, 1.25vw, 25px);
             font-weight: 300;
             padding: 0.7rem 1.25rem;
             height: auto;
             cursor: pointer;
-            width: 80%;
             border: none;
           }
 
@@ -509,6 +526,10 @@
     .product-details {
       display: flex;
       gap: 20px;
+
+      &.mobile {
+        flex-direction: column;
+      }
 
       .section-header {
         font-size: clamp(12px, 1.3vw, 30px);

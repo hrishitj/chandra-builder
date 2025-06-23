@@ -33,11 +33,17 @@
           gap: 10px;
           font-weight: 400;
           font-size: clamp(12px, 1.2vw, 30px);
+          font-family: 'Avenir', sans-serif;
           padding: 7px 16px;
           height: 33px;
           border: 1px solid #ccc;
           background-color: #fff;
           cursor: pointer;
+
+          &.enabled-preview {
+            background-color: var(--theme-color);
+            color: #fff;
+          }
         }
 
         .preview-button:disabled {
@@ -85,6 +91,7 @@
           flex-direction: row !important;
           gap: 0.5rem;
           font-weight: 400;
+          font-family: 'Avenir', sans-serif;
           font-size: clamp(12px, 1.3vw, 30px);
         }
 
@@ -111,6 +118,7 @@
 
           .option {
             font-size: clamp(6px, 1vw, 18px);
+            font-family: 'Avenir', sans-serif;
             width: max-content;
             height: 60px;
             padding: 8px 16px;
@@ -124,6 +132,7 @@
 
           .height-option {
             font-size: clamp(6px, 1vw, 18px);
+            font-family: 'Avenir', sans-serif;
             width: max-content;
             height: 40px;
             padding: 8px 16px;
@@ -150,6 +159,7 @@
           flex-direction: column !important;
           gap: 10px;
           margin-top: 10px;
+          font-family: 'Avenir', sans-serif;
           font-weight: 400;
           font-size: clamp(12px, 1.3vw, 30px);
 
@@ -275,11 +285,17 @@
           gap: 10px;
           font-weight: 400;
           font-size: clamp(12px, 1.2vw, 30px);
+          font-family: 'Avenir', sans-serif;
           padding: 7px 16px;
           height: 33px;
           border: 1px solid #ccc;
           background-color: #fff;
           cursor: pointer;
+
+          &.enabled-preview {
+            background-color: var(--theme-color);
+            color: #fff;
+          }
         }
 
         .preview-button:disabled {
@@ -340,6 +356,7 @@
             font-size: clamp(8px, 1vw, 18px);
             width: clamp(30px, 5vw, 60px);
             height: clamp(30px, 5vw, 60px);
+            font-family: 'Avenir', sans-serif;
             border: 1px solid #ccc;
             background-color: #fff;
             cursor: pointer;
@@ -350,6 +367,7 @@
 
           .height-option {
             font-size: clamp(6px, 1vw, 18px);
+            font-family: 'Avenir', sans-serif;
             width: 10vw;
             word-wrap: normal;
             height: 30px;
@@ -376,6 +394,7 @@
           margin-top: 10px;
           font-weight: 400;
           font-size: clamp(12px, 1.3vw, 30px);
+          font-family: 'Avenir', sans-serif;
 
           .submit-button {
             font-size: clamp(10px, 1.25vw, 25px);
@@ -383,7 +402,7 @@
             padding: 0.7rem 1.25rem;
             height: auto;
             cursor: pointer;
-            width: 80%;
+            width: 100%;
             border: none;
           }
 
@@ -480,6 +499,16 @@
     .product-details {
       display: flex;
       gap: 20px;
+
+      &.mobile {
+        flex-direction: column;
+      }
+
+      .section-header {
+        font-size: clamp(12px, 1.3vw, 30px);
+        font-weight: 400;
+        margin-bottom: 10px;
+      }
     }
   }
 
