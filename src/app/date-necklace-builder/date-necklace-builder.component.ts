@@ -74,7 +74,7 @@ export class DateNecklaceBuilderComponent implements OnInit, AfterViewInit, OnDe
   }
 
   private checkWindowWidth(): void {
-    this.isSmallView.set(window.innerWidth < 800);
+    this.isSmallView.set(window.innerWidth - 200 < 800);
   }
 
   constructor() {
