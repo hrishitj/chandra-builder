@@ -8,18 +8,18 @@
                 <ul class="list-of-img">
                     @for(image of characterImages(); track $index) {
                         <li> <img [src]="image" [alt]="image"
-                                [ngClass]="formGroup.value.letterHeight === 'Medium' ? 'final-img-bracelet' : 'final-img-bracelet-large'" />
+                                [ngClass]="(formGroup.value.letterHeightId | codelistPipe : letterHeights()) === 'Medium' ? 'final-img-bracelet' : 'final-img-bracelet-large'" />
                         </li>
                     }
                 </ul>
-                <app-measurement-scale [height]="formGroup.value.letterHeight" [width]="itemWidth()" />
+                <app-measurement-scale [height]="(formGroup.value.letterHeightId | codelistPipe : letterHeights())" [width]="itemWidth()" />
             } @else {
                 <app-image-slider [mediaItems]="mediaItems" [themeColor]="themeColor()"></app-image-slider>
             }
         </div>
 
         <div [formGroup]="formGroup" class="form-container">
-            <h2>{{formGroup.controls.metalColor.value}} Customized Diamond Bracelet</h2>
+            <h2>{{(formGroup.controls.metalColorId.value | codelistPipe : metalColors())}} Customized Diamond Bracelet</h2>
             <div class="price-section"><span>${{itemPrice()}}</span></div>
 
             <div class="form-group">
@@ -42,10 +42,10 @@
             <div class="form-group">
                 <label>Choose your color</label>
                 <div class="options-group">
-                    @for(color of metalColors; track $index) {
-                    <app-text-with-image-button [themeColor]="themeColor()" [imageSource]="color.Icon"
-                        [isSelected]="formGroup.get('metalColor')?.value === color.Name"
-                        (clicked)="selectOption('metalColor', color.Name)"></app-text-with-image-button>
+                    @for(color of metalColors(); track color.id) {
+                    <app-text-with-image-button [themeColor]="themeColor()" [imageSource]="color.icon"
+                        [isSelected]="formGroup.get('metalColorId')?.value === color.id"
+                        (clicked)="selectOption('metalColorId', color.id)"></app-text-with-image-button>
                     }
                 </div>
             </div>
@@ -54,11 +54,14 @@
             <div class="form-group">
                 <label>Select carat</label>
                 <div class="options-group">
-                    <button type="button" *ngFor="let carat of metalCarats" (click)="selectOption('metalCarat', carat)"
-                        [class.active]="formGroup.get('metalCarat')?.value === carat"
-                        class="option">
-                        {{ carat }}
-                    </button>
+                    @for(carat of metalKarats(); track carat.id) {
+                        <button type="button"
+                            (click)="selectOption('metalCaratId', carat.id)"
+                            [class.active]="formGroup.get('metalCaratId')?.value === carat.id"
+                            class="option">
+                            {{ carat.name }}
+                        </button>
+                    }
                 </div>
             </div>
 
@@ -78,11 +81,13 @@
                     <div class="form-group">
                         <label>Font Style</label>
                         <div class="options-group">
-                            <button type="button" *ngFor="let font of fontStyles"
-                                (click)="selectOption('fontStyle', font)"
-                                [class.active]="formGroup.get('fontStyle')?.value === font" class="height-option">
-                                {{ font }}
-                            </button>
+                            @for(font of fontStyles(); track font.id) {
+                                <button type="button"
+                                    (click)="selectOption('fontStyleId', font.id)"
+                                    [class.active]="formGroup.get('fontStyleId')?.value === font.id" class="height-option">
+                                    {{ font.name }}
+                                </button>
+                            }
                         </div>
                     </div>
                 </div>
@@ -93,11 +98,13 @@
                     <div class="form-group">
                         <label>Diamond Quality</label>
                         <div class="options-group">
-                            <button type="button" *ngFor="let quality of diamondQualities"
-                                (click)="selectOption('diamondQuality', quality)"
-                                [class.active]="formGroup.get('diamondQuality')?.value === quality" class="height-option">
-                                {{ quality }}
-                            </button>
+                            @for(quality of diamondQualities(); track quality.id) {
+                                <button type="button"
+                                    (click)="selectOption('diamondQualityId', quality.id)"
+                                    [class.active]="formGroup.get('diamondQualityId')?.value === quality.id" class="height-option">
+                                    {{ quality.name }}
+                                </button>
+                            }
                         </div>
                     </div>
 
@@ -105,11 +112,13 @@
                     <div class="form-group">
                         <label>Letter Height</label>
                         <div class="options-group">
-                            <button type="button" *ngFor="let height of letterHeights"
-                                (click)="selectOption('letterHeight', height)"
-                                [class.active]="formGroup.get('letterHeight')?.value === height" class="height-option">
-                                {{ height }}
-                            </button>
+                            @for(height of letterHeights(); track height.id) {
+                                <button type="button"
+                                    (click)="selectOption('letterHeightId', height.id)"
+                                    [class.active]="formGroup.get('letterHeightId')?.value === height.id" class="height-option">
+                                    {{ height.name }}
+                                </button>
+                            }
                         </div>
                     </div>
                 </div>
@@ -140,18 +149,18 @@
                 <ul class="list-of-img">
                     @for(image of characterImages(); track $index) {
                         <li> <img [src]="image" [alt]="image"
-                                [ngClass]="formGroup.value.letterHeight === 'Medium' ? 'final-img-bracelet' : 'final-img-bracelet-large'" />
+                                [ngClass]="(formGroup.value.letterHeightId | codelistPipe : letterHeights()) === 'Medium' ? 'final-img-bracelet' : 'final-img-bracelet-large'" />
                         </li>
                     }
                 </ul>
-                <app-measurement-scale [height]="formGroup.value.letterHeight" [width]="itemWidth()" />
+                <app-measurement-scale [height]="(formGroup.value.letterHeightId | codelistPipe : letterHeights())" [width]="itemWidth()" />
             } @else {
                 <app-image-slider [mediaItems]="mediaItems" [themeColor]="themeColor()"></app-image-slider>
             }
         </div>
 
         <div [formGroup]="formGroup" class="form-container">
-            <h2>{{formGroup.controls.metalColor.value}} Customized Diamond Bracelet</h2>
+            <h2>{{(formGroup.controls.metalColorId.value | codelistPipe : metalColors())}} Customized Diamond Bracelet</h2>
             <div class="price-section"><span>${{itemPrice()}}</span></div>
 
             <div class="form-group">
@@ -174,10 +183,10 @@
             <div class="form-group">
                 <label>Choose your color</label>
                 <div class="options-group">
-                    @for(color of metalColors; track $index) {
-                    <app-text-with-image-button [themeColor]="themeColor()" [imageSource]="color.Icon"
-                        [isSelected]="formGroup.get('metalColor')?.value === color.Name"
-                        (clicked)="selectOption('metalColor', color.Name)"></app-text-with-image-button>
+                    @for(color of metalColors(); track $index) {
+                    <app-text-with-image-button [themeColor]="themeColor()" [imageSource]="color.icon"
+                        [isSelected]="formGroup.get('metalColorId')?.value === color.id"
+                        (clicked)="selectOption('metalColorId', color.id)"></app-text-with-image-button>
                     }
                 </div>
             </div>
@@ -186,11 +195,14 @@
             <div class="form-group">
                 <label>Select carat</label>
                 <div class="options-group">
-                    <button type="button" *ngFor="let carat of metalCarats" (click)="selectOption('metalCarat', carat)"
-                        [class.active]="formGroup.get('metalCarat')?.value === carat"
-                        class="option">
-                        {{ carat }}
-                    </button>
+                    @for(carat of metalKarats(); track carat) {
+                        <button type="button"
+                            (click)="selectOption('metalCaratId', carat.id)"
+                            [class.active]="formGroup.get('metalCaratId')?.value === carat.id"
+                            class="option">
+                            {{ carat.name }}
+                        </button>
+                    }
                 </div>
             </div>
 
@@ -210,11 +222,13 @@
                     <div class="form-group">
                         <label>Font Style</label>
                         <div class="options-group">
-                            <button type="button" *ngFor="let font of fontStyles"
-                                (click)="selectOption('fontStyle', font)"
-                                [class.active]="formGroup.get('fontStyle')?.value === font" class="height-option">
-                                {{ font }}
-                            </button>
+                            @for(font of fontStyles(); track font) {
+                                <button type="button"
+                                    (click)="selectOption('fontStyleId', font.id)"
+                                    [class.active]="formGroup.get('fontStyleId')?.value === font.id" class="height-option">
+                                    {{ font.name }}
+                                </button>
+                            }
                         </div>
                     </div>
                 </div>
@@ -225,11 +239,13 @@
                     <div class="form-group">
                         <label>Diamond Quality</label>
                         <div class="options-group">
-                            <button type="button" *ngFor="let quality of diamondQualities"
-                                (click)="selectOption('diamondQuality', quality)"
-                                [class.active]="formGroup.get('diamondQuality')?.value === quality" class="height-option">
-                                {{ quality }}
-                            </button>
+                            @for(quality of diamondQualities(); track quality.id) {
+                                <button type="button"
+                                    (click)="selectOption('diamondQualityId', quality.id)"
+                                    [class.active]="formGroup.get('diamondQualityId')?.value === quality.id" class="height-option">
+                                    {{ quality.name }}
+                                </button>
+                            }
                         </div>
                     </div>
 
@@ -237,11 +253,13 @@
                     <div class="form-group">
                         <label>Letter Height</label>
                         <div class="options-group">
-                            <button type="button" *ngFor="let height of letterHeights"
-                                (click)="selectOption('letterHeight', height)"
-                                [class.active]="formGroup.get('letterHeight')?.value === height" class="height-option">
-                                {{ height }}
-                            </button>
+                            @for(height of letterHeights(); track height.id) {
+                                <button type="button"
+                                    (click)="selectOption('letterHeightId', height.id)"
+                                    [class.active]="formGroup.get('letterHeightId')?.value === height.id" class="height-option">
+                                    {{ height.name }}
+                                </button>
+                            }
                         </div>
                     </div>
                 </div>
@@ -283,8 +301,8 @@
             <div>
                 <div class="section-header">Metal Information:</div>
                 <ul>
-                    <li>Karat: {{formValue.metalCarat ?? ''}}</li>
-                    <li>Color: {{formValue.metalColor ?? ''}}</li>
+                    <li>Karat: {{(formValue.metalCaratId | codelistPipe : metalKarats()) ?? ''}}</li>
+                    <li>Color: {{(formValue.metalColorId | codelistPipe : metalColors()) ?? ''}}</li>
                 </ul>
             </div>
             <div>

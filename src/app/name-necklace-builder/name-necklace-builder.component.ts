@@ -188,7 +188,7 @@ export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit, OnDe
     // const url = `https://api.chandrajewellery.kenmarkserver.com/costing?quantity=${formValue.quantity}&metalColor=${formValue.metalColorId}&metalKarat=${formValue.metalCaratId}&DiamondQuality=${formValue.diamondQualityId}&fontStyle=${formValue.fontStyleId}&letterHeight=${formValue.letterHeightId}&customName=${this.formGroup.value.customName}`;
 
     try {
-      const response = this.apiService.getCosting(
+      this.apiService.getCosting(
         formValue.quantity ?? 1,
         formValue.metalColorId?.toString() || '',
         formValue.metalCaratId?.toString() || '',

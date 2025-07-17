@@ -173,7 +173,7 @@
         </div>
 
         <div [formGroup]="formGroup" class="form-container">
-            <h2>{{formGroup.controls.metalColorId.value}} Customized Diamond Necklace</h2>
+            <h2>{{(formGroup.controls.metalColorId.value | codelistPipe : metalColors())}} Customized Diamond Necklace</h2>
             <div class="price-section"><span>${{itemPrice()}}</span></div>
 
             <!-- Custom Name -->
