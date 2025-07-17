@@ -1,8 +1,8 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, inject, OnDestroy, OnInit, PLATFORM_ID, signal, WritableSignal } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit, PLATFORM_ID, signal, WritableSignal } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ImageSliderComponent } from "../common/image-slider/image-slider.component";
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { debounceTime, Subscription } from 'rxjs';
+import { debounceTime, forkJoin, map, Subscription, tap } from 'rxjs';
 import { TextWithImageButtonComponent } from "../common/text-with-image-button/text-with-image-button.component";
 import { MatDividerModule } from '@angular/material/divider';
 import { MatTooltipModule } from '@angular/material/tooltip';
@@ -10,27 +10,49 @@ import { MatIconModule } from '@angular/material/icon';
 import { companySettings } from '../common/companyCustomization';
 import { FaqSectionComponent } from "../common/faq-section/faq-section.component";
 import { MeasurementScaleComponent } from "../common/measurement-scale/measurement-scale.component";
+import { ApiService } from '../services/api.service';
+import { Codelist } from '../models/codelist';
+import { CodelistPipe } from "../pipes/codelist.pipe";
+import { CodelistWIthIcon } from '../models/codelistWithImage';
 
 @Component({
   selector: 'app-name-necklace-builder',
-  imports: [ImageSliderComponent, ReactiveFormsModule, CommonModule, TextWithImageButtonComponent, MatDividerModule, MatIconModule, MatTooltipModule, FaqSectionComponent, MeasurementScaleComponent],
+  imports: [
+    ImageSliderComponent,
+    ReactiveFormsModule,
+    CommonModule,
+    TextWithImageButtonComponent,
+    MatDividerModule,
+    MatIconModule,
+    MatTooltipModule,
+    FaqSectionComponent,
+    MeasurementScaleComponent,
+    CodelistPipe
+],
   templateUrl: './name-necklace-builder.component.html',
   styleUrl: './name-necklace-builder.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit, OnDestroy {
 
+  private apiService = inject(ApiService);
   public isSmallView = signal<boolean>(false);
   public isDescriptionVisible: boolean = true;
   public isDetailsVisible: boolean = true;
 
+  diamondQualities = signal<Codelist[]>([]);
+  metalColors = signal<CodelistWIthIcon[]>([]);
+  metalKarats = signal<Codelist[]>([]);
+  fontStyles = signal<Codelist[]>([]);
+  letterHeights = signal<Codelist[]>([]);
+
   public formGroup = new FormGroup({
-    quantity: new FormControl(1, [Validators.required, Validators.min(1)]),
-    metalColor: new FormControl('White Gold', Validators.required),
-    metalCarat: new FormControl('10KT', Validators.required),
-    diamondQuality: new FormControl('Natural VS', Validators.required),
-    fontStyle: new FormControl('Regular', Validators.required),
-    letterHeight: new FormControl('Medium', Validators.required),
+    quantity: new FormControl<number>(1, [Validators.required, Validators.min(1)]),
+    metalColorId: new FormControl<number | null>(null, Validators.required),
+    metalCaratId: new FormControl<number | null>(null, Validators.required),
+    diamondQualityId: new FormControl<number | null>(null, Validators.required),
+    fontStyleId: new FormControl<number | null>(null, Validators.required),
+    letterHeightId: new FormControl<number | null>(null, Validators.required),
     customName: new FormControl('', [Validators.required, Validators.maxLength(10)]),
   });
 
@@ -43,15 +65,15 @@ export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit, OnDe
     'assets/name-necklace/name_necklace_video.mp4',
   ];
 
-  public metalColors = [
-    { Name: 'White Gold', Icon: 'assets/metals/WhiteGold.jpg' },
-    { Name: 'Yellow Gold', Icon: 'assets/metals/YellowGold.jpg' },
-    { Name: 'Rose Gold', Icon: 'assets/metals/RoseGold.jpg' },
-  ];
-  public metalCarats = ['10KT', '14KT', '18KT'];
-  public diamondQualities = ['Natural VS', 'Natural SI', 'Lab Grown'];
-  public fontStyles = ['Regular', 'Sport'];
-  public letterHeights = ['Medium', 'Large'];
+  // public metalColors = [
+  //   { Name: 'White Gold', Icon: 'assets/metals/WhiteGold.jpg' },
+  //   { Name: 'Yellow Gold', Icon: 'assets/metals/YellowGold.jpg' },
+  //   { Name: 'Rose Gold', Icon: 'assets/metals/RoseGold.jpg' },
+  // ];
+  // public metalCarats = ['10KT', '14KT', '18KT'];
+  // public diamondQualities = ['Natural VS', 'Natural SI', 'Lab Grown'];
+  // public fontStyles = ['Regular', 'Sport'];
+  // public letterHeights = ['Medium', 'Large'];
 
   public chainImages: WritableSignal<string[]> = signal([]);
   public characterImages: WritableSignal<string[]> = signal([]);
@@ -85,18 +107,48 @@ export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit, OnDe
       this.isEmbedded.set(window.self !== window.top);
     }
 
+    forkJoin({
+      diamondQualities: this.apiService.getDiamondQualities().pipe(map(data => data.filter(d => d.isActive))),
+      metalColors: this.apiService.getMetalColors().pipe(map(data => data.filter(d => d.isActive))),
+      metalKarats: this.apiService.getMetalKarats().pipe(map(data => data.filter(d => d.isActive))),
+      fontStyles: this.apiService.getFontStyles().pipe(map(data => data.filter(d => d.isActive))),
+      letterHeights: this.apiService.getLetterHeights().pipe(map(data => data.filter(d => d.isActive))),
+    }).subscribe(({ diamondQualities, metalColors, metalKarats, fontStyles, letterHeights }) => {
+
+      // Store for HTML dropdowns
+      this.diamondQualities.set(diamondQualities);
+      this.metalKarats.set(metalKarats);
+      this.fontStyles.set(fontStyles);
+      this.letterHeights.set(letterHeights);
+      this.metalColors.set(metalColors.map(metalColor => ({
+        ...metalColor,
+        icon: this.getMetalIcon(metalColor.name)
+      })));
+
+      // Patch initial form values (select first by default)
+      this.formGroup.patchValue({
+        diamondQualityId: diamondQualities[0]?.id,
+        metalColorId: metalColors[0]?.id,
+        metalCaratId: metalKarats[0]?.id,
+        fontStyleId: fontStyles[0]?.id,
+        letterHeightId: letterHeights[0]?.id
+      });
+    });
+
     this.subscription.add(
       this.formGroup.valueChanges
-      .pipe(debounceTime(200))
-      .subscribe(() => {
-        this.formGroup.value.customName?.length
-          ? this.fetchData()
-          : (() => {
-            this.imageLoaded.set(false);
-            this.itemPrice.set(0);
-          })();
-      })
+        .pipe(debounceTime(200))
+        .subscribe(() => {
+          this.formGroup.value.customName?.length
+            ? this.fetchData()
+            : (() => {
+              this.imageLoaded.set(false);
+              this.itemPrice.set(0);
+            })();
+        })
     );
+
+
   }
 
   ngOnDestroy(): void {
@@ -122,7 +174,7 @@ export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit, OnDe
     }
   }
 
-  public selectOption(field: string, value: string): void {
+  public selectOption(field: string, value: number | string): void {
     this.formGroup.get(field)?.setValue(value);
   }
 
@@ -132,31 +184,35 @@ export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit, OnDe
 
 
   async fetchData(): Promise<void> {
-    var metalColor = this.formGroup.value.metalColor === 'White Gold' ? 'Platinum' : this.formGroup.value.metalColor === 'Yellow Gold' ? 'Gold' : this.formGroup.value.metalColor;
-    var diamondQuality = this.formGroup.value.diamondQuality === 'Natural VS' ? 'VS' : this.formGroup.value.diamondQuality === 'Natural SI' ? 'SI' : 'LAB';
-    const url = `https://api.chandrajewellery.kenmarkserver.com/costing?quantity=${this.formGroup.value.quantity}&metalColor=${metalColor}&metalKarat=${this.formGroup.value.metalCarat}&DiamondQuality=${diamondQuality}&fontStyle=${this.formGroup.value.fontStyle}&letterHeight=${this.formGroup.value.letterHeight}&customName=${this.formGroup.value.customName}`;
+    const formValue = this.formGroup.getRawValue();
+    // const url = `https://api.chandrajewellery.kenmarkserver.com/costing?quantity=${formValue.quantity}&metalColor=${formValue.metalColorId}&metalKarat=${formValue.metalCaratId}&DiamondQuality=${formValue.diamondQualityId}&fontStyle=${formValue.fontStyleId}&letterHeight=${formValue.letterHeightId}&customName=${this.formGroup.value.customName}`;
 
     try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error('Network response was not ok ' + response.statusText);
-      }
+      const response = this.apiService.getCosting(
+        formValue.quantity ?? 1,
+        formValue.metalColorId?.toString() || '',
+        formValue.metalCaratId?.toString() || '',
+        formValue.diamondQualityId?.toString() || '',
+        formValue.fontStyleId?.toString() || '',
+        formValue.letterHeightId?.toString() || '',
+        this.formGroup.value.customName || ''
+      ).pipe(
+        tap(response => {
+          if (response && response.paths) {
+            this.imageLoaded.set(true);
+            this.chainImages.set(response.chainImages);
+            this.itemPrice.set(parseFloat((response.price.necklacePrice * this.multiplier()).toFixed(2)));
+            this.characterImages.set(response.paths);
+            this.itemWidth.set(response.width);
+            this.noOfDiamonds.set(response.noOfDiamonds);
+            this.caratWeight.set(response.caratWeight);
 
-      const jsonResponse = await response.json();
-
-      if (jsonResponse && jsonResponse.paths) {
-        this.imageLoaded.set(true);
-        this.chainImages.set(jsonResponse.chainImages);
-        this.itemPrice.set(parseFloat((jsonResponse.price.necklacePrice * this.multiplier()).toFixed(2)));
-        this.characterImages.set(jsonResponse.paths);
-        this.itemWidth.set(jsonResponse.width);
-        this.noOfDiamonds.set(jsonResponse.noOfDiamonds);
-        this.caratWeight.set(jsonResponse.caratWeight);
-
-      } else {
-        this.imageLoaded.set(false);
-        console.error('Failed to fetch paths or price data.');
-      }
+          } else {
+            this.imageLoaded.set(false);
+            console.error('Failed to fetch paths or price data.');
+          }
+        })
+      )
     } catch (error) {
       this.imageLoaded.set(false);
       console.error('Error fetching data: ', error);
@@ -165,7 +221,7 @@ export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit, OnDe
 
 
   public buyAction(action: string) {
-    if(this.isEmbedded()) {
+    if (this.isEmbedded()) {
       if (window.parent) {
         const cartData = {
           customName: this.formGroup.get('customName')?.value,
@@ -193,6 +249,16 @@ export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit, OnDe
     const customName = this.formGroup.get('customName')?.value || '';
     let Letter = firstLetter ? customName.charAt(0) : customName.charAt(customName.length - 1);
     return firstLetter ? this.curvedLettersLeft.includes(Letter.toUpperCase()) : this.curvedLettersRight.includes(Letter.toUpperCase());
+  }
+
+  private getMetalIcon(name: string): string {
+    const iconMap: Record<string, string> = {
+      'White Gold': 'assets/metals/WhiteGold.jpg',
+      'Yellow Gold': 'assets/metals/YellowGold.jpg',
+      'Rose Gold': 'assets/metals/RoseGold.jpg'
+    };
+
+    return iconMap[name] || 'assets/metals/WhiteGold.jpg'; // fallback icon
   }
 
   toggleDescription() {
