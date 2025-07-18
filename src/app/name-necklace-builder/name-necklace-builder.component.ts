@@ -185,7 +185,6 @@ export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit, OnDe
 
   async fetchData(): Promise<void> {
     const formValue = this.formGroup.getRawValue();
-    // const url = `https://api.chandrajewellery.kenmarkserver.com/costing?quantity=${formValue.quantity}&metalColor=${formValue.metalColorId}&metalKarat=${formValue.metalCaratId}&DiamondQuality=${formValue.diamondQualityId}&fontStyle=${formValue.fontStyleId}&letterHeight=${formValue.letterHeightId}&customName=${this.formGroup.value.customName}`;
 
     try {
       this.apiService.getCosting(
@@ -212,7 +211,7 @@ export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit, OnDe
             console.error('Failed to fetch paths or price data.');
           }
         })
-      )
+      ).subscribe();
     } catch (error) {
       this.imageLoaded.set(false);
       console.error('Error fetching data: ', error);

@@ -183,7 +183,7 @@ export class NameBraceletBuilderComponent implements OnInit, OnDestroy, AfterVie
               console.error('Failed to fetch paths or price data.');
             }
           })
-        )
+        ).subscribe();
     } catch(error) {
       this.imageLoaded.set(false);
       console.error('Error fetching data: ', error);
