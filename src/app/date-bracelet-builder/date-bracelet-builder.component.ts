@@ -3,7 +3,7 @@ import { AfterViewInit, Component, inject, OnDestroy, OnInit, PLATFORM_ID, signa
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { TextWithImageButtonComponent } from "../common/text-with-image-button/text-with-image-button.component";
 import { ImageSliderComponent } from "../common/image-slider/image-slider.component";
-import { debounceTime, Subscription } from 'rxjs';
+import { debounceTime, forkJoin, map, Subscription, tap } from 'rxjs';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
@@ -12,6 +12,10 @@ import { companySettings } from '../common/companyCustomization';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatIconModule } from '@angular/material/icon';
 import { MeasurementScaleComponent } from '../common/measurement-scale/measurement-scale.component';
+import { Codelist } from '../models/codelist';
+import { CodelistWIthIcon } from '../models/codelistWithImage';
+import { ApiService } from '../services/api.service';
+import { CodelistPipe } from "../pipes/codelist.pipe";
 
 @Component({
   selector: 'app-date-bracelet-builder',
@@ -22,12 +26,30 @@ import { MeasurementScaleComponent } from '../common/measurement-scale/measureme
     TextWithImageButtonComponent,
     ImageSliderComponent,
     ReactiveFormsModule, MatFormFieldModule, MatInputModule, MatButtonModule,
-    FaqSectionComponent, MatTooltipModule, MatIconModule, MeasurementScaleComponent
-  ],
+    FaqSectionComponent, MatTooltipModule, MatIconModule, MeasurementScaleComponent,
+    CodelistPipe
+],
   templateUrl: './date-bracelet-builder.component.html',
   styleUrl: './date-bracelet-builder.component.scss'
 })
 export class DateBraceletBuilderComponent implements OnInit, OnDestroy, AfterViewInit {
+  private apiService = inject(ApiService);
+
+  diamondQualities = signal<Codelist[]>([]);
+  metalColors = signal<CodelistWIthIcon[]>([]);
+  metalKarats = signal<Codelist[]>([]);
+  fontStyles = signal<Codelist[]>([]);
+  letterHeights = signal<Codelist[]>([]);
+
+  public formGroup = new FormGroup({
+    quantity: new FormControl<number>(1, [Validators.required, Validators.min(1)]),
+    metalColorId: new FormControl<number | null>(null, Validators.required),
+    metalCaratId: new FormControl<number | null>(null, Validators.required),
+    diamondQualityId: new FormControl<number | null>(null, Validators.required),
+    fontStyleId: new FormControl<number | null>(null, Validators.required),
+    letterHeightId: new FormControl<number | null>(null, Validators.required),
+    date: new FormControl('', [Validators.required, this.endsWithDotValidator])
+  });
 
   public mediaItems: string[] = [
     'assets/date-bracelet/date_bracelet_1.png',
@@ -36,29 +58,6 @@ export class DateBraceletBuilderComponent implements OnInit, OnDestroy, AfterVie
     'assets/date-bracelet/date_bracelet_4.png',
     'assets/date-bracelet/date_bracelet_5.png'
   ];
-
-  public formGroup = new FormGroup({
-    quantity: new FormControl(1, [Validators.required, Validators.min(1)]),
-    metalColor: new FormControl('White Gold', Validators.required),
-    metalCarat: new FormControl('10KT', Validators.required),
-    diamondQuality: new FormControl('VS', Validators.required),
-    fontStyle: new FormControl('Regular', Validators.required),
-    letterHeight: new FormControl('Medium', Validators.required),
-    date: new FormControl('', [
-      Validators.required,
-      this.endsWithDotValidator
-    ])
-  });
-
-  public metalColors = [
-    { Name: 'White Gold', Icon: 'assets/metals/WhiteGold.jpg' },
-    { Name: 'Yellow Gold', Icon: 'assets/metals/YellowGold.jpg' },
-    { Name: 'Rose Gold', Icon: 'assets/metals/RoseGold.jpg' },
-  ];
-  public metalCarats = ['10KT', '14KT', '18KT'];
-  public diamondQualities = ['VS', 'SI', 'LAB'];
-  public fontStyles = ['Regular', 'Sport'];
-  public letterHeights = ['Medium', 'Large'];
 
   public braceletImages: WritableSignal<string[]> = signal([]);
   public characterImages: WritableSignal<string[]> = signal([]);
@@ -89,14 +88,39 @@ export class DateBraceletBuilderComponent implements OnInit, OnDestroy, AfterVie
     this.isSmallView.set(window.innerWidth - 200 < 800);
   }
 
-  constructor(
-  ) {
-  }
-
   ngOnInit(): void {
     if (typeof window !== 'undefined') {
       this.isEmbedded.set(window.self !== window.top);
     }
+
+    forkJoin({
+      diamondQualities: this.apiService.getDiamondQualities().pipe(map(data => data.filter(d => d.isActive))),
+      metalColors: this.apiService.getMetalColors().pipe(map(data => data.filter(d => d.isActive))),
+      metalKarats: this.apiService.getMetalKarats().pipe(map(data => data.filter(d => d.isActive))),
+      fontStyles: this.apiService.getFontStyles().pipe(map(data => data.filter(d => d.isActive))),
+      letterHeights: this.apiService.getLetterHeights().pipe(map(data => data.filter(d => d.isActive))),
+    }).subscribe(({ diamondQualities, metalColors, metalKarats, fontStyles, letterHeights }) => {
+
+      // Store for HTML dropdowns
+      this.diamondQualities.set(diamondQualities);
+      this.metalKarats.set(metalKarats);
+      this.fontStyles.set(fontStyles);
+      this.letterHeights.set(letterHeights);
+      this.metalColors.set(metalColors.map(metalColor => ({
+        ...metalColor,
+        icon: this.getMetalIcon(metalColor.name)
+      })));
+
+      // Patch initial form values (select first by default)
+      this.formGroup.patchValue({
+        diamondQualityId: diamondQualities[0]?.id,
+        metalColorId: metalColors[0]?.id,
+        metalCaratId: metalKarats[0]?.id,
+        fontStyleId: fontStyles[0]?.id,
+        letterHeightId: letterHeights[0]?.id
+      });
+    });
+
     this.subscription.add(this.formGroup.valueChanges
       .pipe(debounceTime(200))
       .subscribe(() => {
@@ -132,37 +156,39 @@ export class DateBraceletBuilderComponent implements OnInit, OnDestroy, AfterVie
     }
   }
 
-  public selectOption(field: string, value: string): void {
+  public selectOption(field: string, value: number): void {
     this.formGroup.get(field)?.setValue(value);
   }
 
-
   async fetchData(): Promise<void> {
-
-    var metalColor = this.formGroup.value.metalColor === 'White Gold' ? 'Platinum' : this.formGroup.value.metalColor === 'Yellow Gold' ? 'Gold' : this.formGroup.value.metalColor;
-    const url = `https://api.chandrajewellery.kenmarkserver.com/costing?quantity=${this.formGroup.value.quantity}&metalColor=${metalColor}&metalKarat=${this.formGroup.value.metalCarat}&DiamondQuality=${this.formGroup.value.diamondQuality}&fontStyle=${this.formGroup.value.fontStyle}&letterHeight=${this.formGroup.value.letterHeight}&customName=${this.formGroup.value.date}`;
+    const formValue = this.formGroup.getRawValue();
 
     try {
-      const response = await fetch(url);
-      if (!response.ok) {
-        throw new Error('Network response was not ok ' + response.statusText);
-      }
+      this.apiService.getCosting(
+        formValue.quantity ?? 1,
+        formValue.metalColorId?.toString() || '',
+        formValue.metalCaratId?.toString() || '',
+        formValue.diamondQualityId?.toString() || '',
+        formValue.fontStyleId?.toString() || '',
+        formValue.letterHeightId?.toString() || '',
+        this.formGroup.value.date || ''
+      ).pipe(
+        tap(response => {
+          if (response && response.paths) {
+            this.imageLoaded.set(true);
+            this.braceletImages.set(response.braceletImages);
+            this.itemPrice.set(parseFloat((response.price.braceletPrice * this.multiplier()).toFixed(2)));
+            this.characterImages.set(response.paths);
+            this.itemWidth.set(response.width);
+            this.noOfDiamonds.set(response.noOfDiamonds);
+            this.caratWeight.set(response.caratWeight);
 
-      const jsonResponse = await response.json();
-
-      if (jsonResponse && jsonResponse.paths) {
-        this.imageLoaded.set(true);
-        this.braceletImages.set(jsonResponse.braceletImages);
-        this.itemPrice.set(parseFloat((jsonResponse.price.braceletPrice * this.multiplier()).toFixed(2)));
-        this.characterImages.set(jsonResponse.paths);
-        this.itemWidth.set(jsonResponse.width);
-        this.noOfDiamonds.set(jsonResponse.noOfDiamonds);
-        this.caratWeight.set(jsonResponse.caratWeight);
-
-      } else {
-        this.imageLoaded.set(false);
-        console.error('Failed to fetch paths or price data.');
-      }
+          } else {
+            this.imageLoaded.set(false);
+            console.error('Failed to fetch paths or price data.');
+          }
+        })
+      ).subscribe();
     } catch (error) {
       this.imageLoaded.set(false);
       console.error('Error fetching data: ', error);
@@ -175,11 +201,11 @@ export class DateBraceletBuilderComponent implements OnInit, OnDestroy, AfterVie
         const cartData = {
           customName: this.formattedDate,
           quantity: this.formGroup.get('quantity')?.value,
-          metalColor: this.formGroup.get('metalColor')?.value,
-          metalCarat: this.formGroup.get('metalCarat')?.value,
-          diamondQuality: this.formGroup.get('diamondQuality')?.value,
-          fontStyle: this.formGroup.get('fontStyle')?.value,
-          letterHeight: this.formGroup.get('letterHeight')?.value,
+          metalColor: this.formGroup.get('metalColorId')?.value,
+          metalCarat: this.formGroup.get('metalCaratId')?.value,
+          diamondQuality: this.formGroup.get('diamondQualityId')?.value,
+          fontStyle: this.formGroup.get('fontStyleId')?.value,
+          letterHeight: this.formGroup.get('letterHeightId')?.value,
           itemPrice: this.itemPrice()
         };
 
@@ -240,6 +266,16 @@ export class DateBraceletBuilderComponent implements OnInit, OnDestroy, AfterVie
 
   public get formValue() {
     return this.formGroup.getRawValue();
+  }
+
+  private getMetalIcon(name: string): string {
+    const iconMap: Record<string, string> = {
+      'White Gold': 'assets/metals/WhiteGold.jpg',
+      'Yellow Gold': 'assets/metals/YellowGold.jpg',
+      'Rose Gold': 'assets/metals/RoseGold.jpg'
+    };
+
+    return iconMap[name] || 'assets/metals/WhiteGold.jpg'; // fallback icon
   }
 
   toggleDescription() {

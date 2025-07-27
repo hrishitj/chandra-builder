@@ -225,11 +225,11 @@ export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit, OnDe
         const cartData = {
           customName: this.formGroup.get('customName')?.value,
           quantity: this.formGroup.get('quantity')?.value,
-          metalColor: this.formGroup.get('metalColor')?.value,
-          metalCarat: this.formGroup.get('metalCarat')?.value,
-          diamondQuality: this.formGroup.get('diamondQuality')?.value,
-          fontStyle: this.formGroup.get('fontStyle')?.value,
-          letterHeight: this.formGroup.get('letterHeight')?.value,
+          metalColor: this.formGroup.get('metalColorId')?.value,
+          metalCarat: this.formGroup.get('metalCaratId')?.value,
+          diamondQuality: this.formGroup.get('diamondQualityId')?.value,
+          fontStyle: this.formGroup.get('fontStyleId')?.value,
+          letterHeight: this.formGroup.get('letterHeightId')?.value,
           itemPrice: this.itemPrice()
         };
 

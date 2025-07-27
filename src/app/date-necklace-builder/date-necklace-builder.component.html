@@ -69,7 +69,7 @@
                             (click)="selectOption('metalCaratId', carat.id)"
                             [class.active]="formGroup.get('metalCaratId')?.value === carat.id"
                             class="option">
-                            {{ carat }}
+                            {{ carat.name }}
                         </button>
                     }
                 </div>
@@ -95,7 +95,7 @@
                                 <button type="button"
                                     (click)="selectOption('fontStyleId', font.id)"
                                     [class.active]="formGroup.get('fontStyleId')?.value === font.id" class="height-option">
-                                    {{ font }}
+                                    {{ font.name }}
                                 </button>
                             }
                         </div>
@@ -112,7 +112,7 @@
                                 <button type="button"
                                     (click)="selectOption('diamondQualityId', quality.id)"
                                     [class.active]="formGroup.get('diamondQualityId')?.value === quality.id" class="height-option">
-                                    {{ quality }}
+                                    {{ quality.name }}
                                 </button>
                             }
                         </div>
@@ -126,7 +126,7 @@
                                 <button type="button"
                                     (click)="selectOption('letterHeightId', height.id)"
                                     [class.active]="formGroup.get('letterHeightId')?.value === height.id" class="height-option">
-                                    {{ height }}
+                                    {{ height.name }}
                                 </button>
                             }
                         </div>
@@ -218,7 +218,7 @@
                             (click)="selectOption('metalCaratId', carat.id)"
                             [class.active]="formGroup.get('metalCaratId')?.value === carat.id"
                             class="option">
-                            {{ carat }}
+                            {{ carat.name }}
                         </button>
                     }
                 </div>
@@ -245,7 +245,7 @@
                                     (click)="selectOption('fontStyleId', font.id)"
                                     [class.active]="formGroup.get('fontStyleId')?.value === font.id" 
                                     class="height-option">
-                                    {{ font }}
+                                    {{ font.name }}
                                 </button>
                             }
                         </div>
@@ -262,7 +262,7 @@
                                 <button type="button"
                                     (click)="selectOption('diamondQualityId', quality.id)"
                                     [class.active]="formGroup.get('diamondQualityId')?.value === quality.id" class="height-option">
-                                    {{ quality }}
+                                    {{ quality.name }}
                                 </button>
                             }
                         </div>
@@ -276,7 +276,7 @@
                                 <button type="button"
                                     (click)="selectOption('letterHeightId', height.id)"
                                     [class.active]="formGroup.get('letterHeightId')?.value === height.id" class="height-option">
-                                    {{ height }}
+                                    {{ height.name }}
                                 </button>
                             }
                         </div>

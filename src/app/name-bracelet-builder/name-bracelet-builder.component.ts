@@ -172,7 +172,7 @@ export class NameBraceletBuilderComponent implements OnInit, OnDestroy, AfterVie
             if (response && response.paths) {
               this.imageLoaded.set(true);
               this.braceletImages.set(response.braceletImages);
-              this.itemPrice.set(parseFloat((response.price.necklacePrice * this.multiplier()).toFixed(2)));
+              this.itemPrice.set(parseFloat((response.price.braceletPrice * this.multiplier()).toFixed(2)));
               this.characterImages.set(response.paths);
               this.itemWidth.set(response.width);
               this.noOfDiamonds.set(response.noOfDiamonds);
@@ -193,14 +193,15 @@ export class NameBraceletBuilderComponent implements OnInit, OnDestroy, AfterVie
   public buyAction(action: string) {
     if (this.isEmbedded()) {
       if (window.parent) {
+        //TODO handle this
         const cartData = {
           customName: this.formGroup.get('customName')?.value,
           quantity: this.formGroup.get('quantity')?.value,
-          metalColor: this.formGroup.get('metalColor')?.value,
-          metalCarat: this.formGroup.get('metalCarat')?.value,
-          diamondQuality: this.formGroup.get('diamondQuality')?.value,
-          fontStyle: this.formGroup.get('fontStyle')?.value,
-          letterHeight: this.formGroup.get('letterHeight')?.value,
+          metalColor: this.formGroup.get('metalColorId')?.value,
+          metalCarat: this.formGroup.get('metalCaratId')?.value,
+          diamondQuality: this.formGroup.get('diamondQualityId')?.value,
+          fontStyle: this.formGroup.get('fontStyleId')?.value,
+          letterHeight: this.formGroup.get('letterHeightId')?.value,
           itemPrice: this.itemPrice()
         };
 
