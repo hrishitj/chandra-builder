@@ -8,7 +8,8 @@ import { CostingResponse } from "../models/costingResponse";
 @Injectable({ providedIn: 'root' })
 export class ApiService {
 
-    private baseUrl: string = 'http://localhost:5006';
+    // private baseUrl: string = 'http://localhost:5006';
+    private baseUrl: string = 'https://api.chandrajewellery.kenmarkserver.com'
 
     private diamondQualitiesCache$!: Observable<Codelist[]>;
     private metalColorsCache$!: Observable<Codelist[]>;
