@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, inject, OnDestroy, OnInit, PLATFORM_ID, signal, WritableSignal } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit, PLATFORM_ID, signal, WritableSignal } from '@angular/core';
 import { companySettings } from '../common/companyCustomization';
 import { debounceTime, forkJoin, map, Subscription, tap } from 'rxjs';
 import { FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -19,7 +19,8 @@ import { CodelistPipe } from "../pipes/codelist.pipe";
 @Component({
   imports: [MatFormFieldModule, ImageSliderComponent, ReactiveFormsModule, CommonModule, TextWithImageButtonComponent, MatIconModule, MatTooltipModule, FaqSectionComponent, MeasurementScaleComponent, CodelistPipe],
   templateUrl: './date-necklace-builder.component.html',
-  styleUrl: './date-necklace-builder.component.scss'
+  styleUrl: './date-necklace-builder.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DateNecklaceBuilderComponent implements OnInit, AfterViewInit, OnDestroy {
   private apiService = inject(ApiService);
@@ -43,19 +44,6 @@ export class DateNecklaceBuilderComponent implements OnInit, AfterViewInit, OnDe
     date: new FormControl('', [Validators.required,this.endsWithDotValidator])
   });
 
-  // public formGroup = new FormGroup({
-  //   quantity: new FormControl(1, [Validators.required, Validators.min(1)]),
-  //   metalColor: new FormControl('White Gold', Validators.required),
-  //   metalCarat: new FormControl('10KT', Validators.required),
-  //   diamondQuality: new FormControl('Natural VS', Validators.required),
-  //   fontStyle: new FormControl('Regular', Validators.required),
-  //   letterHeight: new FormControl('Medium', Validators.required),
-  //   date: new FormControl('', [
-  //     Validators.required,
-  //     this.endsWithDotValidator
-  //   ])
-  // });
-
   public mediaItems: string[] = [
     'assets/date-necklace/date_necklace_1.png',
     'assets/date-necklace/date_necklace_2.png',
@@ -63,16 +51,6 @@ export class DateNecklaceBuilderComponent implements OnInit, AfterViewInit, OnDe
     'assets/date-necklace/date_necklace_4.png',
     'assets/date-necklace/date_necklace_5.png'
   ];
-
-  // public metalColors = [
-  //   { Name: 'White Gold', Icon: 'assets/metals/WhiteGold.jpg' },
-  //   { Name: 'Yellow Gold', Icon: 'assets/metals/YellowGold.jpg' },
-  //   { Name: 'Rose Gold', Icon: 'assets/metals/RoseGold.jpg' },
-  // ];
-  // public metalCarats = ['10KT', '14KT', '18KT'];
-  // public diamondQualities = ['Natural VS', 'Natural SI', 'Lab Grown'];
-  // public fontStyles = ['Regular', 'Sport'];
-  // public letterHeights = ['Medium', 'Large'];
 
   public chainImages: WritableSignal<string[]> = signal([]);
   public characterImages: WritableSignal<string[]> = signal([]);
@@ -99,41 +77,38 @@ export class DateNecklaceBuilderComponent implements OnInit, AfterViewInit, OnDe
     this.isSmallView.set(window.innerWidth - 200 < 800);
   }
 
-  constructor() {
-  }
-
   ngOnInit(): void {
     if (typeof window !== 'undefined') {
       this.isEmbedded.set(window.self !== window.top);
     }
 
-    forkJoin({
-      diamondQualities: this.apiService.getDiamondQualities().pipe(map(data => data.filter(d => d.isActive))),
-      metalColors: this.apiService.getMetalColors().pipe(map(data => data.filter(d => d.isActive))),
-      metalKarats: this.apiService.getMetalKarats().pipe(map(data => data.filter(d => d.isActive))),
-      fontStyles: this.apiService.getFontStyles().pipe(map(data => data.filter(d => d.isActive))),
-      letterHeights: this.apiService.getLetterHeights().pipe(map(data => data.filter(d => d.isActive))),
-    }).subscribe(({ diamondQualities, metalColors, metalKarats, fontStyles, letterHeights }) => {
+    this.subscription.add(
+      forkJoin({
+        diamondQualities: this.apiService.getDiamondQualities().pipe(map(data => data.filter(d => d.isActive))),
+        metalColors: this.apiService.getMetalColors().pipe(map(data => data.filter(d => d.isActive))),
+        metalKarats: this.apiService.getMetalKarats().pipe(map(data => data.filter(d => d.isActive))),
+        fontStyles: this.apiService.getFontStyles().pipe(map(data => data.filter(d => d.isActive))),
+        letterHeights: this.apiService.getLetterHeights().pipe(map(data => data.filter(d => d.isActive))),
+      }).subscribe(({ diamondQualities, metalColors, metalKarats, fontStyles, letterHeights }) => {
 
-      // Store for HTML dropdowns
-      this.diamondQualities.set(diamondQualities);
-      this.metalKarats.set(metalKarats);
-      this.fontStyles.set(fontStyles);
-      this.letterHeights.set(letterHeights);
-      this.metalColors.set(metalColors.map(metalColor => ({
-        ...metalColor,
-        icon: this.getMetalIcon(metalColor.name)
-      })));
+        this.diamondQualities.set(diamondQualities);
+        this.metalKarats.set(metalKarats);
+        this.fontStyles.set(fontStyles);
+        this.letterHeights.set(letterHeights);
+        this.metalColors.set(metalColors.map(metalColor => ({
+          ...metalColor,
+          icon: this.getMetalIcon(metalColor.name)
+        })));
 
-      // Patch initial form values (select first by default)
-      this.formGroup.patchValue({
-        diamondQualityId: diamondQualities[0]?.id,
-        metalColorId: metalColors[0]?.id,
-        metalCaratId: metalKarats[0]?.id,
-        fontStyleId: fontStyles[0]?.id,
-        letterHeightId: letterHeights[0]?.id
-      });
-    });
+        this.formGroup.patchValue({
+          diamondQualityId: diamondQualities[0]?.id,
+          metalColorId: metalColors[0]?.id,
+          metalCaratId: metalKarats[0]?.id,
+          fontStyleId: fontStyles[0]?.id,
+          letterHeightId: letterHeights[0]?.id
+        });
+      })
+    );
 
     this.subscription.add(
       this.formGroup.valueChanges
@@ -221,13 +196,13 @@ export class DateNecklaceBuilderComponent implements OnInit, AfterViewInit, OnDe
     if(this.isEmbedded()) {
       if (window.parent) {
         const cartData = {
-          customName: this.formGroup.get('date')?.value,
-          quantity: this.formGroup.get('quantity')?.value,
-          metalColor: this.formGroup.get('metalColorId')?.value,
-          metalCarat: this.formGroup.get('metalCaratId')?.value,
-          diamondQuality: this.formGroup.get('diamondQualityId')?.value,
-          fontStyle: this.formGroup.get('fontStyleId')?.value,
-          letterHeight: this.formGroup.get('letterHeightId')?.value,
+          customDate: this.formGroup.controls.date?.value,
+          quantity: this.formGroup.controls.quantity?.value,
+          metalColor: this.metalColors().find(c => c.id === this.formGroup.controls.metalColorId?.value)?.name,
+          metalCarat: this.metalKarats().find(c => c.id === this.formGroup.controls.metalCaratId?.value)?.name,
+          diamondQuality: this.diamondQualities().find(q => q.id === this.formGroup.controls.diamondQualityId?.value)?.name,
+          fontStyle: this.fontStyles().find(f => f.id === this.formGroup.controls.fontStyleId?.value)?.name,
+          letterHeight: this.letterHeights().find(h => h.id === this.formGroup.controls.letterHeightId?.value)?.name,
           itemPrice: this.itemPrice()
         };
 

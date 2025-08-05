@@ -1,5 +1,5 @@
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { AfterViewInit, Component, inject, OnDestroy, OnInit, PLATFORM_ID, signal, WritableSignal } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, inject, OnDestroy, OnInit, PLATFORM_ID, signal, WritableSignal } from '@angular/core';
 import { AbstractControl, FormControl, FormGroup, ReactiveFormsModule, ValidationErrors, Validators } from '@angular/forms';
 import { TextWithImageButtonComponent } from "../common/text-with-image-button/text-with-image-button.component";
 import { ImageSliderComponent } from "../common/image-slider/image-slider.component";
@@ -30,7 +30,8 @@ import { CodelistPipe } from "../pipes/codelist.pipe";
     CodelistPipe
 ],
   templateUrl: './date-bracelet-builder.component.html',
-  styleUrl: './date-bracelet-builder.component.scss'
+  styleUrl: './date-bracelet-builder.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DateBraceletBuilderComponent implements OnInit, OnDestroy, AfterViewInit {
   private apiService = inject(ApiService);
@@ -70,7 +71,6 @@ export class DateBraceletBuilderComponent implements OnInit, OnDestroy, AfterVie
   public itemWidth: WritableSignal<number> = signal(0);
   public noOfDiamonds: WritableSignal<number> = signal(0);
   public caratWeight: WritableSignal<number> = signal(0);
-  private formattedDate: string | null = null;
   private subscription: Subscription = new Subscription();
 
   public isDescriptionVisible: boolean = true;
@@ -93,33 +93,35 @@ export class DateBraceletBuilderComponent implements OnInit, OnDestroy, AfterVie
       this.isEmbedded.set(window.self !== window.top);
     }
 
-    forkJoin({
-      diamondQualities: this.apiService.getDiamondQualities().pipe(map(data => data.filter(d => d.isActive))),
-      metalColors: this.apiService.getMetalColors().pipe(map(data => data.filter(d => d.isActive))),
-      metalKarats: this.apiService.getMetalKarats().pipe(map(data => data.filter(d => d.isActive))),
-      fontStyles: this.apiService.getFontStyles().pipe(map(data => data.filter(d => d.isActive))),
-      letterHeights: this.apiService.getLetterHeights().pipe(map(data => data.filter(d => d.isActive))),
-    }).subscribe(({ diamondQualities, metalColors, metalKarats, fontStyles, letterHeights }) => {
+    this.subscription.add(
+      forkJoin({
+        diamondQualities: this.apiService.getDiamondQualities().pipe(map(data => data.filter(d => d.isActive))),
+        metalColors: this.apiService.getMetalColors().pipe(map(data => data.filter(d => d.isActive))),
+        metalKarats: this.apiService.getMetalKarats().pipe(map(data => data.filter(d => d.isActive))),
+        fontStyles: this.apiService.getFontStyles().pipe(map(data => data.filter(d => d.isActive))),
+        letterHeights: this.apiService.getLetterHeights().pipe(map(data => data.filter(d => d.isActive))),
+      }).subscribe(({ diamondQualities, metalColors, metalKarats, fontStyles, letterHeights }) => {
 
-      // Store for HTML dropdowns
-      this.diamondQualities.set(diamondQualities);
-      this.metalKarats.set(metalKarats);
-      this.fontStyles.set(fontStyles);
-      this.letterHeights.set(letterHeights);
-      this.metalColors.set(metalColors.map(metalColor => ({
-        ...metalColor,
-        icon: this.getMetalIcon(metalColor.name)
-      })));
+        // Store for HTML dropdowns
+        this.diamondQualities.set(diamondQualities);
+        this.metalKarats.set(metalKarats);
+        this.fontStyles.set(fontStyles);
+        this.letterHeights.set(letterHeights);
+        this.metalColors.set(metalColors.map(metalColor => ({
+          ...metalColor,
+          icon: this.getMetalIcon(metalColor.name)
+        })));
 
-      // Patch initial form values (select first by default)
-      this.formGroup.patchValue({
-        diamondQualityId: diamondQualities[0]?.id,
-        metalColorId: metalColors[0]?.id,
-        metalCaratId: metalKarats[0]?.id,
-        fontStyleId: fontStyles[0]?.id,
-        letterHeightId: letterHeights[0]?.id
-      });
-    });
+        // Patch initial form values (select first by default)
+        this.formGroup.patchValue({
+          diamondQualityId: diamondQualities[0]?.id,
+          metalColorId: metalColors[0]?.id,
+          metalCaratId: metalKarats[0]?.id,
+          fontStyleId: fontStyles[0]?.id,
+          letterHeightId: letterHeights[0]?.id
+        });
+      })
+    );
 
     this.subscription.add(this.formGroup.valueChanges
       .pipe(debounceTime(200))
@@ -131,13 +133,6 @@ export class DateBraceletBuilderComponent implements OnInit, OnDestroy, AfterVie
             this.itemPrice.set(0);
           })();
       }));
-  }
-
-  ngOnDestroy(): void {
-    this.subscription.unsubscribe();
-    if (isPlatformBrowser(this.platformId)) {
-      window.removeEventListener('resize', this.resizeListener);
-    }
   }
 
   ngAfterViewInit(): void {
@@ -199,13 +194,13 @@ export class DateBraceletBuilderComponent implements OnInit, OnDestroy, AfterVie
     if (this.isEmbedded()) {
       if (window.parent) {
         const cartData = {
-          customName: this.formattedDate,
-          quantity: this.formGroup.get('quantity')?.value,
-          metalColor: this.formGroup.get('metalColorId')?.value,
-          metalCarat: this.formGroup.get('metalCaratId')?.value,
-          diamondQuality: this.formGroup.get('diamondQualityId')?.value,
-          fontStyle: this.formGroup.get('fontStyleId')?.value,
-          letterHeight: this.formGroup.get('letterHeightId')?.value,
+          customDate: this.formGroup.controls.date?.value,
+          quantity: this.formGroup.controls.quantity?.value,
+          metalColor: this.metalColors().find(c => c.id === this.formGroup.controls.metalColorId?.value)?.name,
+          metalCarat: this.metalKarats().find(c => c.id === this.formGroup.controls.metalCaratId?.value)?.name,
+          diamondQuality: this.diamondQualities().find(q => q.id === this.formGroup.controls.diamondQualityId?.value)?.name,
+          fontStyle: this.fontStyles().find(f => f.id === this.formGroup.controls.fontStyleId?.value)?.name,
+          letterHeight: this.letterHeights().find(h => h.id === this.formGroup.controls.letterHeightId?.value)?.name,
           itemPrice: this.itemPrice()
         };
 
@@ -288,6 +283,13 @@ export class DateBraceletBuilderComponent implements OnInit, OnDestroy, AfterVie
 
   onPreviewClick() {
     this.showPreview.set(!this.showPreview());
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+    if (isPlatformBrowser(this.platformId)) {
+      window.removeEventListener('resize', this.resizeListener);
+    }
   }
 
 }
