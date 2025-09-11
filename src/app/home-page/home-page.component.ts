@@ -20,9 +20,9 @@ export class HomePageComponent implements OnInit {
   constructor(private route: ActivatedRoute) {}
 
   // public selectedTab: string = 'necklace'; // Default tab
-  public headerImage: string = 'assets/home/header.png';
-  public footerImage: string = 'assets/home/footer.png';
-  public mobileHeaderImage: string = 'assets/home/mobile-header.png';
+  public headerImage: string = 'assets/home/header.webp';
+  public footerImage: string = 'assets/home/footer.webp';
+  public mobileHeaderImage: string = 'assets/home/mobile-header.webp';
   public mobileBottomImage: string = 'assets/home/mobile-bottom-image.jpg';
 
   // selectTab(tab: string) {
@@ -36,10 +36,10 @@ export class HomePageComponent implements OnInit {
       this.companySetting = companyName ? companySettings[companyName] : companySettings['default'];
 
       this.buildersData = [
-        { Img: 'assets/home/block-name-necklace.png', MobileImg: 'assets/home/block-name-necklace-mobile.png', Description: 'Name Necklace', Url: `/name-necklace-builder`, queryParams },
-        { Img: 'assets/home/date-necklace.png', MobileImg: 'assets/home/date-necklace-mobile.png', Description: 'Date Necklace', Url: `/date-necklace-builder`, queryParams },
-        { Img: 'assets/home/block-name-bracelet.png', MobileImg: 'assets/home/block-name-bracelet-mobile.png', Description: 'Name Bracelet', Url: `/name-bracelet-builder`, queryParams },
-        { Img: 'assets/home/date-bracelet.png', MobileImg: 'assets/home/date-bracelet-mobile.png', Description: 'Date Bracelet', Url: `/date-bracelet-builder`, queryParams }
+        { Img: 'assets/home/block-name-necklace.png', MobileImg: 'assets/home/block-name-necklace.webp', Description: 'Name Necklace', Url: `/name-necklace-builder`, queryParams },
+        { Img: 'assets/home/date-necklace.png', MobileImg: 'assets/home/date-necklace.webp', Description: 'Date Necklace', Url: `/date-necklace-builder`, queryParams },
+        { Img: 'assets/home/block-name-bracelet.png', MobileImg: 'assets/home/block-name-bracelet.webp', Description: 'Name Bracelet', Url: `/name-bracelet-builder`, queryParams },
+        { Img: 'assets/home/date-bracelet.png', MobileImg: 'assets/home/date-bracelet.webp', Description: 'Date Bracelet', Url: `/date-bracelet-builder`, queryParams }
       ];
     });
   }

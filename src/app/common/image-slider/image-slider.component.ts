@@ -14,7 +14,7 @@ export class ImageSliderComponent {
   public selectedIndex: number = 0;
 
   isImage(item: string): boolean {
-    return /\.(jpg|jpeg|png|gif)$/i.test(item);
+    return /\.(jpg|jpeg|png|gif|webp)$/i.test(item);
   }
 
   // Handle selection of a media item

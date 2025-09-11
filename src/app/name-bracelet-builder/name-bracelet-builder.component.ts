@@ -25,11 +25,11 @@ export class NameBraceletBuilderComponent implements OnInit, OnDestroy, AfterVie
   private apiService = inject(ApiService);
 
   public mediaItems: string[] = [
-    'assets/name-bracelet/name_bracelet_1.png',
-    'assets/name-bracelet/name_bracelet_2.png',
-    'assets/name-bracelet/name_bracelet_3.png',
-    'assets/name-bracelet/name_bracelet_4.jpg',
-    'assets/name-bracelet/name_bracelet_5.jpg',
+    'assets/name-bracelet/name_bracelet_1.webp',
+    'assets/name-bracelet/name_bracelet_2.webp',
+    'assets/name-bracelet/name_bracelet_3.webp',
+    'assets/name-bracelet/name_bracelet_4.webp',
+    'assets/name-bracelet/name_bracelet_5.webp',
     'assets/name-bracelet/name_bracelet_video.mp4',
   ];
 

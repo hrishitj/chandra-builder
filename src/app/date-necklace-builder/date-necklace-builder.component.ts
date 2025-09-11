@@ -45,11 +45,11 @@ export class DateNecklaceBuilderComponent implements OnInit, AfterViewInit, OnDe
   });
 
   public mediaItems: string[] = [
-    'assets/date-necklace/date_necklace_1.png',
-    'assets/date-necklace/date_necklace_2.png',
-    'assets/date-necklace/date_necklace_3.png',
-    'assets/date-necklace/date_necklace_4.png',
-    'assets/date-necklace/date_necklace_5.png'
+    'assets/date-necklace/date_necklace_1.webp',
+    'assets/date-necklace/date_necklace_2.webp',
+    'assets/date-necklace/date_necklace_3.webp',
+    'assets/date-necklace/date_necklace_4.webp',
+    'assets/date-necklace/date_necklace_5.webp'
   ];
 
   public chainImages: WritableSignal<string[]> = signal([]);

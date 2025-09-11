@@ -9,7 +9,7 @@ import { CostingResponse } from "../models/costingResponse";
 export class ApiService {
 
     // private baseUrl: string = 'http://localhost:5006';
-    private baseUrl: string = 'https://api.chandrajewellery.kenmarkserver.com'
+    private baseUrl: string = 'https://api.mynamebuilder.com/'
 
     private diamondQualitiesCache$!: Observable<Codelist[]>;
     private metalColorsCache$!: Observable<Codelist[]>;

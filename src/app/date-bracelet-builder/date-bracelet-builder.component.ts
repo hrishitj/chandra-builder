@@ -53,11 +53,11 @@ export class DateBraceletBuilderComponent implements OnInit, OnDestroy, AfterVie
   });
 
   public mediaItems: string[] = [
-    'assets/date-bracelet/date_bracelet_1.png',
-    'assets/date-bracelet/date_bracelet_2.png',
-    'assets/date-bracelet/date_bracelet_3.png',
-    'assets/date-bracelet/date_bracelet_4.png',
-    'assets/date-bracelet/date_bracelet_5.png'
+    'assets/date-bracelet/date_bracelet_1.webp',
+    'assets/date-bracelet/date_bracelet_2.webp',
+    'assets/date-bracelet/date_bracelet_3.webp',
+    'assets/date-bracelet/date_bracelet_4.webp',
+    'assets/date-bracelet/date_bracelet_5.webp'
   ];
 
   public braceletImages: WritableSignal<string[]> = signal([]);
