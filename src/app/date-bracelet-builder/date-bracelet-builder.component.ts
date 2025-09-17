@@ -16,6 +16,7 @@ import { Codelist } from '../models/codelist';
 import { CodelistWIthIcon } from '../models/codelistWithImage';
 import { ApiService } from '../services/api.service';
 import { CodelistPipe } from "../pipes/codelist.pipe";
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-date-bracelet-builder',
@@ -35,6 +36,7 @@ import { CodelistPipe } from "../pipes/codelist.pipe";
 })
 export class DateBraceletBuilderComponent implements OnInit, OnDestroy, AfterViewInit {
   private apiService = inject(ApiService);
+  private route = inject(ActivatedRoute);
 
   diamondQualities = signal<Codelist[]>([]);
   metalColors = signal<CodelistWIthIcon[]>([]);
@@ -62,11 +64,11 @@ export class DateBraceletBuilderComponent implements OnInit, OnDestroy, AfterVie
 
   public braceletImages: WritableSignal<string[]> = signal([]);
   public characterImages: WritableSignal<string[]> = signal([]);
+  public companyId: WritableSignal<string> = signal('');
   public itemPrice: WritableSignal<number> = signal(0);
   public imageLoaded: WritableSignal<boolean> = signal(false);
   public isEmbedded: WritableSignal<boolean> = signal(false);
   public themeColor: WritableSignal<string> = signal('#000000');
-  public multiplier: WritableSignal<number> = signal(1);
   public showPreview: WritableSignal<boolean> = signal(false);
   public itemWidth: WritableSignal<number> = signal(0);
   public noOfDiamonds: WritableSignal<number> = signal(0);
@@ -133,16 +135,24 @@ export class DateBraceletBuilderComponent implements OnInit, OnDestroy, AfterVie
             this.itemPrice.set(0);
           })();
       }));
+
+    this.subscription.add(
+      this.route.queryParams.subscribe(params => {
+        const companyId = params['companyId'];
+        if (companyId) {
+          this.companyId.set(companyId);
+        }
+      })
+    );
   }
 
   ngAfterViewInit(): void {
-    if (typeof window !== 'undefined') {
-      const params = new URLSearchParams(window.location.search);
-      const companyName = params.get("company");
-      const settings = companyName ? companySettings[companyName] : companySettings['default'];
-      this.themeColor.set(settings.theme);
-      this.multiplier.set(settings.multiplier);
-    }
+    // if (typeof window !== 'undefined') {
+    //   const params = new URLSearchParams(window.location.search);
+    //   const companyName = params.get("company");
+    //   const settings = companyName ? companySettings[companyName] : companySettings['default'];
+    //   this.themeColor.set(settings.theme);
+    // }
 
     if (isPlatformBrowser(this.platformId)) {
       this.checkWindowWidth(); // Initial check
@@ -172,7 +182,7 @@ export class DateBraceletBuilderComponent implements OnInit, OnDestroy, AfterVie
           if (response && response.paths) {
             this.imageLoaded.set(true);
             this.braceletImages.set(response.braceletImages);
-            this.itemPrice.set(parseFloat((response.price.braceletPrice * this.multiplier()).toFixed(2)));
+            this.itemPrice.set(parseFloat((response.price.braceletPrice).toFixed(2)));
             this.characterImages.set(response.paths);
             this.itemWidth.set(response.width);
             this.noOfDiamonds.set(response.noOfDiamonds);

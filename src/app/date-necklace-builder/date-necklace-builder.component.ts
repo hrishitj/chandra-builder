@@ -15,6 +15,7 @@ import { Codelist } from '../models/codelist';
 import { CodelistWIthIcon } from '../models/codelistWithImage';
 import { ApiService } from '../services/api.service';
 import { CodelistPipe } from "../pipes/codelist.pipe";
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   imports: [MatFormFieldModule, ImageSliderComponent, ReactiveFormsModule, CommonModule, TextWithImageButtonComponent, MatIconModule, MatTooltipModule, FaqSectionComponent, MeasurementScaleComponent, CodelistPipe],
@@ -24,6 +25,7 @@ import { CodelistPipe } from "../pipes/codelist.pipe";
 })
 export class DateNecklaceBuilderComponent implements OnInit, AfterViewInit, OnDestroy {
   private apiService = inject(ApiService);
+  private route = inject(ActivatedRoute);
   
   public isDescriptionVisible: boolean = true;
   public isDetailsVisible: boolean = true;
@@ -54,11 +56,11 @@ export class DateNecklaceBuilderComponent implements OnInit, AfterViewInit, OnDe
 
   public chainImages: WritableSignal<string[]> = signal([]);
   public characterImages: WritableSignal<string[]> = signal([]);
+  public companyId: WritableSignal<string> = signal('');
   public itemPrice: WritableSignal<number> = signal(0);
   public imageLoaded: WritableSignal<boolean> = signal(false);
   public isEmbedded: WritableSignal<boolean> = signal(false);
   public themeColor: WritableSignal<string> = signal('#000000');
-  public multiplier: WritableSignal<number> = signal(1);
   public showPreview: WritableSignal<boolean> = signal(false);
   public itemWidth: WritableSignal<number> = signal(0);
   public noOfDiamonds: WritableSignal<number> = signal(0);
@@ -122,6 +124,15 @@ export class DateNecklaceBuilderComponent implements OnInit, AfterViewInit, OnDe
           })();
       })
     );
+
+    this.subscription.add(
+      this.route.queryParams.subscribe(params => {
+        const companyId = params['companyId'];
+        if (companyId) {
+          this.companyId.set(companyId);
+        }
+      })
+    );
     
   }
 
@@ -133,13 +144,13 @@ export class DateNecklaceBuilderComponent implements OnInit, AfterViewInit, OnDe
   }
 
   ngAfterViewInit(): void {
-    if (typeof window !== 'undefined') {
-      const params = new URLSearchParams(window.location.search);
-      const companyName = params.get("company");
-      const settings = companyName ? companySettings[companyName] : companySettings['default'];
-      this.themeColor.set(settings.theme);
-      this.multiplier.set(settings.multiplier);
-    }
+    // if (typeof window !== 'undefined') {
+    //   const params = new URLSearchParams(window.location.search);
+    //   const companyName = params.get("company");
+    //   const settings = companyName ? companySettings[companyName] : companySettings['default'];
+    //   this.themeColor.set(settings.theme);
+    //   this.multiplier.set(settings.multiplier);
+    // }
 
     if (isPlatformBrowser(this.platformId)) {
       this.checkWindowWidth(); // Initial check
@@ -173,7 +184,7 @@ export class DateNecklaceBuilderComponent implements OnInit, AfterViewInit, OnDe
           if (response && response.paths) {
             this.imageLoaded.set(true);
             this.chainImages.set(response.chainImages);
-            this.itemPrice.set(parseFloat((response.price.necklacePrice * this.multiplier()).toFixed(2)));
+            this.itemPrice.set(parseFloat((response.price.necklacePrice).toFixed(2)));
             this.characterImages.set(response.paths);
             this.itemWidth.set(response.width);
             this.noOfDiamonds.set(response.noOfDiamonds);

@@ -31,9 +31,9 @@ export class HomePageComponent implements OnInit {
 
   ngOnInit(): void {
     this.route.queryParamMap.subscribe(params => {
-      const companyName = params.get("company");
-      const queryParams = companyName ? { company: companyName } : {};
-      this.companySetting = companyName ? companySettings[companyName] : companySettings['default'];
+      const companyId = params.get("companyId");
+      const queryParams = companyId ? { companyId: companyId } : {};
+      // this.companySetting = companyName ? companySettings[companyName] : companySettings['default'];
 
       this.buildersData = [
         { Img: 'assets/home/block-name-necklace.png', MobileImg: 'assets/home/block-name-necklace.webp', Description: 'Name Necklace', Url: `/name-necklace-builder`, queryParams },

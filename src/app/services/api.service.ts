@@ -34,9 +34,10 @@ export class ApiService {
         diamondQualityId: string,
         fontStyleId: string,
         letterHeightId: string,
-        customName: string
+        customName: string,
+        companyId: string = ''
     ): Observable<CostingResponse> {
-        const url = `${this.baseUrl}/costingV2?quantity=${quantity}&metalColorId=${metalColorId}&metalKaratId=${metalKaratId}&diamondQualityId=${diamondQualityId}&fontStyleId=${fontStyleId}&letterHeightId=${letterHeightId}&customName=${customName}`;
+        const url = `${this.baseUrl}/costingV2?quantity=${quantity}&metalColorId=${metalColorId}&metalKaratId=${metalKaratId}&diamondQualityId=${diamondQualityId}&fontStyleId=${fontStyleId}&letterHeightId=${letterHeightId}&customName=${customName}&companyId=${companyId}`;
         return this.http.get<CostingResponse>(url);
     }
 
