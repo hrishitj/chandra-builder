@@ -8,6 +8,6 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MeasurementScaleComponent {
-  height = input<string | null>();
+  height = input<string>("Medium");
   width = input<number>();
 }
