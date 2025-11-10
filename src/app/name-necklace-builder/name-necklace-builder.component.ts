@@ -218,6 +218,7 @@ export class NameNecklaceBuilderComponent implements OnInit, AfterViewInit, OnDe
     if (this.isEmbedded()) {
       if (window.parent) {
         const cartData = {
+          skuId: 92,
           customName: this.formGroup.controls.customName?.value,
           quantity: this.formGroup.controls.quantity?.value,
           metalColor: this.metalColors().find(c => c.id === this.formGroup.controls.metalColorId?.value)?.name,
